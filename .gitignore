@@ -1,6 +1,8 @@
 foundry.js
+.idea/
 .vscode
 scenery.zip
+scenery.lock
 
 # Logs
 logs

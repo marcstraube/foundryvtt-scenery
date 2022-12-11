@@ -8,18 +8,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VanceCole/scenery.git"
+    "url": "git+https://github.com/marcstraube/foundryvtt-scenery.git"
   },
-  "author": "Vance Cole",
+  "contributors": [
+    "Marc Straube",
+    "Vance Cole"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/VanceCole/scenery/issues"
+    "url": "https://github.com/marcstraube/foundryvtt-scenery/issues"
   },
-  "homepage": "https://github.com/VanceCole/scenery#readme",
+  "homepage": "https://github.com/marcstraube/foundryvtt-scenery#readme",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.7.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0"
+    "eslint": "^8.29.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }

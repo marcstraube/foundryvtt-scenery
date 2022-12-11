@@ -1,11 +1,26 @@
 {
-  "name": "scenery",
+  "id": "scenery",
   "title": "Scenery - Background Image Variation Manager",
   "description": "Allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.",
-  "author": "Vance Cole",
-  "version": "0.1.4",
-  "minimumCoreVersion": "0.6.0",
-  "compatibleCoreVersion": "0.7.5",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marc Straube",
+      "email": "email@marcstraube.de",
+      "discord": "durag-c-walker#8327",
+      "url": "https://github.com/marcstraube"
+    },
+    {
+      "name": "Vance Cole"
+    }
+  ],
+  "version": "This is auto replaced",
+  "library": "false",
+  "compatibility": {
+    "minimum": "10",
+    "verified": "10",
+    "maximum": "10"
+  },
   "esmodules": [
     "./scripts/scenery.js"
   ],
@@ -17,9 +32,21 @@
       "lang": "en",
       "name": "English",
       "path": "languages/en.json"
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "languages/de.json"
     }
   ],
-  "url": "https://github.com/VanceCole/scenery",
-  "manifest": "https://raw.githubusercontent.com/VanceCole/scenery/master/module.json",
-  "download": "https://github.com/VanceCole/scenery/releases/download/0.1.4/module.zip"
+  "relationships": {},
+  "url": "This is auto replaced",
+  "manifest": "This is auto replaced",
+  "download": "This is auto replaced",
+  "bugs": "This is auto replaced",
+  "changelog": "This is auto replaced",
+  "readme": "This is auto replaced",
+  "flags": {
+    "allowBugReporter": true
+  }
 }

@@ -1,0 +1,14 @@
+{
+  "SCENERY": {
+    "scenery": "Scenery",
+    "scan": "Nach Varianten scannen",
+    "add": "Variante hinzufügen",
+    "ok": "OK",
+    "name": "Name",
+    "file": "Datei",
+    "gm": "GM",
+    "player": "Spieler",
+    "selectError": "GM & Spieler müssen beide eine Datei zur Anzeige ausgewählt haben",
+    "loading": "Lade Scenery"
+  }
+}
