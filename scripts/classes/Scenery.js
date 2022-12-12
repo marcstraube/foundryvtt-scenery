@@ -27,9 +27,9 @@ export default class Scenery extends FormApplication {
    */
   async getData() {
     const flag = this.scene.getFlag('scenery', 'data') || {};
-    if (!this.bg) this.bg = flag.bg || this.scene.data.img;
-    if (!this.gm) this.gm = flag.gm || this.scene.data.img;
-    if (!this.pl) this.pl = flag.pl || this.scene.data.img;
+    if (!this.bg) this.bg = flag.bg || this.scene.background.src;
+    if (!this.gm) this.gm = flag.gm || this.scene.background.src;
+    if (!this.pl) this.pl = flag.pl || this.scene.background.src;
     if (!this.variations) {
       this.variations = [{ name: 'Default', file: this.bg }];
       if (flag.variations) flag.variations.forEach((v) => this.variations.push(v));
@@ -56,7 +56,6 @@ export default class Scenery extends FormApplication {
 
   /**
    * Display a preview window of the scene
-   * @param {HTMLCollection} html the html of the form
    */
   previewVariation() {
     const index = document.activeElement.getAttribute('index');
@@ -66,7 +65,7 @@ export default class Scenery extends FormApplication {
 
   /**
    * Remove a row in the variation table
-   * @param {HTMLCollection} html the html of the form
+   * @param {boolean} index The index of the row
    */
   deleteVariation(index = false) {
     if (!index) index = document.activeElement.getAttribute('index');
@@ -84,7 +83,9 @@ export default class Scenery extends FormApplication {
 
   /**
   * Add a new empty row to the form
-  * @param {Object} formData
+  * @param {string} name
+  * @param {string} file
+  * @param {int,null} id
   */
   async addVariation(name = '', file = '', id = null) {
     if (id === null) id = Number(this.element.find('tr:last').attr('index')) + 1;
@@ -167,7 +168,8 @@ export default class Scenery extends FormApplication {
    * @param {Boolean} draw Used to prevent draw if being called during canvasInit
    */
   static async setImage(img, draw = true) {
-    canvas.scene.data.img = img;
+    canvas.scene.background.src = img;
+    console.log("scenery foobar", canvas.scene);
     if (draw) {
       // Wait for texture to load
       await TextureLoader.loader.load([img], game.i18n.localize('SCENERY.loading'));
