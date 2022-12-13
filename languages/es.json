@@ -1,0 +1,18 @@
+{
+  "I18N": {
+    "LANGUAGE": "Español",
+    "MAINTAINERS": "@Viriato139ac#0342"
+  },
+  "SCENERY": {
+    "scenery": "Scenery (decorado)",
+    "scan": "Buscar variantes",
+    "add": "Añadir variante",
+    "ok": "OK",
+    "name": "Nombre",
+    "file": "Fichero",
+    "gm": "GM",
+    "player": "Jugador",
+    "selectError": "Tanto GMs como jugadores deben seleccionar un fichero, que será el que se les muestre",
+    "loading": "Cargando Scenery (decorado)"
+  }
+}
