@@ -169,7 +169,6 @@ export default class Scenery extends FormApplication {
    */
   static async setImage(img, draw = true) {
     canvas.scene.background.src = img;
-    console.log("scenery foobar", canvas.scene);
     if (draw) {
       // Wait for texture to load
       await TextureLoader.loader.load([img], game.i18n.localize('SCENERY.loading'));
@@ -211,7 +210,7 @@ export default class Scenery extends FormApplication {
       icon: '<i class="fas fa-images"></i>',
       condition: () => game.user.isGM,
       callback: (el) => {
-        const id = el.attr('data-entity-id') || el.attr('data-scene-id');
+        const id = el.attr('data-document-id') || el.attr('data-scene-id');
         new Scenery(id).render(true);
       },
     };
