@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/marcstraube/foundryvtt-scenery#readme",
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "@babel/eslint-parser": "^7.19.1",
     "eslint": "^8.29.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0"

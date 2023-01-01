@@ -7,8 +7,9 @@ module.exports = {
   extends: [
     'airbnb-base',
   ],
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
+    requireConfigFile: false,
     ecmaVersion: 11,
     sourceType: 'module',
   },
