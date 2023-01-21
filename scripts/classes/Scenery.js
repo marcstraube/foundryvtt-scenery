@@ -59,8 +59,10 @@ export default class Scenery extends FormApplication {
    */
   previewVariation() {
     const index = document.activeElement.getAttribute('index');
-    const url = this.element.find(`#scenery-row-${index} .image`)[0].value;
-    new ImagePopout(url).render(true);
+    const url = this.element.find(`#scenery-row-${index} .image`)[0].value.trim();
+    if (url !== '') {
+      new ImagePopout(url).render(true);
+    }
   }
 
   /**
@@ -174,6 +176,7 @@ export default class Scenery extends FormApplication {
       await TextureLoader.loader.load([img], game.i18n.localize('SCENERY.loading'));
       canvas.draw();
       // Backup draw because occasionally above seems to fail
+      // eslint-disable-next-line no-promise-executor-return
       await new Promise((resolve) => setTimeout(resolve, 1000));
       canvas.draw();
     }
