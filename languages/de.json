@@ -9,6 +9,8 @@
     "gm": "GM",
     "player": "Spieler",
     "selectError": "GM & Spieler müssen beide eine Datei zur Anzeige ausgewählt haben",
-    "loading": "Lade Scenery"
+    "loading": "Lade Scenery",
+    "SHOW_VARIATIONS_LABEL": "Variationen-Label anzeigen",
+    "SHOW_VARIATIONS_LABEL_HINT": "Zeige ein kleines Label mit der Anzahl von Scenery Variationen in der Ecke von Einträgen im Szenen-Verzeichnis."
   }
 }

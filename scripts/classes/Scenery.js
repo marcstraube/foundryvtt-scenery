@@ -198,6 +198,7 @@ export default class Scenery extends FormApplication {
    * @param {Object} data
    */
   static _onUpdateScene(scene, data) {
+    ui.scenes.render();
     if (!scene._view) return;
     if (hasProperty(data, 'flags.scenery.data')) {
       const img = (game.user.isGM) ? data.flags.scenery.data.gm : data.flags.scenery.data.pl;
@@ -205,6 +206,25 @@ export default class Scenery extends FormApplication {
         Scenery.setImage(img);
       }
     }
+  }
+
+  /**
+   * React to renderSceneDirectory to add count of Scenery variations on SceneDirectory entries.
+   * @param {SceneDirectory} sceneDir
+   * @param {Object} html
+   * @private
+   */
+  static _onRenderSceneDirectory(sceneDir, html) {
+    if (!game.settings.get('scenery', 'showVariationsLabel')) return;
+    Object.values(sceneDir.documents)
+      .filter((f) => f.flags.scenery.data.variations.length > 0)
+      .forEach((entry) => {
+        const menuEntry = html[0].querySelectorAll(`[data-document-id="${entry._id}"]`)[0];
+        const label = document.createElement('label');
+        label.classList.add('scenery-variations');
+        label.innerHTML = `<i class="fa fa-clapperboard"></i> ${entry.flags.scenery.data.variations.length}`;
+        menuEntry.prepend(label);
+      });
   }
 
   static _onContextMenu(html, entryOptions) {
