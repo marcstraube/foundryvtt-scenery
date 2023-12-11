@@ -13,6 +13,8 @@
     "gm": "GM",
     "player": "Jugador",
     "selectError": "Tanto GMs como jugadores deben seleccionar un fichero, que será el que se les muestre",
-    "loading": "Cargando Scenery (decorado)"
+    "loading": "Cargando Scenery (decorado)",
+    "SHOW_VARIATIONS_LABEL": "Mostrar etiqueta de variaciones",
+    "SHOW_VARIATIONS_LABEL_HINT": "Muestra una pequeña etiqueta con el recuento de variaciones de escenario en la esquina de las entradas del Directorio de escenas."
   }
 }

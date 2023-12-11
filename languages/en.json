@@ -9,6 +9,8 @@
     "gm": "GM",
     "player": "Player",
     "selectError": "GM & Player must each have a file to display selected",
-    "loading": "Loading Scenery"
+    "loading": "Loading Scenery",
+    "SHOW_VARIATIONS_LABEL": "Show variations label",
+    "SHOW_VARIATIONS_LABEL_HINT": "Show a small label with the count of Scenery variations in the corner of entries in the Scene Directory."
   }
 }

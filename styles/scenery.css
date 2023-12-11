@@ -34,3 +34,15 @@ td.scenery-player {
 .scenery-delete button[disabled] {
   opacity: 0.5;
 }
+
+.scenes-sidebar .directory-item .scenery-variations {
+  flex: none;
+  position: absolute;
+  top: 0;
+  height: 20px;
+  font-size: 1em;
+  line-height: 1em;
+  text-align: center;
+  padding: 4px 8px;
+  background: rgba(75, 75, 75, 0.75);
+}
