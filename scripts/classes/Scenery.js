@@ -133,6 +133,8 @@ export default class Scenery extends FormApplication {
     const defName = path.split('/').pop().split('.').slice(0, -1).join('.');
     // For each file in directory...
     const variations = fp.files
+      // FilePicker returns encoded paths, decode them
+      .map(decodeURI)
       // Remove default file
       .filter((f) => f !== path)
       // Find only files which are derivatives of default
