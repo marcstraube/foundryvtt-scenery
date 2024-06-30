@@ -133,6 +133,8 @@ export default class Scenery extends FormApplication {
         const defName = path.split("/").pop().split(".").slice(0, -1).join(".");
         // For each file in directory...
         const variations = fp.files
+            // FilePicker returns encoded paths, decode them
+            .map(decodeURI)
             // Remove default file
             .filter((f) => f !== path)
             // Find only files which are derivatives of default
@@ -202,13 +204,37 @@ export default class Scenery extends FormApplication {
      * @param {Object} data
      */
     static _onUpdateScene(scene, data) {
-        if (!scene._view) return;
-        if (hasProperty(data, "flags.scenery.data")) {
+        ui.scenes.render();
+        if (!scene._view) {
+            return;
+        }
+        if (foundry.utils.hasProperty(data, "flags.scenery.data")) {
             const img = game.user.isGM ? data.flags.scenery.data.gm : data.flags.scenery.data.pl;
             if (img) {
                 Scenery.setImage(img);
             }
         }
+    }
+
+    /**
+     * React to renderSceneDirectory to add count of Scenery variations on SceneDirectory entries.
+     * @param {SceneDirectory} sceneDir
+     * @param {Object} html
+     * @private
+     */
+    static _onRenderSceneDirectory(sceneDir, html) {
+        if (!game.settings.get("scenery", "showVariationsLabel")) {
+            return;
+        }
+        Object.values(sceneDir.documents)
+            .filter((f) => f.flags.scenery?.data?.variations?.length > 0)
+            .forEach((entry) => {
+                const menuEntry = html[0].querySelectorAll(`[data-document-id="${entry._id}"]`)[0];
+                const label = document.createElement("label");
+                label.classList.add("scenery-variations");
+                label.innerHTML = `<i class="fa fa-clapperboard"></i> ${entry.flags.scenery.data.variations.length}`;
+                menuEntry.prepend(label);
+            });
     }
 
     static _onContextMenu(html, entryOptions) {
