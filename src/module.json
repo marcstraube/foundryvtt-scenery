@@ -1,57 +1,55 @@
 {
-  "id": "scenery",
-  "title": "Scenery - Background Image Variation Manager",
-  "description": "Allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Marc Straube",
-      "email": "email@marcstraube.de",
-      "discord": "durag-c-walker#8327",
-      "url": "https://github.com/marcstraube"
+    "id": "scenery",
+    "title": "Scenery - Background Image Variation Manager",
+    "description": "Allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.",
+    "version": "1.2.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marc Straube",
+            "email": "email@marcstraube.de",
+            "discord": "durag-c-walker#8327",
+            "url": "https://github.com/marcstraube"
+        },
+        {
+            "name": "Vance Cole"
+        }
+    ],
+    "compatibility": {
+        "minimum": "12",
+        "verified": "12",
+        "maximum": "12"
     },
-    {
-      "name": "Vance Cole"
+    "scripts": [],
+    "esmodules": ["module.js"],
+    "styles": ["styles/scenery.css"],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "languages/en.json"
+        },
+        {
+            "lang": "de",
+            "name": "Deutsch",
+            "path": "languages/de.json"
+        },
+        {
+            "lang": "es",
+            "name": "Español",
+            "path": "languages/es.json"
+        }
+    ],
+    "url": "https://github.com/marcstraube/foundryvtt-scenery",
+    "manifest": "https://github.com/marcstraube/foundryvtt-scenery/releases/download/1.2.0/module.json",
+    "download": "https://github.com/marcstraube/foundryvtt-scenery/releases/download/1.2.0/module.zip",
+    "readme": "https://github.com/marcstraube/foundryvtt-scenery/blob/master/README.md",
+    "changelog": "https://github.com/marcstraube/foundryvtt-scenery/blob/master/CHANGELOG.md",
+    "bugs": "https://github.com/marcstraube/foundryvtt-scenery/issues",
+    "relationships": {
+        "systems": [],
+        "requires": [],
+        "conflicts": [],
+        "optional": []
     }
-  ],
-  "version": "This is auto replaced",
-  "library": "false",
-  "compatibility": {
-    "minimum": "10",
-    "verified": "11",
-    "maximum": "11"
-  },
-  "esmodules": [
-    "./scripts/scenery.js"
-  ],
-  "styles": [
-    "./styles/scenery.css"
-  ],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "languages/en.json"
-    },
-    {
-      "lang": "de",
-      "name": "Deutsch",
-      "path": "languages/de.json"
-    },
-    {
-      "lang": "es",
-      "name": "Español",
-      "path": "languages/es.json"
-    }
-  ],
-  "relationships": {},
-  "url": "This is auto replaced",
-  "manifest": "This is auto replaced",
-  "download": "This is auto replaced",
-  "bugs": "This is auto replaced",
-  "changelog": "This is auto replaced",
-  "readme": "This is auto replaced",
-  "flags": {
-    "allowBugReporter": true
-  }
 }

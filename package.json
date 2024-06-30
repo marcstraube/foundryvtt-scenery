@@ -1,7 +1,7 @@
 {
-	"name": "brodericks-compendium",
-	"title": "Broderick's Compendium: Plants and Fungi Across the Realm",
-	"description": "A module that includes over 600 fantasy plants from Broderick's Compendium: Plants and Fungi Across the Realm (version 2.0) (Source: https://www.reddit.com/r/DnD/comments/83oupp/brodericks_compendium_plants_and_fungi_across_the/ ). This addon includes roll tables for Arctic, City, Coastal, Desert, Forest, Jungle, Mountain, Ocean, Plains, River, Swamp, and Underdark/Cave regions as per the source material.",
+	"name": "scenery",
+	"title": "Scenery - Background Image Variation Manager",
+	"description": "Allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.",
 	"version": "",
 	"main": "module.js",
 	"license": "SEE LICENSE IN LICENSE",
