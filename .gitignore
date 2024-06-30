@@ -1,9 +1,5 @@
-foundry.js
 .idea/
-.vscode
-scenery.zip
-scenery.lock
-
+brodericks-compendium.lock
 # Logs
 logs
 *.log
@@ -88,7 +84,6 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
@@ -120,3 +115,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Foundry
+foundry.js
+/dist
+/package
+/.vite-cache
+/package-lock.json

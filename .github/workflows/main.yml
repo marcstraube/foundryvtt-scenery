@@ -1,4 +1,4 @@
-name: Release Creation
+name: Create Module Files For GitHub Release
 
 on:
   release:
@@ -7,33 +7,49 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+  
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      # get part of the tag after the `v`
-      - name: Extract tag version number
+      # Substitute the Manifest and Download URLs in the module.json
+      - name: Extract Version From Tag
         id: get_version
         uses: battila7/get-version-action@v2
 
-      # Substitute the Manifest and Download URLs in the module.json
-      - name: Substitute Manifest and Download Links For Versioned Ones
+      - name: Modify Module Manifest With Release-Specific Values
         id: sub_manifest_link_version
         uses: microsoft/variable-substitution@v1
         with:
-          files: 'module.json'
+          files: 'src/module.json'
         env:
           version: ${{steps.get_version.outputs.version-without-v}}
           url: https://github.com/${{github.repository}}
           manifest: https://github.com/${{github.repository}}/releases/latest/download/module.json
           download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip
-          bugs: https://github.com/${{github.repository}}/issues
-          changelog: https://github.com/${{github.repository}}/releases
-          readme: https://github.com/${{github.repository}}/blob/master/README.md
+
+      # Install packages.
+      - run: npm install
+
+      # Build distribution.
+      - run: npm run build
+
+      - run: mkdir package
+
+      - run: mv -v ./dist/* ./package/
 
       # Create a zip file with all files required by the module to add to the release
-      - run: zip -r ./module.zip module.json LICENSE README.md docs/ images/ languages/ packs/ scripts/ styles/ templates/
+      #- run: zip -r ./module.zip module.json LICENSE module.js module.js.map style.css templates/ languages/ packs/ assets/
+      # - run: zip -r ./package/module.zip ./package/*
 
-      # Create a release for this specific version
+      # && ensures that zip only runs if the directory was correctly changed, 
+      # and the parentheses run everything in a subshell, so the current directory 
+      # is restored at the end. Using OLDPWD avoids having to calculate the relative path to package.zip.
+      # https://unix.stackexchange.com/questions/385405/zip-all-files-and-subfolder-in-directory-without-parent-directory
+      - run: (cd package && zip -r "$OLDPWD/module.zip" .)
+      
       - name: Update Release with Files
         id: create_version_release
         uses: ncipollo/release-action@v1
@@ -43,6 +59,6 @@ jobs:
           draft: ${{ github.event.release.unpublished }}
           prerelease: ${{ github.event.release.prerelease }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: './module.json, ./module.zip'
+          artifacts: './src/module.json, ./module.zip'
           tag: ${{ github.event.release.tag_name }}
           body: ${{ github.event.release.body }}
