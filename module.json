@@ -18,15 +18,11 @@
   "library": "false",
   "compatibility": {
     "minimum": "10",
-    "verified": "11",
+    "verified": "12",
     "maximum": "12"
   },
-  "esmodules": [
-    "./scripts/scenery.js"
-  ],
-  "styles": [
-    "./styles/scenery.css"
-  ],
+  "esmodules": ["./scripts/scenery.js"],
+  "styles": ["./styles/scenery.css"],
   "languages": [
     {
       "lang": "en",
