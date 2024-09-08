@@ -150,7 +150,8 @@ export default class Scenery extends FormApplication {
           acc.push({ file, name });
         }
         return acc;
-      }, []);
+      }, [])
+      .sort((a, b) => a.name.localeCompare(b.name));
     this.removeBlankVariations();
     // eslint-disable-next-line no-restricted-syntax
     let index = Number(this.element.find('tr:last').attr('index')) + 1;
