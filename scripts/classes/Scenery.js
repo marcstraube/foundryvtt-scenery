@@ -15,7 +15,7 @@ export default class Scenery extends FormApplication {
       width: 700,
       template: `${PATH}/templates/scenery.hbs`,
       id: 'scenery-config',
-      title: game.i18n.localize('SCENERY.scenery'),
+      title: game.i18n.localize('SCENERY.APP_NAME'),
     });
   }
 
@@ -116,7 +116,7 @@ export default class Scenery extends FormApplication {
     const gm = fd.variations[$('input[name="gm"]:checked').val()]?.file;
     const pl = fd.variations[$('input[name="pl"]:checked').val()]?.file;
     if (!gm || !pl) {
-      ui.notifications.error(game.i18n.localize('SCENERY.selectError'));
+      ui.notifications.error(game.i18n.localize('SCENERY.ERROR_SELECTION'));
       return;
     }
     const data = { variations, bg, gm, pl };
@@ -183,7 +183,7 @@ export default class Scenery extends FormApplication {
       // Wait for texture to load
       await TextureLoader.loader.load(
         [img],
-        { message: game.i18n.localize('SCENERY.loading') },
+        { message: game.i18n.localize('SCENERY.LOADING') },
       );
       await canvas.draw();
     }
@@ -240,7 +240,7 @@ export default class Scenery extends FormApplication {
    */
   static _onContextMenu(html, entryOptions) {
     const viewOption = {
-      name: game.i18n.localize('SCENERY.scenery'),
+      name: game.i18n.localize('SCENERY.APP_NAME'),
       icon: '<i class="fas fa-images"></i>',
       condition: () => game.user.isGM,
       callback: (el) => {

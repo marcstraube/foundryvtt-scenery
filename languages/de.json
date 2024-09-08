@@ -1,16 +1,16 @@
 {
   "SCENERY": {
-    "scenery": "Scenery",
-    "scan": "Nach Varianten scannen",
-    "add": "Variante hinzufügen",
-    "ok": "OK",
-    "name": "Name",
-    "file": "Datei",
-    "gm": "GM",
-    "player": "Spieler",
-    "selectError": "GM & Spieler müssen beide eine Datei zur Anzeige ausgewählt haben",
-    "loading": "Lade Scenery",
-    "SHOW_VARIATIONS_LABEL": "Variationen-Label anzeigen",
-    "SHOW_VARIATIONS_LABEL_HINT": "Zeige ein kleines Label mit der Anzahl von Scenery Variationen in der Ecke von Einträgen im Szenen-Verzeichnis."
+    "APP_NAME": "Scenery",
+    "BUTTON_ADD": "Variante hinzufügen",
+    "BUTTON_OK": "OK",
+    "BUTTON_SCAN": "Nach Varianten scannen",
+    "ERROR_SELECTION": "GM & Spieler müssen beide eine Datei zur Anzeige ausgewählt haben",
+    "LABEL_FILE": "Datei",
+    "LABEL_GM": "GM",
+    "LABEL_NAME": "Name",
+    "LABEL_PLAYER": "Spieler",
+    "LOADING": "Lade Scenery",
+    "SETTING_SHOW_VARIATIONS": "Variationen-Label anzeigen",
+    "SETTING_SHOW_VARIATIONS_HINT": "Zeige ein kleines Label mit der Anzahl von Scenery Variationen in der Ecke von Einträgen im Szenen-Verzeichnis."
   }
 }

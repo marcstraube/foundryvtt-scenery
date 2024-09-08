@@ -8,8 +8,8 @@ Hooks.once('init', () => {
 });
 Hooks.on('init', () => {
   game.settings.register('scenery', 'showVariationsLabel', {
-    name: game.i18n.localize('SCENERY.SHOW_VARIATIONS_LABEL'),
-    hint: game.i18n.localize('SCENERY.SHOW_VARIATIONS_LABEL_HINT'),
+    name: game.i18n.localize('SCENERY.SETTING_SHOW_VARIATIONS'),
+    hint: game.i18n.localize('SCENERY.SETTING_SHOW_VARIATIONS_HINT'),
     scope: 'world',
     config: true,
     type: Boolean,

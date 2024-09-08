@@ -1,0 +1,17 @@
+{
+  "SCENERY": {
+    "APP_NAME": "Scenery",
+    "BUTTON_ADD": "バリエーションを追加",
+    "BUTTON_OK": "OK",
+    "BUTTON_SCAN": "バリエーションをスキャン",
+    "ERROR_SELECTION": "GMとプレイヤーはそれぞれ選択を表示するためにファイルが必要です",
+    "LABEL_FILE": "ファイル",
+    "LABEL_GM": "GM",
+    "LABEL_NAME": "名前",
+    "LABEL_PLAYER": "プレイヤー",
+    "LOADING": "風景を読み込み中",
+    "SETTING_SHOW_VARIATIONS": "バリエーションラベルを表示",
+    "SETTING_SHOW_VARIATIONS_HINT": "シーンディレクトリのエントリの隅に、シーンのバリエーション数を示す小さなラベルを表示します。"
+  }
+}
+

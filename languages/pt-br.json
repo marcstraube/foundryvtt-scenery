@@ -1,0 +1,16 @@
+{
+  "SCENERY": {
+    "APP_NAME": "Scenery",
+    "BUTTON_ADD": "Adicionar variação",
+    "BUTTON_OK": "OK",
+    "BUTTON_SCAN": "Verificar variações",
+    "ERROR_SELECTION": "GM e Jogador devem ter cada um um arquivo para exibir a seleção",
+    "LABEL_FILE": "Arquivo",
+    "LABEL_GM": "GM",
+    "LABEL_NAME": "Nome",
+    "LABEL_PLAYER": "Jogador",
+    "LOADING": "Carregando cenário",
+    "SETTING_SHOW_VARIATIONS": "Mostrar rótulo de variações",
+    "SETTING_SHOW_VARIATIONS_HINT": "Mostrar um pequeno rótulo com o número de variações de cenário no canto das entradas do diretório de cenas."
+  }
+}

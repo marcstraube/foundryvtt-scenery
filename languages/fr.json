@@ -1,0 +1,16 @@
+{
+  "SCENERY": {
+    "APP_NAME": "Scenery",
+    "BUTTON_ADD": "Ajouter une variation",
+    "BUTTON_OK": "OK",
+    "BUTTON_SCAN": "Rechercher les variations",
+    "ERROR_SELECTION": "GM et Joueur doivent chacun avoir un fichier pour afficher la sélection",
+    "LABEL_FILE": "Fichier",
+    "LABEL_GM": "GM",
+    "LABEL_NAME": "Nom",
+    "LABEL_PLAYER": "Joueur",
+    "LOADING": "Chargement du paysage",
+    "SETTING_SHOW_VARIATIONS": "Afficher l'étiquette des variations",
+    "SETTING_SHOW_VARIATIONS_HINT": "Afficher un petit label avec le nombre de variations de paysage dans le coin des entrées du répertoire des scènes."
+  }
+}
