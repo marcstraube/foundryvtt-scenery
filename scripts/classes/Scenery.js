@@ -7,7 +7,7 @@ export default class Scenery extends FormApplication {
   }
 
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['form'],
       closeOnSubmit: true,
       popOut: true,
@@ -105,7 +105,7 @@ export default class Scenery extends FormApplication {
    * @private
    */
   async _updateObject(event, formData) {
-    const fd = expandObject(formData);
+    const fd = foundry.utils.expandObject(formData);
     const bg = fd.variations[0].file;
     const variations = Object.values(fd.variations)
       .slice(1)
@@ -199,7 +199,7 @@ export default class Scenery extends FormApplication {
    */
   static _onUpdateScene(scene, data) {
     if (!scene._view) return;
-    if (hasProperty(data, 'flags.scenery.data')) {
+    if (foundry.utils.hasProperty(data, 'flags.scenery.data')) {
       const img = (game.user.isGM) ? data.flags.scenery.data.gm : data.flags.scenery.data.pl;
       if (img) {
         Scenery.setImage(img);
