@@ -158,6 +158,7 @@ export default class Scenery extends FormApplication {
       this.addVariation(v.name, v.file, index);
       index++;
     });
+    this.addVariation('', '', index);
   }
 
   /**
