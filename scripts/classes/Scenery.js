@@ -142,7 +142,10 @@ export default class Scenery extends FormApplication {
         // If is a derivative...
         if (fn.toLowerCase().includes(defName.toLowerCase())) {
           // Remove crud from filename
-          const name = fn.replace(defName, '').replace(/[-_]/g, ' ').replace(/[^a-zA-Z\d\s:]/g, '').trim();
+          const name = decodeURIComponent(fn.replace(defName, ''))
+            .replace(/[-_]/g, ' ')
+            .replace(/\s{2,}/g, ' ')
+            .trim();
           // Add to found array
           acc.push({ file, name });
         }
