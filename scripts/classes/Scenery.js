@@ -25,7 +25,7 @@ export default class Scenery extends FormApplication {
    * Obtain module metadata and merge it with game settings which track current module visibility
    * @return {Object}   The data provided to the template when rendering the form
    */
-  async getData() {
+  async getData({}) {
     const flag = this.scene.getFlag('scenery', 'data') || {};
     if (!this.bg) this.bg = flag.bg || this.scene.background.src;
     if (!this.gm) this.gm = flag.gm || this.scene.background.src;
@@ -67,13 +67,16 @@ export default class Scenery extends FormApplication {
 
   /**
    * Remove a row in the variation table
-   * @param {boolean} index The index of the row
+   * @param {string|undefined} index The index of the row
    */
-  deleteVariation(index = false) {
+  deleteVariation(index = undefined) {
     if (!index) index = document.activeElement.getAttribute('index');
     this.element.find(`#scenery-row-${index}`).remove();
   }
 
+  /**
+   * Remove one or multiple rows with empty file and name
+   */
   removeBlankVariations() {
     this.element.find('tr').each((i, el) => {
       const file = $(el).find('.scenery-fp input').val();
@@ -159,7 +162,7 @@ export default class Scenery extends FormApplication {
       this.addVariation(v.name, v.file, index);
       index++;
     });
-    this.addVariation('', '', index);
+    await this.addVariation('', '', index);
   }
 
   /**
@@ -178,12 +181,11 @@ export default class Scenery extends FormApplication {
     canvas.scene.background.src = img;
     if (draw) {
       // Wait for texture to load
-      await TextureLoader.loader.load([img], game.i18n.localize('SCENERY.loading'));
-      canvas.draw();
-      // Backup draw because occasionally above seems to fail
-      // eslint-disable-next-line no-promise-executor-return
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      canvas.draw();
+      await TextureLoader.loader.load(
+        [img],
+        { message: game.i18n.localize('SCENERY.loading') },
+      );
+      await canvas.draw();
     }
   }
 
@@ -206,12 +208,16 @@ export default class Scenery extends FormApplication {
     if (!scene._view) return;
     if (foundry.utils.hasProperty(data, 'flags.scenery.data')) {
       const img = (game.user.isGM) ? data.flags.scenery.data.gm : data.flags.scenery.data.pl;
-      if (img) {
-        Scenery.setImage(img);
-      }
+      if (img) Scenery.setImage(img);
     }
   }
 
+  /**
+   * React to getSceneNavigationContext and getSceneDirectoryEntryContext hooks to add Scenery menu entry
+   * @param {Object} html
+   * @param {Object} entryOptions
+   * @private
+   */
   static _onContextMenu(html, entryOptions) {
     const viewOption = {
       name: game.i18n.localize('SCENERY.scenery'),
