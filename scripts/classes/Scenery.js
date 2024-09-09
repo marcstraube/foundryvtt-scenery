@@ -130,14 +130,19 @@ export default class Scenery extends FormApplication {
   async scan() {
     // Get path fo default img
     const path = this.element.find('[name="variations.0.file"]')[0].value;
+    // Get paths of all current variant images
+    const imagePaths = [];
+    Object.entries(this.element.find('input.image')).forEach(k => {
+      imagePaths.push(k[1].value);
+    });
     // Load list of files in current dir
     const fp = await FilePicker.browse('data', path);
     // Isolate file name and remove extension
     const defName = path.split('/').pop().split('.').slice(0, -1).join('.');
     // For each file in directory...
     const variations = fp.files
-      // Remove default file
-      .filter((f) => f !== path)
+      // Remove already existing variant images
+      .filter((f) => !imagePaths.includes(f))
       // Find only files which are derivatives of default
       .reduce((acc, file) => {
         // Isolate filename and remove extension
