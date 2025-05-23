@@ -14,7 +14,7 @@
       "name": "Vance Cole"
     }
   ],
-  "version": "This is auto replaced",
+  "version": "1.0.0-v13",
   "library": "false",
   "compatibility": {
     "minimum": "13",
@@ -60,12 +60,11 @@
     }
   ],
   "relationships": {},
-  "url": "This is auto replaced",
-  "manifest": "This is auto replaced",
-  "download": "This is auto replaced",
-  "bugs": "This is auto replaced",
-  "changelog": "This is auto replaced",
-  "readme": "This is auto replaced",
+  "url": "https://github.com/angedelamort/foundryvtt-scenery",
+  "manifest": "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/module-dev.json",
+  "bugs": "https://github.com/angedelamort/foundryvtt-scenery/issues",
+  "changelog": "https://github.com/angedelamort/foundryvtt-scenery/releases",
+  "readme": "https://github.com/angedelamort/foundryvtt-scenery/blob/foundry-v13-migration/README.md",
   "flags": {
     "allowBugReporter": true
   }
