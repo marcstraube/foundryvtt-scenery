@@ -1,72 +1,74 @@
 {
-  "id": "scenery",
-  "title": "Scenery - Background Image Variation Manager",
-  "description": "Allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Marc Straube",
-      "email": "email@marcstraube.de",
-      "discord": "durag-c-walker#8327",
-      "url": "https://github.com/marcstraube"
-    },
-    {
-      "name": "Vance Cole"
-    }
-  ],
-  "version": "1.0.0-v13",
-  "library": "false",
-  "compatibility": {
-    "minimum": "13",
-    "verified": "13",
-    "maximum": "13"
-  },
-  "esmodules": [
-    "./scripts/scenery.js"
-  ],
-  "styles": [
-    "./styles/scenery.css"
-  ],
-  "languages": [
-    {
-      "lang": "de",
-      "name": "Deutsch",
-      "path": "languages/de.json"
-    },
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "languages/en.json"
-    },
-    {
-      "lang": "es",
-      "name": "Español",
-      "path": "languages/es.json"
-    },
-    {
-      "lang": "fr",
-      "name": "Français",
-      "path": "languages/fr.json"
-    },
-    {
-      "lang": "ja",
-      "name": "日本語",
-      "path": "languages/ja.json"
-    },
-    {
-      "lang": "pt-BR",
-      "name": "Português (Brasil)",
-      "path": "languages/pt-br.json"
-    }
-  ],
-  "relationships": {},
-  "url": "https://github.com/angedelamort/foundryvtt-scenery",
-  "manifest": "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/module.json",
-  "download": "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/module.zip",
-  "bugs": "https://github.com/angedelamort/foundryvtt-scenery/issues",
-  "changelog": "https://github.com/angedelamort/foundryvtt-scenery/releases",
-  "readme": "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/README.md",
-  "flags": {
-    "allowBugReporter": true
-  }
+    "id":  "scenery",
+    "title":  "Scenery - Background Image Variation Manager",
+    "description":  "Allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.",
+    "license":  "MIT",
+    "authors":  [
+                    {
+                        "name":  "Marc Straube",
+                        "email":  "email@marcstraube.de",
+                        "discord":  "durag-c-walker#8327",
+                        "url":  "https://github.com/marcstraube"
+                    },
+                    {
+                        "name":  "Vance Cole"
+                    }
+                ],
+    "version":  "1.0.1-v13",
+    "library":  "false",
+    "compatibility":  {
+                          "minimum":  "13",
+                          "verified":  "13",
+                          "maximum":  "13"
+                      },
+    "esmodules":  [
+                      "./scripts/scenery.js"
+                  ],
+    "styles":  [
+                   "./styles/scenery.css"
+               ],
+    "languages":  [
+                      {
+                          "lang":  "de",
+                          "name":  "Deutsch",
+                          "path":  "languages/de.json"
+                      },
+                      {
+                          "lang":  "en",
+                          "name":  "English",
+                          "path":  "languages/en.json"
+                      },
+                      {
+                          "lang":  "es",
+                          "name":  "Español",
+                          "path":  "languages/es.json"
+                      },
+                      {
+                          "lang":  "fr",
+                          "name":  "Français",
+                          "path":  "languages/fr.json"
+                      },
+                      {
+                          "lang":  "ja",
+                          "name":  "日本語",
+                          "path":  "languages/ja.json"
+                      },
+                      {
+                          "lang":  "pt-BR",
+                          "name":  "Português (Brasil)",
+                          "path":  "languages/pt-br.json"
+                      }
+                  ],
+    "relationships":  {
+
+                      },
+    "url":  "https://github.com/angedelamort/foundryvtt-scenery",
+    "manifest":  "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/module.json",
+    "download":  "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/module.zip",
+    "bugs":  "https://github.com/angedelamort/foundryvtt-scenery/issues",
+    "changelog":  "https://github.com/angedelamort/foundryvtt-scenery/releases",
+    "readme":  "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/README.md",
+    "flags":  {
+                  "allowBugReporter":  true
+              }
 }
