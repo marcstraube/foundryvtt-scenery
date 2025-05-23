@@ -62,7 +62,7 @@
   "relationships": {},
   "url": "https://github.com/angedelamort/foundryvtt-scenery",
   "manifest": "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/module.json",
-  "download": "https://github.com/angedelamort/foundryvtt-scenery/archive/refs/heads/foundry-v13-migration.zip",
+  "download": "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/module.zip",
   "bugs": "https://github.com/angedelamort/foundryvtt-scenery/issues",
   "changelog": "https://github.com/angedelamort/foundryvtt-scenery/releases",
   "readme": "https://raw.githubusercontent.com/angedelamort/foundryvtt-scenery/foundry-v13-migration/README.md",
