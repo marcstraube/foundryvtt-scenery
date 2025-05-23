@@ -13,6 +13,11 @@
 
 A FoundryVTT module that allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.
 
+## Requirements
+
+- **Foundry VTT:** Version 13 or higher
+- **Node.js:** Version 20 or higher (if running via Node.js)
+
 ![Scenery UI](docs/example.jpg "The Scenery UI")
 
 To open the scenery config, right-click a scene in either the top scene navigation, or the scenes directory in the sidebar, and select "Scenery".

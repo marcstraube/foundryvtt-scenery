@@ -1,36 +1,42 @@
-#scenery-config {
+.scenery {
   height: auto !important;
   max-height: 700px;
 }
+
 table.scenery-table {
-  border: 1px solid #444;
+  border: 1px solid var(--color-border-dark-primary);
   margin: 0 0 6px 0;
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 4px;
 }
+
 table.scenery-table td {
   line-height: 2em;
   vertical-align: middle;
 }
+
 td.scenery-gm,
 td.scenery-player {
   text-align: center;
 }
+
 .scenery-delete,
 .scenery-preview {
   padding-right: 6px;
 }
+
 .scenery-delete button,
 .scenery-preview button {
   padding: 1px 2px 1px 5px;
   flex: 0 0 32px;
   line-height: 24px;
   text-align: center;
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid #444;
+  background: var(--color-control-bg);
+  border: 1px solid var(--color-border-dark-primary);
   border-radius: 3px;
 }
+
 .scenery-delete button[disabled] {
   opacity: 0.5;
 }
@@ -44,5 +50,7 @@ td.scenery-player {
   line-height: 1em;
   text-align: center;
   padding: 4px 8px;
-  background: rgba(75, 75, 75, 0.75);
+  background: var(--color-shadow-dark);
+  color: var(--color-text-light-highlight);
+  border-radius: 3px;
 }
