@@ -17,6 +17,10 @@ THIS IS NOT COMPATIBLE WITH V12 OR LESS
 
 You won't loose any data by migrating to this version.
 
+![Scenery Button](docs/scenery-button.png "The Scenery button in the scene navigation")
+
+The Scenery button can be found in the top-left corner of the scene navigation bar, allowing you to quickly access the module's features.
+
 ## Requirements
 
 - **Foundry VTT:** Version 13 or higher
