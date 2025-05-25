@@ -1,10 +1,12 @@
 import { PATH } from '../helpers.js';
 
-export default class Scenery extends foundry.applications.api.DocumentSheetV2 {
+const { HandlebarsApplicationMixin, DocumentSheetV2 } = foundry.applications.api;
+
+export default class Scenery extends HandlebarsApplicationMixin(DocumentSheetV2) {
   constructor(options = {}) {
     const sceneId = options.document?.id || options.sceneId;
     const scene = options.document || game.scenes.get(sceneId);
-    super(scene, options);
+    super({ document: scene, ...options });
   }
 
   static DEFAULT_OPTIONS = {
@@ -20,72 +22,88 @@ export default class Scenery extends foundry.applications.api.DocumentSheetV2 {
       add: Scenery.#onAdd
     },
     form: {
-      handler: Scenery.#onSubmit,
+      handler: function(...args) { 
+        return this._onFormSubmit(...args); 
+      },
+      submitOnChange: false,
       closeOnSubmit: true
     },
     window: {
       icon: 'fas fa-images',
-      resizable: true
-    }
+      resizable: true,
+      contentClasses: ["standard-form"]
+    },
+    tag: "form"
   };
 
   static PARTS = {
     form: {
       template: `${PATH}/templates/scenery.hbs`
+    },
+    footer: {
+      template: "templates/generic/form-footer.hbs"
     }
   };
+
+  static _loadingImage = null;
 
   get title() {
     return game.i18n.localize('SCENERY.APP_NAME');
   }
 
-  /* -------------------------------------------- */
-
-  /**
-   * Prepare data for rendering
-   * @returns {Promise<Object>}
-   */
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     const flag = this.document.getFlag('scenery', 'data') || {};
     
-    if (!this.bg) this.bg = flag.bg || this.document.background.src;
-    if (!this.gm) this.gm = flag.gm || this.document.background.src;
-    if (!this.pl) this.pl = flag.pl || this.document.background.src;
+    const currentBackground = this.getCurrentBackground();
+    
+    if (!this.bg) this.bg = flag.bg || currentBackground;
+    if (!this.gm) this.gm = flag.gm || currentBackground;
+    if (!this.pl) this.pl = flag.pl || currentBackground;
     if (!this.variations) {
       this.variations = [{ name: 'Default', file: this.bg }];
-      if (flag.variations) flag.variations.forEach((v) => this.variations.push(v));
+      if (flag.variations) {
+        const nonDefaultVariations = flag.variations.filter(v => 
+          v.name?.toLowerCase() !== 'default'
+        );
+        nonDefaultVariations.forEach((v) => this.variations.push(v));
+      }
     }
 
-    // Add extra empty variation
     this.variations.push({ name: '', file: '' });
     
     context.variations = this.variations;
     context.gm = this.gm;
     context.pl = this.pl;
     
+    context.buttons = [
+      { type: "button", action: "scan", icon: "fas fa-search", label: "SCENERY.BUTTON_SCAN" },
+      { type: "button", action: "add", icon: "fa fa-plus", label: "SCENERY.BUTTON_ADD" },
+      { type: "submit", icon: "fa fa-check", label: "SCENERY.BUTTON_OK" }
+    ];
+    
     return context;
   }
 
-  /* -------------------------------------------- */
-  /*  Event Listeners and Handlers                */
-  /* -------------------------------------------- */
+  getCurrentBackground() {
+    if (canvas.scene?.id === this.document.id) {
+      return canvas.scene.background.src;
+    }
+    
+    const flag = this.document.getFlag('scenery', 'data');
+    if (flag) {
+      const customBg = game.user.isGM ? flag.gm : flag.pl;
+      if (customBg) return customBg;
+    }
+    
+    return this.document.background.src;
+  }
 
-  /**
-   * Handle delete button click
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
   static async #onDelete(event, target) {
     const row = target.closest('tr');
     if (row) row.remove();
   }
 
-  /**
-   * Handle preview button click
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
   static async #onPreview(event, target) {
     const row = target.closest('tr');
     const url = row?.querySelector('.image')?.value?.trim();
@@ -94,107 +112,128 @@ export default class Scenery extends foundry.applications.api.DocumentSheetV2 {
     }
   }
 
-  /**
-   * Handle scan button click
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
   static async #onScan(event, target) {
     const app = this;
     
-    // Get path of default img
     const path = app.element.querySelector('[name="variations.0.file"]')?.value;
     if (!path) return;
     
-    // Get paths of all current variant images
     const imagePaths = Array.from(app.element.querySelectorAll('input.image')).map(input => input.value);
+    const fp = await foundry.applications.apps.FilePicker.implementation.browse('data', path);
     
-    // Load list of files in current dir
-    const fp = await FilePicker.browse('data', path);
-    
-    // Isolate file name and remove extension
     const defName = path.split('/').pop().split('.').slice(0, -1).join('.');
     
-    // For each file in directory...
     const variations = fp.files
-      // Remove already existing variant images
       .filter((f) => !imagePaths.includes(f))
-      // Find only files which are derivatives of default
       .reduce((acc, file) => {
-        // Isolate filename and remove extension
         const fn = file.split('/').pop().split('.').slice(0, -1).join('.');
-        // If is a derivative...
         if (fn.toLowerCase().includes(defName.toLowerCase())) {
-          // Remove crud from filename
           const name = decodeURIComponent(fn.replace(defName, ''))
             .replace(/[-_]/g, ' ')
             .replace(/\s{2,}/g, ' ')
             .trim();
-          // Add to found array
           acc.push({ file, name });
         }
         return acc;
       }, [])
       .sort((a, b) => a.name.localeCompare(b.name));
 
-    // Remove blank variations
     app.removeBlankVariations();
     
-    // Add new variations
     for (const v of variations) {
       await app.addVariation(v.name, v.file);
     }
     
-    // Add empty row at end
     await app.addVariation('', '');
   }
 
-  /**
-   * Handle add button click
-   * @param {PointerEvent} event
-   * @param {HTMLElement} target
-   */
   static async #onAdd(event, target) {
     const app = this;
     await app.addVariation();
   }
 
-  /**
-   * Handle form submission
-   * @param {Event} event
-   * @param {HTMLFormElement} form
-   * @param {FormDataExtended} formData
-   */
-  static async #onSubmit(event, form, formData) {
-    const fd = formData.object;
-    const bg = fd.variations[0].file;
-    const variations = Object.values(fd.variations)
-      .slice(1)
-      .filter((v) => v.file);
-    
-    const gmRadio = form.querySelector('input[name="gm"]:checked');
-    const plRadio = form.querySelector('input[name="pl"]:checked');
-    
-    const gm = fd.variations[gmRadio?.value]?.file;
-    const pl = fd.variations[plRadio?.value]?.file;
-    
-    if (!gm || !pl) {
-      ui.notifications.error(game.i18n.localize('SCENERY.ERROR_SELECTION'));
-      return;
+  async _onFormSubmit(event, form, formData, options = {}) {
+    try {
+      console.log('Scenery | Form submission started', { formData: formData.object, options });
+      
+      const fd = formData.object;
+      
+      const variations = [];
+      let index = 0;
+      
+      while (fd[`variations.${index}.file`] !== undefined) {
+        variations.push({
+          name: fd[`variations.${index}.name`] || '',
+          file: fd[`variations.${index}.file`] || ''
+        });
+        index++;
+      }
+      
+      const bg = variations[0]?.file;
+      if (!bg) {
+        ui.notifications.error('No default background specified');
+        return;
+      }
+      
+      const gmRadio = form.querySelector('input[name="gm"]:checked');
+      const plRadio = form.querySelector('input[name="pl"]:checked');
+      
+      const gmIndex = parseInt(gmRadio?.value);
+      const plIndex = parseInt(plRadio?.value);
+      
+      const gm = variations[gmIndex]?.file;
+      const pl = variations[plIndex]?.file;
+      
+      if (!gm || !pl) {
+        ui.notifications.error(game.i18n.localize('SCENERY.ERROR_SELECTION'));
+        return;
+      }
+      
+      const validVariations = variations.slice(1).filter((v) => v.file);
+      const data = { variations: validVariations, bg, gm, pl };
+      
+      await this.document.setFlag('scenery', 'data', data);
+      
+      if (this.document.id === canvas.scene?.id) {
+        const img = game.user.isGM ? data.gm : data.pl;
+        if (img) {
+          await Scenery.setImage(img);
+        }
+      }
+    } catch (error) {
+      console.error('Scenery | Error in form submission:', error);
+      ui.notifications.error(`Scenery error: ${error.message}`);
+      throw error;
     }
-    
-    const data = { variations, bg, gm, pl };
-    await this.document.update({ img: bg });
-    await this.document.setFlag('scenery', 'data', data);
   }
 
-  /* -------------------------------------------- */
-  /*  Helper Methods                              */
-  /* -------------------------------------------- */
+  _onRender(context, options) {
+    super._onRender(context, options);
+    
+    this.element.querySelectorAll('button.file-picker').forEach(button => {
+      button.addEventListener('click', this._onClickFilePicker.bind(this));
+    });
+  }
 
-  /**
-   * Remove rows with empty file and name
-   */
+  async _onClickFilePicker(event) {
+    event.preventDefault();
+    const button = event.currentTarget;
+    const input = button.parentElement.querySelector('input[type="text"]');
+    
+    if (!input) return;
+    
+    const fp = new foundry.applications.apps.FilePicker.implementation({
+      type: button.dataset.type || 'imagevideo',
+      current: input.value,
+      callback: path => {
+        input.value = path;
+        input.dispatchEvent(new Event('change', {bubbles: true}));
+      }
+    });
+    
+    return fp.browse();
+  }
+
   removeBlankVariations() {
     const rows = this.element.querySelectorAll('tr');
     rows.forEach((row) => {
@@ -206,12 +245,6 @@ export default class Scenery extends foundry.applications.api.DocumentSheetV2 {
     });
   }
 
-  /**
-   * Add a new variation row
-   * @param {string} name
-   * @param {string} file
-   * @param {number|null} id
-   */
   async addVariation(name = '', file = '', id = null) {
     const tbody = this.element.querySelector('.scenery-table');
     if (!tbody) return;
@@ -222,91 +255,246 @@ export default class Scenery extends foundry.applications.api.DocumentSheetV2 {
       id = lastIndex + 1;
     }
     
-    const rowHtml = await renderTemplate(`${PATH}/templates/variation.hbs`, { id, name, file });
+    const rowHtml = await foundry.applications.handlebars.renderTemplate(`${PATH}/templates/variation.hbs`, { id, name, file });
     const template = document.createElement('template');
     template.innerHTML = rowHtml;
     const row = template.content.firstElementChild;
     
     tbody.appendChild(row);
-  }
-
-  /**
-   * Sets background image of the current scene
-   * @param {String} img   The image URL to be used
-   * @param {Boolean} draw Used to prevent draw if being called during canvasInit
-   */
-  static async setImage(img, draw = true) {
-    canvas.scene.background.src = img;
-    if (draw) {
-      // Wait for texture to load
-      await foundry.canvas.assets.TextureLoader.loader.load(
-        [img],
-        { message: game.i18n.localize('SCENERY.LOADING') },
-      );
-      await canvas.draw();
+    
+    const filePickerButton = row.querySelector('button.file-picker');
+    if (filePickerButton) {
+      filePickerButton.addEventListener('click', this._onClickFilePicker.bind(this));
     }
   }
 
-  /**
-   * React to canvasInit hook to set custom image if needed
-   */
+  static async setImage(img, draw = true) {
+    if (!canvas.scene) return;
+    
+    if (!game.user.isGM && !canvas.scene.canUserModify(game.user, "update")) {
+      console.log('Scenery | User does not have permission to modify scene background');
+      return;
+    }
+    
+    if (Scenery._loadingImage === img) {
+      console.log('Scenery | Already loading image:', img);
+      return;
+    }
+    
+    const previousCustomBg = canvas.scene._sceneryCustomBackground;
+    canvas.scene._sceneryCustomBackground = img;
+    
+    if (!draw) {
+      if (!canvas.scene._sceneryOriginalBackground) {
+        canvas.scene._sceneryOriginalBackground = canvas.scene.background.src;
+      }
+      canvas.scene._sceneryPendingBackground = img;
+      return;
+    }
+    
+    Scenery._loadingImage = img;
+    
+    if (canvas.ready && canvas.primary?.background) {
+      if (!canvas.scene._sceneryOriginalBackground) {
+        canvas.scene._sceneryOriginalBackground = canvas.scene.background.src;
+      }
+      
+      try {
+        console.log('Scenery | Loading new background texture:', img);
+        
+        const texture = await foundry.canvas.loadTexture(img);
+        
+        if (texture && canvas.primary.background) {
+          canvas.primary.background.texture = texture;
+          canvas.scene.background.src = img;
+          canvas.primary.renderDirty = true;
+          canvas.app.renderer.render(canvas.app.stage);
+          
+          if (!canvas.scene._sceneryPendingBackground) {
+            ui.notifications.info(game.i18n.localize('SCENERY.LOADING'));
+          }
+        }
+      } catch (err) {
+        console.error('Scenery | Error updating background:', err);
+        ui.notifications.error('Failed to update background image');
+      } finally {
+        Scenery._loadingImage = null;
+      }
+    } else {
+      Scenery._loadingImage = null;
+    }
+  }
+
+  static async resetBackground() {
+    if (!canvas.scene || !canvas.scene._sceneryOriginalBackground) return;
+    
+    const originalSrc = canvas.scene._sceneryOriginalBackground;
+    
+    if (canvas.scene.background.src === originalSrc) {
+      console.log('Scenery | Background already reset to original');
+      return;
+    }
+    
+    if (canvas.primary?.background) {
+      try {
+        console.log('Scenery | Resetting background to original:', originalSrc);
+        
+        const texture = await foundry.canvas.loadTexture(originalSrc);
+        
+        if (texture) {
+          canvas.primary.background.texture = texture;
+          canvas.scene.background.src = originalSrc;
+          canvas.primary.renderDirty = true;
+          canvas.app.renderer.render(canvas.app.stage);
+        }
+      } catch (err) {
+        console.error('Scenery | Error resetting background:', err);
+      }
+    }
+    
+    delete canvas.scene._sceneryOriginalBackground;
+    delete canvas.scene._sceneryCustomBackground;
+  }
+
   static _onCanvasInit() {
     const data = canvas.scene.getFlag('scenery', 'data');
     if (!data) return;
+    
+    const currentBackground = canvas.scene.background.src;
+    const expectedBackground = data.bg;
+    
+    if (currentBackground !== expectedBackground && !canvas.scene._sceneryPendingBackground) {
+      console.log('Scenery | Background mismatch detected, skipping scenery override:', {
+        current: currentBackground,
+        expected: expectedBackground
+      });
+      return;
+    }
+    
     const img = (game.user.isGM) ? data.gm : data.pl;
-    if (img) Scenery.setImage(img, false);
-  }
-
-  /**
-   * React to updateScene hook to set custom image if needed
-   * @param {Scene} scene
-   * @param {Object} data
-   */
-  static _onUpdateScene(scene, data) {
-    ui.scenes.render();
-    if (!scene._view) return;
-    if (foundry.utils.hasProperty(data, 'flags.scenery.data')) {
-      const img = (game.user.isGM) ? data.flags.scenery.data.gm : data.flags.scenery.data.pl;
-      if (img) Scenery.setImage(img);
+    if (img) {
+      Scenery.setImage(img, false);
     }
   }
 
-  /**
-   * React to renderSceneDirectory to add count of Scenery variations on SceneDirectory entries.
-   * @param {SceneDirectory} sceneDir
-   * @param {Object} html
-   * @private
-   */
+  static async _onCanvasReady() {
+    if (canvas.scene?._sceneryPendingBackground) {
+      const pendingImg = canvas.scene._sceneryPendingBackground;
+      delete canvas.scene._sceneryPendingBackground;
+      
+      console.log('Scenery | Applying pending background:', pendingImg);
+      await Scenery.setImage(pendingImg);
+    }
+  }
+
+  static _onUpdateScene(scene, data) {
+    console.log('Scenery | _onUpdateScene called:', {
+      sceneId: scene.id,
+      isCurrentScene: scene.id === canvas.scene?.id,
+      updateData: data,
+      hasSceneryFlag: foundry.utils.hasProperty(data, 'flags.scenery.data'),
+      hasBackgroundChange: foundry.utils.hasProperty(data, 'background.src')
+    });
+    
+    ui.scenes.render();
+    
+    if (foundry.utils.hasProperty(data, 'background.src')) {
+      const newBackground = data.background.src;
+      const sceneryData = scene.getFlag('scenery', 'data');
+      
+      if (sceneryData) {
+        console.log('Scenery | Background changed through scene settings, updating scenery data');
+        
+        const updatedData = {
+          ...sceneryData,
+          bg: newBackground,
+          gm: sceneryData.gm === sceneryData.bg ? newBackground : sceneryData.gm,
+          pl: sceneryData.pl === sceneryData.bg ? newBackground : sceneryData.pl
+        };
+        
+        if (updatedData.variations && updatedData.variations.length > 0) {
+          updatedData.variations[0] = { name: 'Default', file: newBackground };
+        }
+        
+        scene.setFlag('scenery', 'data', updatedData);
+        
+        if (scene.id === canvas.scene?.id) {
+          const img = game.user.isGM ? updatedData.gm : updatedData.pl;
+          if (img) {
+            Scenery.setImage(img);
+          }
+        }
+        
+        return;
+      }
+    }
+    
+    if (scene.id !== canvas.scene?.id) return;
+    
+    if (foundry.utils.hasProperty(data, 'flags.scenery.data')) {
+      const img = (game.user.isGM) ? data.flags.scenery.data.gm : data.flags.scenery.data.pl;
+      console.log('Scenery | Scenery data updated via hook, checking if update needed:', {
+        newImg: img,
+        currentBg: canvas.scene.background.src,
+        customBg: canvas.scene._sceneryCustomBackground
+      });
+      
+      if (img) {
+        console.log('Scenery | Calling setImage from update hook');
+        Scenery.setImage(img);
+      }
+    }
+  }
+
   static _onRenderSceneDirectory(sceneDir, html) {
     if (!game.settings.get('scenery', 'showVariationsLabel')) return;
-    Object.values(sceneDir.documents)
-      .filter((f) => f.flags.scenery !== undefined && f.flags.scenery.data.variations.length > 0)
-      .forEach((entry) => {
-        const menuEntry = html[0].querySelectorAll(`[data-document-id="${entry._id}"]`)[0];
+    
+    const htmlElement = html instanceof jQuery ? html[0] : 
+                       html instanceof HTMLElement ? html : 
+                       Array.isArray(html) ? html[0] : 
+                       html?.[0];
+    
+    if (!htmlElement) {
+      console.warn('Scenery | _onRenderSceneDirectory: Invalid html parameter', html);
+      return;
+    }
+    
+    const scenes = game.scenes?.contents || [];
+    
+    scenes
+      .filter((scene) => scene?.flags?.scenery?.data?.variations?.length > 0)
+      .forEach((scene) => {
+        const menuEntry = htmlElement.querySelector(`[data-document-id="${scene.id}"]`);
+        if (!menuEntry) return;
+        
         const label = document.createElement('label');
         label.classList.add('scenery-variations');
-        label.innerHTML = `<i class="fa fa-images"></i> ${entry.flags.scenery.data.variations.length + 1}`;
+        label.innerHTML = `<i class="fa fa-images"></i> ${scene.flags.scenery.data.variations.length + 1}`;
         menuEntry.prepend(label);
       });
   }
 
-  /**
-   * React to getSceneNavigationContext and getSceneDirectoryEntryContext hooks to add Scenery menu entry
-   * @param {Object} html
-   * @param {Object} entryOptions
-   * @private
-   */
   static _onContextMenu(html, entryOptions) {
+    console.log('Scenery | _onContextMenu called', { html, entryOptions });
+    
     const viewOption = {
       name: game.i18n.localize('SCENERY.APP_NAME'),
-      icon: '<i class="fas fa-images"></i>',
+      icon: 'fas fa-images',
       condition: () => game.user.isGM,
-      callback: (el) => {
-        const element = el[0] || el;
-        const id = element.dataset.documentId || element.dataset.sceneId;
+      callback: li => {
+        const element = li.jquery ? li[0] : li;
+        const id = element?.dataset?.documentId || element?.dataset?.sceneId;
+        
+        if (!id) {
+          console.error('Scenery | No scene ID found on element', li);
+          return;
+        }
+        
+        console.log('Scenery | Opening for scene:', id);
         new Scenery({ sceneId: id }).render(true);
-      },
+      }
     };
     entryOptions.push(viewOption);
+    console.log('Scenery | Context menu option added', viewOption);
   }
 }

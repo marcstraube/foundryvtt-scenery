@@ -67,3 +67,36 @@ Example how to set up your directory:
 * Click **Install Module**.
 * Paste the following link into the "Manifest URL" field at the bottom: https://github.com/marcstraube/foundryvtt-scenery/releases/latest/download/module.json
 * Click **Install**.
+
+## Development
+
+### Building the Module
+
+This repository includes PowerShell scripts to help build the module for distribution:
+
+#### `build.ps1`
+Creates the `module.zip` file containing all necessary module files.
+
+```powershell
+.\build.ps1
+```
+
+#### `build-and-deploy.ps1`
+Builds the module and optionally handles git operations (commit and push).
+
+```powershell
+# Build and deploy with default commit message
+.\build-and-deploy.ps1
+
+# Build with custom commit message
+.\build-and-deploy.ps1 -CommitMessage "Update for Foundry v13"
+
+# Build only (skip git operations)
+.\build-and-deploy.ps1 -SkipGit
+```
+
+The build scripts will:
+- Check for required files and directories
+- Create a `module.zip` with all module assets
+- Show build progress and final file size
+- Optionally commit and push changes to git

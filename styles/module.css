@@ -1,0 +1,28 @@
+.scenery-variations label {
+  font-size: 12px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-right: 4px;
+}
+
+/* Fallback button styling */
+.directory-header .scenery-button {
+  flex: 0 0 auto;
+  margin-right: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.directory-header .scenery-button:hover {
+  background: rgba(0, 0, 0, 0.2);
+  border-color: var(--color-border-highlight);
+}
+
+.directory-header .scenery-button i {
+  color: var(--color-text-light-primary);
+} 
