@@ -14,7 +14,7 @@
       "name": "Vance Cole"
     },
     {
-      "name": "angedelamort",
+      "name": "angedelamort (v13 Migration)",
       "url": "https://github.com/angedelamort"
     }
   ],
@@ -29,7 +29,8 @@
     "./scripts/scenery.js"
   ],
   "styles": [
-    "./styles/scenery.css"
+    "./styles/scenery.css",
+    "./styles/module.css"
   ],
   "languages": [
     {
@@ -69,8 +70,5 @@
   "download": "This is auto replaced",
   "bugs": "This is auto replaced",
   "changelog": "This is auto replaced",
-  "readme": "This is auto replaced",
-  "flags": {
-    "allowBugReporter": true
-  }
+  "readme": "This is auto replaced"
 }

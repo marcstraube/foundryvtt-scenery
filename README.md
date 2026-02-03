@@ -73,6 +73,6 @@ Example how to set up your directory:
 
 * Start Foundry and head to the Add-on Modules tab.
 * Click **Install Module**.
-* Paste the following link into the "Manifest URL" field at the bottom: https://github.com/angedelamort/foundryvtt-scenery/releases/latest/download/module.json
+* Paste the following link into the "Manifest URL" field at the bottom: https://github.com/marcstraube/foundryvtt-scenery/releases/latest/download/module.json
 * Click **Install**.
 
