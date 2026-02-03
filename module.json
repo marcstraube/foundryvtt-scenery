@@ -26,11 +26,10 @@
     "maximum": "13"
   },
   "esmodules": [
-    "./scripts/scenery.js"
+    "./dist/scenery.js"
   ],
   "styles": [
-    "./styles/scenery.css",
-    "./styles/module.css"
+    "./dist/scenery.css"
   ],
   "languages": [
     {
