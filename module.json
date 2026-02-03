@@ -12,14 +12,18 @@
     },
     {
       "name": "Vance Cole"
+    },
+    {
+      "name": "angedelamort",
+      "url": "https://github.com/angedelamort"
     }
   ],
   "version": "This is auto replaced",
   "library": "false",
   "compatibility": {
-    "minimum": "10",
-    "verified": "12",
-    "maximum": "12"
+    "minimum": "13",
+    "verified": "13",
+    "maximum": "13"
   },
   "esmodules": [
     "./scripts/scenery.js"

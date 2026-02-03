@@ -1,32 +1,19 @@
-<form>
-  <div class="form-group">
-    <table class="scenery-table" dir="ltr">
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col"></th>
-          <th scope="col">{{localize 'SCENERY.LABEL_NAME'}}</th>
-          <th scope="col">{{localize 'SCENERY.LABEL_FILE'}}</th>
-          <th scope="col">{{localize 'SCENERY.LABEL_GM'}}</th>
-          <th scope="col">{{localize 'SCENERY.LABEL_PLAYER'}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each variations as |v i|}}
-        {{> 'modules/scenery/templates/variation.hbs' id=i}}
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
-  <footer class="sheet-footer flexrow">
-    <button type="button" class="scan" name="scan">
-      <i class="fas fa-search"></i> {{localize 'SCENERY.BUTTON_SCAN'}}
-    </button>
-    <button type="button" class="add" name="add">
-      <i class="fa fa-plus"></i> {{localize 'SCENERY.BUTTON_ADD'}}
-    </button>
-    <button type="submit" name="submit">
-      <i class="fa fa-check"></i> {{localize 'SCENERY.BUTTON_OK'}}
-    </button>
-  </footer>
-</form>
+<div class="form-group">
+  <table class="scenery-table" dir="ltr">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">{{localize 'SCENERY.LABEL_NAME'}}</th>
+        <th scope="col">{{localize 'SCENERY.LABEL_FILE'}}</th>
+        <th scope="col">{{localize 'SCENERY.LABEL_GM'}}</th>
+        <th scope="col">{{localize 'SCENERY.LABEL_PLAYER'}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each variations as |v i|}}
+      {{> 'modules/scenery/templates/variation.hbs' id=i}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>

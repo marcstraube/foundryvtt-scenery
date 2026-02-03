@@ -1,10 +1,10 @@
 # Scenery - Background Image Variation Manager
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/marcstraube/foundryvtt-scenery?label=Latest%20Release&prefix=v&query=$.version&colorB=red&style=for-the-badge)
-![Foundry Core Minimal Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmarcstraube%2Ffoundryvtt-brodericks-compendium%2Fmaster%2Fmodule.json&label=Foundry%20Minimal%20Version&query=$.compatibility.minimum&colorB=orange&style=for-the-badge)
-![Foundry Core Maximal Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmarcstraube%2Ffoundryvtt-brodericks-compendium%2Fmaster%2Fmodule.json&label=Foundry%20Maximal%20Version&query=$.compatibility.maximum&colorB=orange&style=for-the-badge)
-![All Releases Download Count](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/module.zip?color=2b82fc&label=%20Downloads%20%28all%29&style=for-the-badge)
-![Latest Release Download Count](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/latest/module.zip?label=Downloads%20%28latest%20release%29&style=for-the-badge)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/angedelamort/foundryvtt-scenery?label=Latest%20Release&prefix=v&query=$.version&colorB=red&style=for-the-badge)
+![Foundry Core Minimal Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fangedelamort%2Ffoundryvtt-scenery%2Fmaster%2Fmodule.json&label=Foundry%20Minimal%20Version&query=$.compatibility.minimum&colorB=orange&style=for-the-badge)
+![Foundry Core Maximal Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fangedelamort%2Ffoundryvtt-scenery%2Fmaster%2Fmodule.json&label=Foundry%20Maximal%20Version&query=$.compatibility.maximum&colorB=orange&style=for-the-badge)
+![All Releases Download Count](https://img.shields.io/github/downloads/angedelamort/foundryvtt-scenery/module.zip?color=2b82fc&label=%20Downloads%20%28all%29&style=for-the-badge)
+![Latest Release Download Count](https://img.shields.io/github/downloads/angedelamort/foundryvtt-scenery/latest/module.zip?label=Downloads%20%28latest%20release%29&style=for-the-badge)
 [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fscenery&colorB=006400&style=for-the-badge)](https://forge-vtt.com/bazaar#package=scenery)
 [![ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/J3J1FVK91)
 [![Patreon](https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white)](https://www.patreon.com/NerdyByNatureDev)
@@ -12,6 +12,19 @@
 [![Weblate Translation Status](https://weblate.foundryvtt-hub.com/widgets/scenery/-/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/scenery/)
 
 A FoundryVTT module that allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.
+
+THIS IS NOT COMPATIBLE WITH V12 OR LESS
+
+You won't loose any data by migrating to this version.
+
+![Scenery Button](docs/scenery-button.png "The Scenery button in the scene navigation")
+
+The Scenery button can be found in the top-left corner of the scene navigation bar, allowing you to quickly access the module's features.
+
+## Requirements
+
+- **Foundry VTT:** Version 13 or higher
+- **Node.js:** Version 20 or higher (if running via Node.js)
 
 ![Scenery UI](docs/example.jpg "The Scenery UI")
 
@@ -60,5 +73,6 @@ Example how to set up your directory:
 
 * Start Foundry and head to the Add-on Modules tab.
 * Click **Install Module**.
-* Paste the following link into the "Manifest URL" field at the bottom: https://github.com/marcstraube/foundryvtt-scenery/releases/latest/download/module.json
+* Paste the following link into the "Manifest URL" field at the bottom: https://github.com/angedelamort/foundryvtt-scenery/releases/latest/download/module.json
 * Click **Install**.
+

@@ -1,13 +1,13 @@
-<tr id="scenery-row-{{ id }}" index="{{ id }}">
+<tr id="scenery-row-{{ id }}" data-index="{{ id }}">
 
   <td class="scenery-preview">
-    <button class="preview pm-dropdown" type="button" title="Preview" index="{{ id }}">
+    <button class="preview pm-dropdown" type="button" title="Preview" data-action="preview">
       <i class="fa fa-eye"></i>
     </button>
   </td>
 
   <td class="scenery-delete">
-    <button class="delete pm-dropdown" type="button" title="Delete" index="{{ id }}" {{#if (eq id 0) }}disabled{{/if}}>
+    <button class="delete pm-dropdown" type="button" title="Delete" data-action="delete" {{#if (eq id 0) }}disabled{{/if}}>
       <i class="fa fa-trash"></i>
     </button>
   </td>

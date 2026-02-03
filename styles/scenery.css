@@ -1,36 +1,156 @@
-#scenery-config {
-  height: auto !important;
-  max-height: 700px;
+.scenery {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
 }
+
+/* Ensure the ApplicationV2 window itself has minimum height */
+.app.window-app.scenery {
+  min-height: 350px; /* Account for window header */
+  max-height: 80vh; /* Prevent window from being too tall */
+}
+
+.scenery .window-content {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+}
+
+.scenery form {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0; /* Allow form to shrink */
+}
+
+.scenery .form-group {
+  flex: 0 1 auto; /* Change from flex: 1 1 auto to allow shrinking */
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 0;
+  padding-right: 4px;
+  max-height: 60vh; /* Limit the table area height */
+}
+
 table.scenery-table {
-  border: 1px solid #444;
+  border: 1px solid var(--color-border-dark-primary);
   margin: 0 0 6px 0;
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 4px;
+  width: 100%;
+  table-layout: fixed; /* Use fixed layout for better column control */
 }
+
+/* Style table headers */
+table.scenery-table thead th {
+  padding: 6px 4px;
+  font-weight: bold;
+  text-align: left;
+  background-color: var(--color-control-bg-active);
+  border-bottom: 1px solid var(--color-border-dark-primary);
+}
+
+/* Set specific column widths */
+table.scenery-table th:nth-child(1),
+table.scenery-table th:nth-child(2) {
+  width: 40px;
+  text-align: center;
+}
+
+table.scenery-table th:nth-child(3) {
+  width: 150px; /* Name column */
+}
+
+table.scenery-table th:nth-child(5),
+table.scenery-table th:nth-child(6) {
+  width: 60px;
+  text-align: center;
+}
+
+/* Add alternating row colors for better readability */
+table.scenery-table tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+table.scenery-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 table.scenery-table td {
-  line-height: 2em;
+  line-height: 1.5em;
   vertical-align: middle;
+  padding: 4px 8px;
 }
+
+/* Reduce padding for action columns */
+td.scenery-preview,
+td.scenery-delete,
 td.scenery-gm,
 td.scenery-player {
-  text-align: center;
+  padding: 4px 2px;
+  width: 40px; /* Fixed width for consistent spacing */
 }
+
+/* Name field specific styling */
+td.scenery-name {
+  max-width: 150px; /* Limit name field width */
+  width: 150px;
+}
+
+td.scenery-name input[type="text"] {
+  width: 100%;
+  min-width: 100px;
+}
+
+/* Ensure all interactive elements are clickable */
+table.scenery-table button,
+table.scenery-table input {
+  position: relative;
+  z-index: 1;
+}
+
+/* Improve input field styling */
+table.scenery-table input[type="text"] {
+  width: 100%;
+  background: var(--color-control-bg);
+  border: 1px solid var(--color-border-dark-tertiary);
+  padding: 2px 4px;
+  font-size: var(--font-size-12);
+}
+
+table.scenery-table input[type="text"]:focus {
+  border-color: var(--color-border-highlight);
+  box-shadow: 0 0 3px var(--color-shadow-primary);
+}
+
 .scenery-delete,
 .scenery-preview {
-  padding-right: 6px;
+  padding-right: 0; /* Remove extra padding */
 }
+
 .scenery-delete button,
 .scenery-preview button {
-  padding: 1px 2px 1px 5px;
-  flex: 0 0 32px;
-  line-height: 24px;
+  padding: 2px 4px; /* More compact padding */
+  width: 28px; /* Fixed width for consistency */
+  height: 24px;
+  line-height: 20px;
   text-align: center;
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid #444;
+  background: var(--color-control-bg);
+  border: 1px solid var(--color-border-dark-primary);
   border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9em; /* Slightly smaller icons */
 }
+
+.scenery-delete button:hover:not([disabled]),
+.scenery-preview button:hover {
+  background: var(--color-control-bg-hover);
+  border-color: var(--color-border-highlight);
+  color: var(--color-text-highlight);
+}
+
 .scenery-delete button[disabled] {
   opacity: 0.5;
 }
@@ -44,5 +164,89 @@ td.scenery-player {
   line-height: 1em;
   text-align: center;
   padding: 4px 8px;
-  background: rgba(75, 75, 75, 0.75);
+  background: var(--color-shadow-dark);
+  color: var(--color-text-light-highlight);
+  border-radius: 3px;
+}
+
+/* Fallback button in Scene Directory header */
+.directory-header .scenery-button {
+  flex: 0 0 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  background: var(--color-control-bg);
+  border: 1px solid var(--color-border-dark);
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.directory-header .scenery-button:hover {
+  background: var(--color-control-bg-hover);
+  border-color: var(--color-border-highlight);
+  color: var(--color-text-highlight);
+}
+
+/* Style radio buttons for better visibility */
+.scenery-gm input[type="radio"],
+.scenery-player input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+/* Add hover effect for radio buttons */
+.scenery-gm input[type="radio"]:hover,
+.scenery-player input[type="radio"]:hover {
+  transform: scale(1.1);
+}
+
+/* Ensure footer stays at bottom */
+.scenery footer.sheet-footer {
+  flex: 0 0 auto;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+/* Add spacing for the footer buttons */
+.scenery footer.sheet-footer .sheet-footer-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Style file picker button consistently */
+.scenery-fp .file-picker {
+  width: 28px; /* Match other button widths */
+  height: 24px;
+  line-height: 22px;
+  padding: 0;
+  text-align: center;
+  background: var(--color-control-bg);
+  border: 1px solid var(--color-border-dark-primary);
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: 4px;
+  font-size: 0.9em; /* Slightly smaller icon */
+}
+
+.scenery-fp .file-picker:hover {
+  background: var(--color-control-bg-hover);
+  border-color: var(--color-border-highlight);
+  color: var(--color-text-highlight);
+}
+
+/* Ensure form fields are properly aligned */
+.scenery-fp .form-fields {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Re-add center alignment for GM/Player columns */
+td.scenery-gm,
+td.scenery-player {
+  text-align: center;
 }
