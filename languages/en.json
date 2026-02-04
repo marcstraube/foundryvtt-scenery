@@ -30,6 +30,8 @@
     "ERROR_NO_SELECTION": "Select at least one element type",
     "ERROR_NO_SOURCE": "Select a source variation",
     "SUCCESS_COPY": "Copied scene elements: {summary}",
+    "COPY_RESET_UNSELECTED": "Reset unselected elements",
+    "COPY_RESET_UNSELECTED_HINT": "Clear all element types that are not selected, keeping only the copied elements",
     "LOADING": "Loading Scenery",
     "SETTING_SHOW_VARIATIONS": "Show variations label",
     "SETTING_SHOW_VARIATIONS_HINT": "Show a small label with the count of Scenery variations in the corner of entries in the Scene Directory."

@@ -141,6 +141,8 @@ export default class CopyDialog extends foundry.applications.api.DialogV2<any> {
       notes: (formData.get('notes') as string) === 'on',
     };
 
+    const resetUnselected = (formData.get('resetUnselected') as string) === 'on';
+
     // Check if at least one element is selected
     if (!Object.values(selection).some((v) => v)) {
       ui.notifications?.warn(
@@ -163,6 +165,19 @@ export default class CopyDialog extends foundry.applications.api.DialogV2<any> {
       };
     }
 
+    // Reset unselected elements if requested
+    if (resetUnselected) {
+      if (!selection.lights) targetVariation.sceneData.lights = [];
+      if (!selection.sounds) targetVariation.sceneData.sounds = [];
+      if (!selection.tiles) targetVariation.sceneData.tiles = [];
+      if (!selection.walls) targetVariation.sceneData.walls = [];
+      if (!selection.drawings) targetVariation.sceneData.drawings = [];
+      if (!selection.templates) targetVariation.sceneData.templates = [];
+      if (!selection.regions) targetVariation.sceneData.regions = [];
+      if (!selection.notes) targetVariation.sceneData.notes = [];
+    }
+
+    // Copy selected elements
     if (selection.lights) targetVariation.sceneData.lights = [...sourceSceneData.lights];
     if (selection.sounds) targetVariation.sceneData.sounds = [...sourceSceneData.sounds];
     if (selection.tiles) targetVariation.sceneData.tiles = [...sourceSceneData.tiles];

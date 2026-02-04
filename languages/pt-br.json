@@ -30,6 +30,8 @@
     "ERROR_NO_SELECTION": "Selecione pelo menos um tipo de elemento",
     "ERROR_NO_SOURCE": "Selecione uma variação de origem",
     "SUCCESS_COPY": "Elementos de cena copiados: {summary}",
+    "COPY_RESET_UNSELECTED": "Redefinir elementos não selecionados",
+    "COPY_RESET_UNSELECTED_HINT": "Limpar todos os tipos de elementos que não estão selecionados, mantendo apenas os elementos copiados",
     "LOADING": "Carregando cenário",
     "SETTING_SHOW_VARIATIONS": "Mostrar rótulo de variações",
     "SETTING_SHOW_VARIATIONS_HINT": "Mostrar um pequeno rótulo com o número de variações de cenário no canto das entradas do diretório de cenas."

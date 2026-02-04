@@ -30,6 +30,8 @@
     "ERROR_NO_SELECTION": "Sélectionnez au moins un type d'élément",
     "ERROR_NO_SOURCE": "Sélectionnez une variation source",
     "SUCCESS_COPY": "Éléments de scène copiés : {summary}",
+    "COPY_RESET_UNSELECTED": "Réinitialiser les éléments non sélectionnés",
+    "COPY_RESET_UNSELECTED_HINT": "Supprimer tous les types d'éléments qui ne sont pas sélectionnés, en ne conservant que les éléments copiés",
     "LOADING": "Chargement du paysage",
     "SETTING_SHOW_VARIATIONS": "Afficher l'étiquette des variations",
     "SETTING_SHOW_VARIATIONS_HINT": "Afficher un petit label avec le nombre de variations de paysage dans le coin des entrées du répertoire des scènes."

@@ -30,6 +30,8 @@
     "ERROR_NO_SELECTION": "Wählen Sie mindestens einen Elementtyp aus",
     "ERROR_NO_SOURCE": "Wählen Sie eine Quellvariante aus",
     "SUCCESS_COPY": "Szenenelemente kopiert: {summary}",
+    "COPY_RESET_UNSELECTED": "Nicht ausgewählte Elemente zurücksetzen",
+    "COPY_RESET_UNSELECTED_HINT": "Alle Elementtypen löschen, die nicht ausgewählt sind, nur die kopierten Elemente behalten",
     "LOADING": "Lade Scenery",
     "SETTING_SHOW_VARIATIONS": "Variationen-Label anzeigen",
     "SETTING_SHOW_VARIATIONS_HINT": "Zeige ein kleines Label mit der Anzahl von Scenery Variationen in der Ecke von Einträgen im Szenen-Verzeichnis."
