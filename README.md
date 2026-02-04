@@ -43,35 +43,34 @@ There are two ways to open the Scenery configuration:
 
 ### How to setup variations
 
-When scanning for variations, scenery works as follows:
+When scanning for variations, Scenery uses smart matching to find related files:
 
 - Based on the default image of the scene (set in core scene configuration)
 - Will only look for variation images in the same directory
-- Variation file names must contain the base file name of the default image,
-  minus the extension
+- Uses fuzzy matching: files are matched if they share a significant common
+  prefix (at least 60% of the shorter filename)
 - Variation names will have special characters removed and any dashes or
   underscores converted to spaces
 
 For example, if your default map is `maps/forest-camp/Forest-Camp.jpg`, Scenery
 will find the following:
 
-- `maps/forest-camp/Forest-Camp-GM.jpg`
-- `maps/forest-camp/Forest-Camp2.jpg`
-- `maps/forest-camp/2.Forest-Camp.jpg`
-- `maps/forest-camp/Forest-Camp-alt.png`
-- `maps/forest-camp/Night-Forest-Camp.webp`
+- `maps/forest-camp/Forest-Camp-GM.jpg` (contains base name)
+- `maps/forest-camp/Forest-Camp2.jpg` (contains base name)
+- `maps/forest-camp/Forest-Camp-Night.jpg` (contains base name)
+- `maps/forest-camp/Forest-Camp_Summer.webp` (common prefix)
+
+The fuzzy matching also works with naming patterns like:
+
+- Default: `MyCoolMap_Autumn.webp` finds `MyCoolMap_Summer.webp`,
+  `MyCoolMap_Winter.webp`
+- Default: `Blacksmith1.jpg` finds `Blacksmith2.jpg`, `Blacksmith3.jpg`
 
 Scenery will not consider the following examples to be variations of
 `maps/forest-camp/Forest-Camp.jpg`:
 
 - `maps/some-other-dir/Forest-Camp-GM.jpg` (is not in same directory)
-- `maps/forest-camp/night.jpg` (does not contain base name)
-- `maps/forest-camp/forestcamp-night.jpg` (Base name has no exact match in
-  variation name)
-
-Example how to set up your directory:
-
-![Filename Example](docs/file-naming-example.jpg 'Filename Example')
+- `maps/forest-camp/night.jpg` (no significant overlap with base name)
 
 ## Installation
 

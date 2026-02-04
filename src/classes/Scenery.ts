@@ -238,6 +238,59 @@ export default class Scenery extends BaseClass {
     return variations.sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  /**
+   * Get the common prefix between two strings
+   * @param str1 - First string
+   * @param str2 - Second string
+   * @returns Common prefix
+   */
+  static #getCommonPrefix(str1: string, str2: string): string {
+    let i = 0;
+    while (i < str1.length && i < str2.length && str1[i] === str2[i]) {
+      i++;
+    }
+    return str1.substring(0, i);
+  }
+
+  /**
+   * Check if a filename matches the base name for variation scanning
+   * Uses multiple strategies: contains, common prefix, bidirectional
+   * @param fileName - The filename to check
+   * @param baseName - The base filename to match against
+   * @returns True if the filename is a likely variation
+   */
+  static #isLikelyVariation(fileName: string, baseName: string): boolean {
+    const fileNameLower = fileName.toLowerCase();
+    const baseNameLower = baseName.toLowerCase();
+
+    // Strategy 1: Original logic - variation contains base name
+    if (fileNameLower.includes(baseNameLower)) {
+      log(`Scan match (contains): ${fileName} contains ${baseName}`);
+      return true;
+    }
+
+    // Strategy 2: Bidirectional - base name contains variation
+    // (handles cases where default has a longer name)
+    if (baseNameLower.includes(fileNameLower) && fileNameLower.length > 3) {
+      log(`Scan match (bidirectional): ${baseName} contains ${fileName}`);
+      return true;
+    }
+
+    // Strategy 3: Significant common prefix (at least 60% of shorter name)
+    const commonPrefix = Scenery.#getCommonPrefix(fileNameLower, baseNameLower);
+    const minLength = Math.min(fileNameLower.length, baseNameLower.length);
+    log(
+      `Scan prefix check: ${fileName} vs ${baseName} → prefix="${commonPrefix}" (${commonPrefix.length}), minLen=${minLength}, threshold=${Math.floor(minLength * 0.6)}`
+    );
+    if (commonPrefix.length >= minLength * 0.6 && commonPrefix.length >= 4) {
+      log(`Scan match (prefix): ${fileName} shares prefix "${commonPrefix}" with ${baseName}`);
+      return true;
+    }
+
+    log(`Scan no match: ${fileName} vs ${baseName}`);
+    return false;
+  }
+
   static async #onScan(this: Scenery, _event: Event, _target: HTMLElement): Promise<void> {
     const app = this;
 
@@ -257,7 +310,7 @@ export default class Scenery extends BaseClass {
       .filter((f) => !imagePaths.includes(f))
       .reduce<Variation[]>((acc, file) => {
         const fileName = Scenery.#extractBaseNameFromPath(file);
-        if (fileName.toLowerCase().includes(baseName.toLowerCase())) {
+        if (Scenery.#isLikelyVariation(fileName, baseName)) {
           acc.push(Scenery.#createVariationFromFile(file, baseName));
         }
         return acc;
