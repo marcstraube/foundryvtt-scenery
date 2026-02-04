@@ -1,0 +1,39 @@
+// Scenery SCSS Variables
+
+// Spacing
+$spacing-xs: 2px;
+$spacing-sm: 4px;
+$spacing-md: 8px;
+$spacing-lg: 16px;
+
+// Sizes
+$button-width: 28px;
+$button-height: 24px;
+$radio-size: 16px;
+$column-width-sm: 40px;
+$column-width-md: 60px;
+$column-width-name: 150px;
+
+// Border radius
+$border-radius: 3px;
+$border-radius-lg: 4px;
+
+// Opacity
+$opacity-disabled: 0.5;
+$opacity-hover: 0.1;
+$opacity-even-row: 0.05;
+$opacity-dark: 0.1;
+$opacity-darker: 0.2;
+
+// Transitions
+$transition-default: all 0.2s ease;
+
+// Font sizes
+$font-size-xs: 0.9em;
+$font-size-sm: 12px;
+
+// Min/Max heights
+$min-height-content: 300px;
+$min-height-window: 350px;
+$max-height-window: 80vh;
+$max-height-table: 60vh;

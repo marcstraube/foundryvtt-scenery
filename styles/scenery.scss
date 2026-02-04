@@ -1,0 +1,268 @@
+@use 'variables' as *;
+
+// Main Scenery Window
+.scenery {
+  min-height: $min-height-content;
+  display: flex;
+  flex-direction: column;
+
+  // ApplicationV2 window styling
+  &.app.window-app {
+    min-height: $min-height-window;
+    max-height: $max-height-window;
+  }
+
+  .window-content {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: $min-height-content;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .form-group {
+    flex: 0 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 0;
+    padding-right: $spacing-sm;
+    max-height: $max-height-table;
+  }
+
+  // Footer styling
+  footer.sheet-footer {
+    flex: 0 0 auto;
+    margin-top: auto;
+    padding-top: $spacing-md;
+
+    .sheet-footer-buttons {
+      display: flex;
+      gap: $spacing-md;
+      justify-content: center;
+    }
+  }
+}
+
+// Scenery Table
+table.scenery-table {
+  border: 1px solid var(--color-border-dark-primary);
+  margin: 0 0 6px 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: $border-radius-lg;
+  width: 100%;
+  table-layout: fixed;
+
+  // Table header
+  thead th {
+    padding: 6px $spacing-sm;
+    font-weight: bold;
+    text-align: left;
+    background-color: var(--color-control-bg-active);
+    border-bottom: 1px solid var(--color-border-dark-primary);
+
+    // Radio button columns (GM/Player)
+    &:nth-child(1),
+    &:nth-child(2) {
+      width: $column-width-sm;
+      text-align: center;
+    }
+
+    // Name column
+    &:nth-child(3) {
+      width: $column-width-name;
+    }
+
+    // Action columns (Preview/Delete)
+    &:nth-child(5),
+    &:nth-child(6) {
+      width: $column-width-md;
+      text-align: center;
+    }
+  }
+
+  // Table body
+  tbody {
+    // Alternating row colors
+    tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, $opacity-even-row);
+    }
+
+    tr:hover {
+      background-color: rgba(0, 0, 0, $opacity-hover);
+    }
+  }
+
+  td {
+    line-height: 1.5em;
+    vertical-align: middle;
+    padding: $spacing-sm $spacing-md;
+  }
+
+  // Ensure interactive elements are clickable
+  button,
+  input {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Input field styling
+  input[type='text'] {
+    width: 100%;
+    background: var(--color-control-bg);
+    border: 1px solid var(--color-border-dark-tertiary);
+    padding: $spacing-xs $spacing-sm;
+    font-size: var(--font-size-12);
+
+    &:focus {
+      border-color: var(--color-border-highlight);
+      box-shadow: 0 0 3px var(--color-shadow-primary);
+    }
+  }
+}
+
+// Table cell specific styling
+td {
+  &.scenery-preview,
+  &.scenery-delete,
+  &.scenery-gm,
+  &.scenery-player {
+    padding: $spacing-sm $spacing-xs;
+    width: $column-width-sm;
+  }
+
+  &.scenery-name {
+    max-width: $column-width-name;
+    width: $column-width-name;
+
+    input[type='text'] {
+      width: 100%;
+      min-width: 100px;
+    }
+  }
+
+  &.scenery-gm,
+  &.scenery-player {
+    text-align: center;
+
+    input[type='radio'] {
+      width: $radio-size;
+      height: $radio-size;
+      accent-color: var(--color-primary);
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  &.scenery-delete,
+  &.scenery-preview {
+    padding-right: 0;
+
+    button {
+      padding: $spacing-xs $spacing-sm;
+      width: $button-width;
+      height: $button-height;
+      line-height: 20px;
+      text-align: center;
+      background: var(--color-control-bg);
+      border: 1px solid var(--color-border-dark-primary);
+      border-radius: $border-radius;
+      cursor: pointer;
+      font-size: $font-size-xs;
+
+      &:hover:not([disabled]) {
+        background: var(--color-control-bg-hover);
+        border-color: var(--color-border-highlight);
+        color: var(--color-text-highlight);
+      }
+
+      &[disabled] {
+        opacity: $opacity-disabled;
+      }
+    }
+  }
+}
+
+// File picker styling
+.scenery-fp {
+  .form-fields {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  .file-picker {
+    width: $button-width;
+    height: $button-height;
+    line-height: 22px;
+    padding: 0;
+    text-align: center;
+    background: var(--color-control-bg);
+    border: 1px solid var(--color-border-dark-primary);
+    border-radius: $border-radius;
+    cursor: pointer;
+    margin-left: $spacing-sm;
+    font-size: $font-size-xs;
+
+    &:hover {
+      background: var(--color-control-bg-hover);
+      border-color: var(--color-border-highlight);
+      color: var(--color-text-highlight);
+    }
+  }
+}
+
+// Scene Directory Integration
+.scenes-sidebar .directory-item {
+  .scenery-variations {
+    flex: none;
+    position: absolute;
+    top: 0;
+    height: 20px;
+    font-size: 1em;
+    line-height: 1em;
+    text-align: center;
+    padding: $spacing-sm $spacing-md;
+    background: var(--color-shadow-dark);
+    color: var(--color-text-light-highlight);
+    border-radius: $border-radius;
+
+    label {
+      font-size: $font-size-sm;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius;
+      background-color: rgba(0, 0, 0, $opacity-dark);
+      margin-right: $spacing-sm;
+    }
+  }
+}
+
+// Directory Header Button (Fallback)
+.directory-header .scenery-button {
+  flex: 0 0 auto;
+  margin-right: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 0, 0, $opacity-dark);
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: $transition-default;
+
+  &:hover {
+    background: rgba(0, 0, 0, $opacity-darker);
+    border-color: var(--color-border-highlight);
+  }
+
+  i {
+    color: var(--color-text-light-primary);
+  }
+}
