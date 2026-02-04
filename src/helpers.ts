@@ -1,6 +1,4 @@
-import { MODULE_ID, FLAG_KEY } from './constants.js';
-
-export const PATH = '/modules/scenery';
+import { MODULE_ID, FLAG_KEY, SETTINGS } from './constants.js';
 
 // Extend CONFIG.debug type to include scenery
 declare global {
@@ -60,12 +58,39 @@ export interface SceneryData {
 }
 
 /**
+ * Check if debug logging is enabled
+ * @returns true if debug logging is enabled via setting or CONFIG.debug.scenery
+ */
+export function isDebugEnabled(): boolean {
+  // Check setting first (if game is ready)
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const settingEnabled = (game.settings as any)?.get(MODULE_ID, SETTINGS.DEBUG_LOGGING);
+    if (settingEnabled) return true;
+  } catch {
+    // Settings not available yet, ignore
+  }
+  // Fall back to CONFIG.debug.scenery
+  return CONFIG.debug?.scenery ?? false;
+}
+
+/**
+ * Clean a file path by trimming whitespace and removing trailing commas
+ * @param path - Path to clean
+ * @returns Cleaned path string
+ */
+export function cleanPath(path: unknown): string {
+  if (typeof path !== 'string' || !path) return '';
+  return path.trim().replace(/,+$/, '');
+}
+
+/**
  * Prints formatted console msg if string, otherwise dumps object
  * @param data - Output to be dumped
- * @param force - Log output even if CONFIG.debug.scenery = false
+ * @param force - Log output even if debug logging is disabled
  */
 export function log(data: string | unknown, force = false): void {
-  if (CONFIG.debug?.scenery || force) {
+  if (isDebugEnabled() || force) {
     if (typeof data === 'string') {
       // eslint-disable-next-line no-console
       console.log(`Scenery | ${data}`);
@@ -161,7 +186,7 @@ export async function restoreSceneElements(
   if (!scene) return false;
 
   try {
-    log('Restoring scene elements...', true);
+    log('Restoring scene elements...');
     // Restore each document type
     await restoreDocumentType(scene, 'AmbientLight', sceneData.lights);
     await restoreDocumentType(scene, 'AmbientSound', sceneData.sounds);
@@ -172,7 +197,7 @@ export async function restoreSceneElements(
     await restoreDocumentType(scene, 'Region', sceneData.regions);
     await restoreDocumentType(scene, 'Note', sceneData.notes);
 
-    log('Scene elements restored successfully', true);
+    log('Scene elements restored successfully');
     return true;
   } catch (error) {
     console.error('Scenery | Error restoring scene elements:', error);
@@ -214,7 +239,7 @@ async function restoreDocumentType(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const collection = (scene as any)[collectionName];
   if (!collection) {
-    log(`WARNING: Collection "${collectionName}" not found for ${documentType}!`, true);
+    log(`WARNING: Collection "${collectionName}" not found for ${documentType}!`);
     return;
   }
 
@@ -244,20 +269,20 @@ async function restoreDocumentType(
 
   // Apply operations
   if (toCreate.length > 0) {
-    log(`Creating ${toCreate.length} ${documentType} documents`, true);
+    log(`Creating ${toCreate.length} ${documentType} documents`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (scene as any).createEmbeddedDocuments(documentType, toCreate);
   }
 
   if (toUpdate.length > 0) {
-    log(`Updating ${toUpdate.length} ${documentType} documents`, true);
+    log(`Updating ${toUpdate.length} ${documentType} documents`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (scene as any).updateEmbeddedDocuments(documentType, toUpdate);
   }
 
   if (toDelete.length > 0) {
-    log(`Deleting ${toDelete.length} ${documentType} documents`, true);
-    log(`Delete IDs: ${toDelete.join(', ')}`, true);
+    log(`Deleting ${toDelete.length} ${documentType} documents`);
+    log(`Delete IDs: ${toDelete.join(', ')}`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (scene as any).deleteEmbeddedDocuments(documentType, toDelete);
   }

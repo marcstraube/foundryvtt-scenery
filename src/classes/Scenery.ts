@@ -10,6 +10,7 @@ import {
 } from '../constants.js';
 import {
   log,
+  cleanPath,
   getSceneryData,
   setSceneryData,
   getUserImage,
@@ -93,36 +94,46 @@ export default class Scenery extends BaseClass {
     const context = (await super._prepareContext(options)) as SceneryContext;
     const flag = getSceneryData(this.document);
 
-    log('=== PREPARE CONTEXT ===', true);
-    log(`Flag exists: ${!!flag}`, true);
+    log('=== PREPARE CONTEXT ===');
+    log(`Document ID: ${this.document?.id}`);
+    log(`Document name: ${this.document?.name}`);
+    log(`Document background.src: ${this.document?.background?.src}`);
+    log(`Flag exists: ${!!flag}`);
     if (flag) {
-      log(`Flag bg: ${flag.bg}`, true);
-      log(`Flag gm: ${flag.gm}`, true);
-      log(`Flag pl: ${flag.pl}`, true);
-      log(`Flag variations: ${flag.variations.length}`, true);
+      log(`Flag bg: ${flag.bg}`);
+      log(`Flag gm: ${flag.gm}`);
+      log(`Flag pl: ${flag.pl}`);
+      log(`Flag variations: ${flag.variations?.length ?? 0}`);
     }
 
     const currentBackground = this.getCurrentBackground();
-    log(`Current background: ${currentBackground}`, true);
+    log(`Current background from getCurrentBackground(): ${currentBackground}`, true);
 
     // Always reload from flag to ensure fresh data (don't reuse old instance properties)
-    this.bg = flag?.bg ?? currentBackground;
-    this.gm = flag?.gm ?? currentBackground;
-    this.pl = flag?.pl ?? currentBackground;
+    // Use || instead of ?? so empty strings also fall back to currentBackground
+    this.bg = cleanPath(flag?.bg) || cleanPath(currentBackground);
+    this.gm = cleanPath(flag?.gm) || cleanPath(currentBackground);
+    this.pl = cleanPath(flag?.pl) || cleanPath(currentBackground);
 
-    log(`Computed bg: ${this.bg}`, true);
-    log(`Computed gm: ${this.gm}`, true);
-    log(`Computed pl: ${this.pl}`, true);
+    log(`Computed bg: ${this.bg}`);
+    log(`Computed gm: ${this.gm}`);
+    log(`Computed pl: ${this.pl}`);
 
     // Always rebuild variations from flag to ensure fresh data
-    this.variations = [{ name: VARIATIONS.DEFAULT_NAME, file: this.bg ?? '' }];
-    if (flag?.variations) {
-      const nonDefaultVariations = flag.variations.filter(
-        (v: Variation) => v.name?.toLowerCase() !== VARIATIONS.DEFAULT_NAME.toLowerCase()
-      );
+    this.variations = [{ name: VARIATIONS.DEFAULT_NAME, file: this.bg }];
+    if (flag?.variations && Array.isArray(flag.variations)) {
+      const nonDefaultVariations = flag.variations
+        .filter(
+          (v: Variation) => v && v.name?.toLowerCase() !== VARIATIONS.DEFAULT_NAME.toLowerCase()
+        )
+        .map((v: Variation) => ({
+          ...v,
+          name: typeof v.name === 'string' ? v.name.trim() : '',
+          file: cleanPath(v.file),
+        }));
       this.variations.push(...nonDefaultVariations);
     }
-    log(`Built variations: ${this.variations.length}`, true);
+    log(`Built variations: ${this.variations.length}`);
 
     this.variations.push(VARIATIONS.EMPTY);
 
@@ -156,17 +167,29 @@ export default class Scenery extends BaseClass {
   }
 
   getCurrentBackground(): string {
-    if (canvas?.scene?.id === this.document?.id) {
-      return canvas.scene.background.src ?? '';
-    }
+    const docId = this.document?.id;
+    if (!docId) return '';
 
-    const flag = getSceneryData(this.document);
+    // Get fresh document from game.scenes
+    const freshDocument = game.scenes?.get(docId);
+    if (!freshDocument) return '';
+
+    log(`getCurrentBackground: freshDocument.background.src = ${freshDocument.background?.src}`);
+
+    // Check for scenery flag data first
+    const flag = getSceneryData(freshDocument);
     if (flag) {
       const customBg = getUserImage(flag);
       if (customBg) return customBg;
     }
 
-    return this.document?.background.src ?? '';
+    // If this is the active canvas scene, try canvas data
+    if (canvas?.scene?.id === docId && canvas.scene.background?.src) {
+      return canvas.scene.background.src;
+    }
+
+    // Fall back to the fresh document's background
+    return freshDocument.background?.src ?? '';
   }
 
   static async #onPreview(_event: Event, target: HTMLElement): Promise<void> {
@@ -357,8 +380,8 @@ export default class Scenery extends BaseClass {
 
     while (formData[`variations.${index}.file`] !== undefined) {
       const variation: Variation = {
-        name: formData[`variations.${index}.name`] || '',
-        file: formData[`variations.${index}.file`] || '',
+        name: (formData[`variations.${index}.name`] || '').trim(),
+        file: cleanPath(formData[`variations.${index}.file`]),
       };
 
       // Preserve sceneData from existing variation
@@ -401,12 +424,12 @@ export default class Scenery extends BaseClass {
     gmIndex: number,
     plIndex: number
   ): SceneryData | null {
-    log('=== BUILD SCENERY DATA ===', true);
-    log(`Variations count: ${variations.length}`, true);
+    log('=== BUILD SCENERY DATA ===');
+    log(`Variations count: ${variations.length}`);
     variations.forEach((v, i) => {
-      log(`  [${i}] name="${v.name}", file="${v.file}"`, true);
+      log(`  [${i}] name="${v.name}", file="${v.file}"`);
     });
-    log(`GM Index: ${gmIndex}, Player Index: ${plIndex}`, true);
+    log(`GM Index: ${gmIndex}, Player Index: ${plIndex}`);
 
     const bg = variations[0]?.file;
     if (!bg) {
@@ -417,7 +440,7 @@ export default class Scenery extends BaseClass {
     const gm = variations[gmIndex]?.file;
     const pl = variations[plIndex]?.file;
 
-    log(`Computed: bg="${bg}", gm="${gm}", pl="${pl}"`, true);
+    log(`Computed: bg="${bg}", gm="${gm}", pl="${pl}"`);
 
     if (!gm || !pl) {
       ui.notifications?.error(
@@ -427,7 +450,7 @@ export default class Scenery extends BaseClass {
     }
 
     const validVariations = variations.slice(1).filter((v) => v.file);
-    log(`Valid variations (slice(1)): ${validVariations.length}`, true);
+    log(`Valid variations (slice(1)): ${validVariations.length}`);
 
     return { variations: validVariations, bg, gm, pl };
   }
@@ -452,18 +475,18 @@ export default class Scenery extends BaseClass {
 
       // Preserve defaultSceneData and bg from existing flag
       const existingFlag = getSceneryData(this.document);
-      log('=== PRESERVE CHECK ===', true);
-      log(`Existing flag exists: ${!!existingFlag}`, true);
+      log('=== PRESERVE CHECK ===');
+      log(`Existing flag exists: ${!!existingFlag}`);
       if (existingFlag) {
-        log(`Existing bg: ${existingFlag.bg}`, true);
-        log(`Existing defaultSceneData: ${!!existingFlag.defaultSceneData}`, true);
+        log(`Existing bg: ${existingFlag.bg}`);
+        log(`Existing defaultSceneData: ${!!existingFlag.defaultSceneData}`);
         if (existingFlag.defaultSceneData) {
           data.defaultSceneData = existingFlag.defaultSceneData;
-          log(`Preserved defaultSceneData`, true);
+          log(`Preserved defaultSceneData`);
         }
         // Preserve bg if variations[0].file is empty (disabled field not submitted)
         if (!variations[0]?.file && existingFlag.bg) {
-          log(`Preserving bg from existing: ${existingFlag.bg}`, true);
+          log(`Preserving bg from existing: ${existingFlag.bg}`);
           data.bg = existingFlag.bg;
         }
       }
@@ -472,21 +495,21 @@ export default class Scenery extends BaseClass {
       if (!data.defaultSceneData && canvas?.scene && canvas.scene.id === this.document?.id) {
         const currentBg = canvas.scene.background.src ?? '';
         if (currentBg === data.bg) {
-          log('=== FIRST SAVE: Capturing defaultSceneData ===', true);
+          log('=== FIRST SAVE: Capturing defaultSceneData ===');
           const capturedData = captureSceneElements(canvas.scene);
           if (capturedData) {
             data.defaultSceneData = capturedData;
-            log(`Captured defaultSceneData: ${getSceneDataSummary(capturedData)}`, true);
+            log(`Captured defaultSceneData: ${getSceneDataSummary(capturedData)}`);
           }
         }
       }
 
-      log('=== FINAL DATA TO SAVE ===', true);
-      log(`bg: ${data.bg}`, true);
-      log(`gm: ${data.gm}`, true);
-      log(`pl: ${data.pl}`, true);
-      log(`variations: ${data.variations.length}`, true);
-      log(`defaultSceneData: ${!!data.defaultSceneData}`, true);
+      log('=== FINAL DATA TO SAVE ===');
+      log(`bg: ${data.bg}`);
+      log(`gm: ${data.gm}`);
+      log(`pl: ${data.pl}`);
+      log(`variations: ${data.variations.length}`);
+      log(`defaultSceneData: ${!!data.defaultSceneData}`);
 
       await setSceneryData(this.document, data);
 
@@ -663,18 +686,18 @@ export default class Scenery extends BaseClass {
       const currentBackgroundSrc = canvas.scene.background.src ?? '';
 
       try {
-        log(`Loading new background texture: ${img}`, true);
-        log(`Current background: ${currentBackgroundSrc}`, true);
+        log(`Loading new background texture: ${img}`);
+        log(`Current background: ${currentBackgroundSrc}`);
 
         // Save current scene elements before switching (skip if already on target)
         if (currentBackgroundSrc !== img) {
-          log(`Saving current background before switch`, true);
+          log(`Saving current background before switch`);
           await Scenery.#saveCurrentSceneElements(currentBackgroundSrc);
         } else {
-          log(`Already on target background src, skipping save`, true);
+          log(`Already on target background src, skipping save`);
         }
 
-        log(`Switching to new background: ${img}`, true);
+        log(`Switching to new background: ${img}`);
 
         const texture = await foundry.canvas.loadTexture(img);
 
@@ -711,12 +734,12 @@ export default class Scenery extends BaseClass {
     // Use provided background src or fall back to current
     const currentImg = currentBackgroundSrc || canvas.scene.background.src;
 
-    log(`=== SAVE DEBUG ===`, true);
-    log(`Current background src: ${currentImg}`, true);
-    log(`Default background (bg): ${data.bg}`, true);
-    log(`Available variations:`, true);
+    log(`=== SAVE DEBUG ===`);
+    log(`Current background src: ${currentImg}`);
+    log(`Default background (bg): ${data.bg}`);
+    log(`Available variations:`);
     data.variations.forEach((v, i) => {
-      log(`  [${i}] name="${v.name}", file="${v.file}"`, true);
+      log(`  [${i}] name="${v.name}", file="${v.file}"`);
     });
 
     // Check if this is the default background
@@ -726,7 +749,7 @@ export default class Scenery extends BaseClass {
       if (sceneData) {
         data.defaultSceneData = sceneData;
         await setSceneryData(canvas.scene, data);
-        log(`Auto-saved scene elements for DEFAULT background`, true);
+        log(`Auto-saved scene elements for DEFAULT background`);
       }
       return;
     }
@@ -740,10 +763,10 @@ export default class Scenery extends BaseClass {
       if (sceneData) {
         currentVariation.sceneData = sceneData;
         await setSceneryData(canvas.scene, data);
-        log(`Auto-saved scene elements for variation: ${currentVariation.name}`, true);
+        log(`Auto-saved scene elements for variation: ${currentVariation.name}`);
       }
     } else {
-      log(`!!! No variation found for background: ${currentImg}`, true);
+      log(`!!! No variation found for background: ${currentImg}`);
     }
   }
 
@@ -757,7 +780,7 @@ export default class Scenery extends BaseClass {
 
     // Use provided background src or fall back to current
     const currentImg = targetBackgroundSrc || canvas.scene.background.src;
-    log(`Restore target background: ${currentImg}`, true);
+    log(`Restore target background: ${currentImg}`);
 
     // Check if this is the default background
     if (currentImg === data.bg) {
@@ -773,7 +796,7 @@ export default class Scenery extends BaseClass {
         notes: [],
       };
 
-      log(`Restoring scene elements for DEFAULT background`, true);
+      log(`Restoring scene elements for DEFAULT background`);
       log(
         `SceneData counts: ${sceneData.lights.length} lights, ${sceneData.sounds.length} sounds, ${sceneData.tiles.length} tiles, ${sceneData.walls.length} walls`,
         true
@@ -799,14 +822,14 @@ export default class Scenery extends BaseClass {
         notes: [],
       };
 
-      log(`Restoring scene elements for variation: ${currentVariation.name}`, true);
+      log(`Restoring scene elements for variation: ${currentVariation.name}`);
       log(
         `SceneData counts: ${sceneData.lights.length} lights, ${sceneData.sounds.length} sounds, ${sceneData.tiles.length} tiles, ${sceneData.walls.length} walls`,
         true
       );
       await restoreSceneElements(canvas.scene, sceneData);
     } else {
-      log(`No variation found for background: ${currentImg}`, true);
+      log(`No variation found for background: ${currentImg}`);
     }
   }
 
@@ -850,32 +873,70 @@ export default class Scenery extends BaseClass {
     const data = getSceneryData(canvas.scene);
     if (!data) return;
 
-    const currentBackground = canvas.scene.background.src ?? '';
-    const expectedBackground = data.bg;
+    const currentBackground = cleanPath(canvas.scene.background.src);
+    const expectedBackground = cleanPath(data.bg);
+
+    log(`_onCanvasInit: current="${currentBackground}", expected="${expectedBackground}"`);
 
     const sceneryScene = canvas.scene as SceneryScene;
+
+    // Only skip if backgrounds don't match AND there's no pending background
+    // This handles cases where the scene was modified outside of Scenery
     if (currentBackground !== expectedBackground && !sceneryScene._sceneryPendingBackground) {
       log('Background mismatch detected, skipping scenery override');
-      log({ current: currentBackground, expected: expectedBackground });
       return;
     }
 
-    const img = getUserImage(data);
+    // Get the appropriate image for the current user (GM or Player)
+    const img = cleanPath(getUserImage(data));
+    log(`_onCanvasInit: user image="${img}"`);
+
     if (img) {
       Scenery.setImage(img, false);
     }
   }
 
   static async _onCanvasReady(_canvas: Canvas): Promise<void> {
-    if (!canvas?.scene) return;
+    if (!canvas?.scene) {
+      log(`_onCanvasReady: No canvas.scene`);
+      return;
+    }
+
+    log(`_onCanvasReady called for scene: ${canvas.scene.name}`);
 
     const sceneryScene = canvas.scene as SceneryScene;
+    log(`_onCanvasReady: pendingBackground="${sceneryScene._sceneryPendingBackground}"`);
+
     if (sceneryScene._sceneryPendingBackground) {
       const pendingImg = sceneryScene._sceneryPendingBackground;
       delete sceneryScene._sceneryPendingBackground;
 
       log(`Applying pending background: ${pendingImg}`);
       await Scenery.setImage(pendingImg);
+    } else {
+      // No pending background - check if we need to apply scenery settings
+      const data = getSceneryData(canvas.scene);
+      log(`_onCanvasReady: scenery data exists: ${!!data}`);
+
+      if (data) {
+        log(`_onCanvasReady: data.bg="${data.bg}", data.gm="${data.gm}", data.pl="${data.pl}"`);
+
+        const currentBackground = cleanPath(canvas.scene.background.src);
+        const userImage = cleanPath(getUserImage(data));
+        const isGM = game.user?.isGM;
+
+        log(
+          `_onCanvasReady: isGM=${isGM}, current="${currentBackground}", userImage="${userImage}"`
+        );
+
+        // If the user's image differs from current, apply it
+        if (userImage && userImage !== currentBackground) {
+          log(`Applying user background on canvas ready: ${userImage}`);
+          await Scenery.setImage(userImage);
+        } else {
+          log(`_onCanvasReady: No change needed (same background or no user image)`);
+        }
+      }
     }
   }
 

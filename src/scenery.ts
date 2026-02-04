@@ -17,8 +17,32 @@ Hooks.once('init', () => {
 
   // Register settings during init
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (game.settings as any)?.register(MODULE_ID, SETTINGS.SHOW_VARIATIONS_LABEL, {
-    name: game.i18n?.localize(I18N_KEYS.SETTING_SHOW_VARIATIONS) ?? 'Show Variations',
+  const settings = game.settings as any;
+
+  settings?.register(MODULE_ID, SETTINGS.DEBUG_LOGGING, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_DEBUG_LOGGING) ?? 'Debug Logging',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_DEBUG_LOGGING_HINT) ?? 'Show debug messages in console',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.SHOW_HEADER_BUTTON, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_SHOW_HEADER_BUTTON) ?? 'Show Header Button',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_SHOW_HEADER_BUTTON_HINT) ??
+      'Show Scenery button in Scene Directory header',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
+    requiresReload: true,
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.SHOW_VARIATIONS_LABEL, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_SHOW_VARIATIONS) ?? 'Show Variations Label',
     hint:
       game.i18n?.localize(I18N_KEYS.SETTING_SHOW_VARIATIONS_HINT) ?? 'Show variation count label',
     scope: 'world',
@@ -54,14 +78,18 @@ Hooks.on('getSceneContextOptions', (_app: any, menuItems: any[]) => {
 Hooks.on(
   'renderSceneDirectory',
   (_app: SceneDirectory, html: JQuery | HTMLElement, _data: unknown) => {
-    log('Adding scenery button to Scene Directory');
-
     // Handle both jQuery objects and plain HTMLElements
     const htmlElement = html instanceof HTMLElement ? html : html[0];
     if (!htmlElement) return;
 
-    // Add a button to the directory header if we're a GM
-    if (game.user?.isGM) {
+    // Check if header button is enabled
+
+    const showHeaderButton =
+      (game.settings as any)?.get(MODULE_ID, SETTINGS.SHOW_HEADER_BUTTON) ?? true;
+
+    // Add a button to the directory header if we're a GM and setting is enabled
+    if (game.user?.isGM && showHeaderButton) {
+      log('Adding scenery button to Scene Directory');
       const headerActions = htmlElement.querySelector('.directory-header .header-actions');
       if (headerActions && !headerActions.querySelector('.scenery-button')) {
         const sceneryButton = document.createElement('button');
@@ -108,16 +136,18 @@ Hooks.on(
   }
 );
 
-// Register other hooks after ready
-Hooks.once('ready', () => {
-  log('Ready - Registering remaining hooks');
-
+// Register canvas hooks early in init to catch initial canvas load
+Hooks.once('init', () => {
+  log('Init - Registering canvas hooks early');
   Hooks.on('canvasInit', Scenery._onCanvasInit);
-
-  // Wrap async canvasReady hook
   Hooks.on('canvasReady', (canvas: Canvas) => {
     Scenery._onCanvasReady(canvas);
   });
+});
+
+// Register other hooks after ready
+Hooks.once('ready', () => {
+  log('Ready - Registering remaining hooks');
 
   // Wrap updateScene hook with proper signature
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

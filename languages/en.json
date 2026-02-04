@@ -42,7 +42,11 @@
     "DELETE_VARIATION_TITLE": "Delete Variation",
     "DELETE_VARIATION_CONTENT": "Delete variation \"{name}\"?",
     "LOADING": "Loading Scenery",
-    "SETTING_SHOW_VARIATIONS": "Show variations label",
+    "SETTING_DEBUG_LOGGING": "Debug Logging",
+    "SETTING_DEBUG_LOGGING_HINT": "Show debug messages in the browser console (F12).",
+    "SETTING_SHOW_HEADER_BUTTON": "Show Header Button",
+    "SETTING_SHOW_HEADER_BUTTON_HINT": "Show the Scenery button in the Scene Directory header.",
+    "SETTING_SHOW_VARIATIONS": "Show Variations Label",
     "SETTING_SHOW_VARIATIONS_HINT": "Show a small label with the count of Scenery variations in the corner of entries in the Scene Directory."
   }
 }

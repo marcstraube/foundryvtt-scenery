@@ -42,6 +42,10 @@
     "DELETE_VARIATION_TITLE": "Excluir variação",
     "DELETE_VARIATION_CONTENT": "Excluir variação \"{name}\"?",
     "LOADING": "Carregando cenário",
+    "SETTING_DEBUG_LOGGING": "Registro de depuração",
+    "SETTING_DEBUG_LOGGING_HINT": "Mostrar mensagens de depuração no console do navegador (F12).",
+    "SETTING_SHOW_HEADER_BUTTON": "Mostrar botão no cabeçalho",
+    "SETTING_SHOW_HEADER_BUTTON_HINT": "Mostrar o botão do Scenery no cabeçalho do diretório de cenas.",
     "SETTING_SHOW_VARIATIONS": "Mostrar rótulo de variações",
     "SETTING_SHOW_VARIATIONS_HINT": "Mostrar um pequeno rótulo com o número de variações de cenário no canto das entradas do diretório de cenas."
   }

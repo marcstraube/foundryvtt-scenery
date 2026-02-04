@@ -14,20 +14,26 @@
 A FoundryVTT module that allows easy import and background image changes for
 variations such as GM/Player, Night, Seasonal, etc.
 
-![Scenery Button](docs/scenery-button.png 'The Scenery button in the scene navigation')
+## Opening Scenery
 
-The Scenery button can be found in the top-left corner of the scene navigation
-bar, allowing you to quickly access the module's features.
+There are two ways to open the Scenery configuration:
+
+![Scenery Button](docs/scenery-button.png 'The Scenery button in the Scene Directory header')
+
+1. **Header Button** (highlighted above): Click the Scenery button in the Scene
+   Directory header. This opens the configuration for the currently active
+   scene. The button visibility can be disabled in the module settings.
+
+2. **Context Menu**: Right-click any scene in the Scene Directory sidebar or the
+   scene navigation bar at the top, then select "Scenery". This allows you to
+   configure any scene, not just the active one.
+
+![Scenery Dialog](docs/scenery-dialog.jpg 'The Scenery Dialog')
 
 ## Requirements
 
 - **Foundry VTT:** Version 13 or higher
 - **Node.js:** Version 20 or higher (if running via Node.js)
-
-![Scenery UI](docs/example.jpg 'The Scenery UI')
-
-To open the scenery config, right-click a scene in either the top scene
-navigation, or the scenes directory in the sidebar, and select "Scenery".
 
 ### Features
 
@@ -65,7 +71,7 @@ Scenery will not consider the following examples to be variations of
 
 Example how to set up your directory:
 
-![Filename Example](docs/variations.jpg 'Filename Example')
+![Filename Example](docs/file-naming-example.jpg 'Filename Example')
 
 ## Installation
 
