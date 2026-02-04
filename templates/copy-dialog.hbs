@@ -1,0 +1,62 @@
+<form class="scenery-copy-dialog">
+  <div class="form-group">
+    <label>{{localize 'SCENERY.COPY_SELECT_SOURCE'}}</label>
+    <select name="sourceVariation">
+      <option value="">{{localize 'SCENERY.COPY_SELECT_SOURCE_PLACEHOLDER'}}</option>
+      {{#each sourceVariations}}
+      <option value="{{this.index}}">{{this.name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>{{localize 'SCENERY.COPY_SELECT_ELEMENTS'}}</label>
+    <div class="element-checkboxes">
+      <label>
+        <input type="checkbox" name="lights" checked>
+        <i class="fa fa-lightbulb"></i> {{localize 'SCENERY.ELEMENT_LIGHTS'}}
+      </label>
+      <label>
+        <input type="checkbox" name="sounds" checked>
+        <i class="fa fa-volume-up"></i> {{localize 'SCENERY.ELEMENT_SOUNDS'}}
+      </label>
+      <label>
+        <input type="checkbox" name="tiles" checked>
+        <i class="fa fa-th"></i> {{localize 'SCENERY.ELEMENT_TILES'}}
+      </label>
+      <label>
+        <input type="checkbox" name="walls" checked>
+        <i class="fa fa-vector-square"></i> {{localize 'SCENERY.ELEMENT_WALLS'}}
+      </label>
+      <label>
+        <input type="checkbox" name="drawings" checked>
+        <i class="fa fa-pencil-alt"></i> {{localize 'SCENERY.ELEMENT_DRAWINGS'}}
+      </label>
+      <label>
+        <input type="checkbox" name="templates" checked>
+        <i class="fa fa-ruler-combined"></i> {{localize 'SCENERY.ELEMENT_TEMPLATES'}}
+      </label>
+      <label>
+        <input type="checkbox" name="regions" checked>
+        <i class="fa fa-draw-polygon"></i> {{localize 'SCENERY.ELEMENT_REGIONS'}}
+      </label>
+      <label>
+        <input type="checkbox" name="notes" checked>
+        <i class="fa fa-bookmark"></i> {{localize 'SCENERY.ELEMENT_NOTES'}}
+      </label>
+    </div>
+    <div class="selection-helpers">
+      <a data-action="select-all">{{localize 'SCENERY.SELECT_ALL'}}</a> |
+      <a data-action="select-none">{{localize 'SCENERY.SELECT_NONE'}}</a>
+    </div>
+  </div>
+
+  <footer class="form-footer">
+    <button type="button" data-action="copy">
+      <i class="fa fa-copy"></i> {{localize 'SCENERY.BUTTON_COPY'}}
+    </button>
+    <button type="button" data-action="cancel">
+      {{localize 'SCENERY.BUTTON_CANCEL'}}
+    </button>
+  </footer>
+</form>

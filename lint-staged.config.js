@@ -16,6 +16,6 @@ export default {
   // SCSS files (format only)
   'styles/**/*.scss': ['pnpm exec prettier --write'],
 
-  // Handlebars templates (format only)
-  'templates/**/*.hbs': ['pnpm exec prettier --write'],
+  // Handlebars templates - skip prettier due to limited Handlebars support
+  // 'templates/**/*.hbs': ['pnpm exec prettier --write'],
 };

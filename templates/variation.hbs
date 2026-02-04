@@ -19,9 +19,9 @@
 
   <td class="scenery-fp">
     <div class="form-fields">
-      <input class="image" type="text" value="{{ file }}" name="variations.{{ id }}.file" data-target="variations.{{ id }}.file" data-dtype="String" />
+      <input class="image" type="text" value="{{ file }}" name="variations.{{ id }}.file" data-target="variations.{{ id }}.file" data-dtype="String" {{#if (eq id 0) }}readonly{{/if}} />
       <button type="button" title="Browse Files" class="file-picker"
-        data-type="imagevideo" data-target="variations.{{ id }}.file">
+        data-type="imagevideo" data-target="variations.{{ id }}.file" {{#if (eq id 0) }}disabled{{/if}}>
         <i class="fa fa-file-import fa-fw"></i>
       </button>
     </div>
@@ -33,6 +33,18 @@
 
   <td class="scenery-player">
     <input value="{{ id }}" {{#if (eq file @root.pl)}}checked{{/if}} type="radio" name="pl" data-dtype="boolean">
+  </td>
+
+  <td class="scenery-copy">
+    <button class="copy" type="button" data-action="copy-open" data-variation-index="{{ id }}"
+      {{#if (eq id 0)}}disabled{{/if}}>
+      <i class="fa fa-copy"></i>
+    </button>
+    {{#if sceneDataSummary}}
+    <span class="scene-data-summary" title="{{ sceneDataSummary }}">
+      <i class="fa fa-info-circle"></i>
+    </span>
+    {{/if}}
   </td>
 
 </tr>

@@ -12,8 +12,13 @@ import {
   getSceneryData,
   setSceneryData,
   getUserImage,
+  captureSceneElements,
+  restoreSceneElements,
+  hasSceneData,
+  getSceneDataSummary,
   type Variation,
   type SceneryData,
+  type SceneElementSelection,
 } from '../helpers.js';
 import type { SceneryContext, SceneryOptions, SceneryScene, SceneUpdate } from '../types.js';
 
@@ -49,6 +54,7 @@ export default class Scenery extends BaseClass {
       preview: Scenery.#onPreview,
       scan: Scenery.#onScan,
       add: Scenery.#onAdd,
+      'copy-open': Scenery.#onCopyOpen,
     },
     form: {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,24 +92,54 @@ export default class Scenery extends BaseClass {
     const context = (await super._prepareContext(options)) as SceneryContext;
     const flag = getSceneryData(this.document);
 
-    const currentBackground = this.getCurrentBackground();
-
-    if (!this.bg) this.bg = flag?.bg ?? currentBackground;
-    if (!this.gm) this.gm = flag?.gm ?? currentBackground;
-    if (!this.pl) this.pl = flag?.pl ?? currentBackground;
-    if (!this.variations) {
-      this.variations = [{ name: VARIATIONS.DEFAULT_NAME, file: this.bg ?? '' }];
-      if (flag?.variations) {
-        const nonDefaultVariations = flag.variations.filter(
-          (v: Variation) => v.name?.toLowerCase() !== VARIATIONS.DEFAULT_NAME.toLowerCase()
-        );
-        this.variations.push(...nonDefaultVariations);
-      }
+    log('=== PREPARE CONTEXT ===', true);
+    log(`Flag exists: ${!!flag}`, true);
+    if (flag) {
+      log(`Flag bg: ${flag.bg}`, true);
+      log(`Flag gm: ${flag.gm}`, true);
+      log(`Flag pl: ${flag.pl}`, true);
+      log(`Flag variations: ${flag.variations.length}`, true);
     }
+
+    const currentBackground = this.getCurrentBackground();
+    log(`Current background: ${currentBackground}`, true);
+
+    // Always reload from flag to ensure fresh data (don't reuse old instance properties)
+    this.bg = flag?.bg ?? currentBackground;
+    this.gm = flag?.gm ?? currentBackground;
+    this.pl = flag?.pl ?? currentBackground;
+
+    log(`Computed bg: ${this.bg}`, true);
+    log(`Computed gm: ${this.gm}`, true);
+    log(`Computed pl: ${this.pl}`, true);
+
+    // Always rebuild variations from flag to ensure fresh data
+    this.variations = [{ name: VARIATIONS.DEFAULT_NAME, file: this.bg ?? '' }];
+    if (flag?.variations) {
+      const nonDefaultVariations = flag.variations.filter(
+        (v: Variation) => v.name?.toLowerCase() !== VARIATIONS.DEFAULT_NAME.toLowerCase()
+      );
+      this.variations.push(...nonDefaultVariations);
+    }
+    log(`Built variations: ${this.variations.length}`, true);
 
     this.variations.push(VARIATIONS.EMPTY);
 
-    context.variations = this.variations;
+    context.variations = this.variations.map((v) => {
+      // For default variation, check defaultSceneData instead of sceneData
+      let sceneDataToCheck = v.sceneData;
+      if (v.file === flag?.bg && flag?.defaultSceneData) {
+        sceneDataToCheck = flag.defaultSceneData;
+      }
+
+      return {
+        ...v,
+        hasSceneData: sceneDataToCheck
+          ? hasSceneData({ ...v, sceneData: sceneDataToCheck })
+          : false,
+        sceneDataSummary: sceneDataToCheck ? getSceneDataSummary(sceneDataToCheck) : undefined,
+      };
+    });
     context.gm = this.gm ?? '';
     context.pl = this.pl ?? '';
 
@@ -220,20 +256,222 @@ export default class Scenery extends BaseClass {
     await app.addVariation();
   }
 
+  static async #onCopyOpen(this: Scenery, _event: Event, target: HTMLElement): Promise<void> {
+    const app = this;
+    const variationIndex = parseInt(target.dataset.variationIndex || '0');
+
+    // Validations
+    if (variationIndex === 0) {
+      ui.notifications?.warn(
+        game.i18n?.localize(I18N_KEYS.ERROR_COPY_DEFAULT) ?? 'Cannot copy to default variation'
+      );
+      return;
+    }
+
+    if (!canvas?.scene || canvas.scene.id !== app.document.id) {
+      ui.notifications?.warn(
+        game.i18n?.localize(I18N_KEYS.ERROR_WRONG_SCENE) ?? 'Must be viewing this scene'
+      );
+      return;
+    }
+
+    // Show copy dialog
+    await app.#showCopyDialog(variationIndex);
+  }
+
+  async #showCopyDialog(targetVariationIndex: number): Promise<void> {
+    const targetVariation = this.variations?.[targetVariationIndex];
+    if (!targetVariation) return;
+
+    // Build list of source variations (all except target and empty row)
+    // Include variations with name AND file (this includes Default variation)
+    const sourceVariations = (this.variations || [])
+      .map((v, index) => ({ ...v, index }))
+      .filter((v, index) => {
+        // Exclude target variation
+        if (index === targetVariationIndex) return false;
+        // Exclude empty rows (no file)
+        if (!v.file) return false;
+        // Include all variations with files (including Default)
+        return true;
+      });
+
+    // Prepare dialog context
+    const dialogContext = {
+      targetVariationName: targetVariation.name,
+      sourceVariations,
+    };
+
+    // Render dialog template
+    const content = await foundry.applications.handlebars.renderTemplate(
+      TEMPLATES.COPY_DIALOG,
+      dialogContext
+    );
+
+    // Show as Foundry Dialog
+    new Dialog({
+      title: `${game.i18n?.localize(I18N_KEYS.BUTTON_COPY)}: ${targetVariation.name}`,
+      content,
+      buttons: {}, // Buttons in template
+      render: (html: JQuery | HTMLElement) => {
+        const htmlElement = html instanceof HTMLElement ? html : html[0];
+        if (!htmlElement) return;
+
+        // Attach event listeners
+        htmlElement.querySelector('[data-action="select-all"]')?.addEventListener('click', () => {
+          htmlElement.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+            (cb as HTMLInputElement).checked = true;
+          });
+        });
+
+        htmlElement.querySelector('[data-action="select-none"]')?.addEventListener('click', () => {
+          htmlElement.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+            (cb as HTMLInputElement).checked = false;
+          });
+        });
+
+        htmlElement.querySelector('[data-action="copy"]')?.addEventListener('click', async () => {
+          await this.#handleCopy(targetVariationIndex, htmlElement);
+        });
+
+        htmlElement.querySelector('[data-action="cancel"]')?.addEventListener('click', () => {
+          const dialog = htmlElement.closest('.dialog, .window-app');
+          if (dialog) {
+            const closeBtn = dialog.querySelector('.close, .header-button.close') as HTMLElement;
+            closeBtn?.click();
+          }
+        });
+      },
+    }).render(true);
+  }
+
+  async #handleCopy(targetVariationIndex: number, html: HTMLElement): Promise<void> {
+    // Get source variation index from dropdown
+    const sourceIndexStr = (
+      html.querySelector('select[name="sourceVariation"]') as HTMLSelectElement
+    )?.value;
+    if (!sourceIndexStr) {
+      ui.notifications?.warn(
+        game.i18n?.localize(I18N_KEYS.ERROR_NO_SOURCE) ?? 'Select a source variation'
+      );
+      return;
+    }
+
+    const sourceIndex = parseInt(sourceIndexStr);
+    const sourceVariation = this.variations?.[sourceIndex];
+    const targetVariation = this.variations?.[targetVariationIndex];
+
+    if (!sourceVariation || !targetVariation) return;
+
+    // Get scenery data to access defaultSceneData
+    const scene = canvas?.scene;
+    const sceneryData = scene ? getSceneryData(scene) : null;
+    if (!sceneryData) return;
+
+    // Check if source has sceneData - handle both regular variations and default
+    let sourceSceneData = sourceVariation.sceneData;
+
+    // If source variation file matches default background, use defaultSceneData
+    if (sourceVariation.file === sceneryData.bg && sceneryData.defaultSceneData) {
+      sourceSceneData = sceneryData.defaultSceneData;
+    }
+
+    if (!sourceSceneData) {
+      ui.notifications?.warn(`Source variation "${sourceVariation.name}" has no data to copy`);
+      return;
+    }
+
+    // Read checkbox selection
+    const selection: SceneElementSelection = {
+      lights: (html.querySelector('input[name="lights"]') as HTMLInputElement)?.checked || false,
+      sounds: (html.querySelector('input[name="sounds"]') as HTMLInputElement)?.checked || false,
+      tiles: (html.querySelector('input[name="tiles"]') as HTMLInputElement)?.checked || false,
+      walls: (html.querySelector('input[name="walls"]') as HTMLInputElement)?.checked || false,
+      drawings:
+        (html.querySelector('input[name="drawings"]') as HTMLInputElement)?.checked || false,
+      templates:
+        (html.querySelector('input[name="templates"]') as HTMLInputElement)?.checked || false,
+      regions: (html.querySelector('input[name="regions"]') as HTMLInputElement)?.checked || false,
+      notes: (html.querySelector('input[name="notes"]') as HTMLInputElement)?.checked || false,
+    };
+
+    // Check if at least one element is selected
+    if (!Object.values(selection).some((v) => v)) {
+      ui.notifications?.warn(
+        game.i18n?.localize(I18N_KEYS.ERROR_NO_SELECTION) ?? 'Select at least one element type'
+      );
+      return;
+    }
+
+    // Copy selected elements from source to target
+    if (!targetVariation.sceneData) {
+      targetVariation.sceneData = {
+        lights: [],
+        sounds: [],
+        tiles: [],
+        walls: [],
+        drawings: [],
+        templates: [],
+        regions: [],
+        notes: [],
+      };
+    }
+
+    if (selection.lights) targetVariation.sceneData.lights = [...sourceSceneData.lights];
+    if (selection.sounds) targetVariation.sceneData.sounds = [...sourceSceneData.sounds];
+    if (selection.tiles) targetVariation.sceneData.tiles = [...sourceSceneData.tiles];
+    if (selection.walls) targetVariation.sceneData.walls = [...sourceSceneData.walls];
+    if (selection.drawings) targetVariation.sceneData.drawings = [...sourceSceneData.drawings];
+    if (selection.templates) targetVariation.sceneData.templates = [...sourceSceneData.templates];
+    if (selection.regions) targetVariation.sceneData.regions = [...sourceSceneData.regions];
+    if (selection.notes) targetVariation.sceneData.notes = [...sourceSceneData.notes];
+
+    // Save to scene flag (reuse scene and sceneryData from above)
+    if (sceneryData && scene) {
+      await setSceneryData(scene, sceneryData);
+    }
+
+    // UI update
+    const summary = getSceneDataSummary(targetVariation.sceneData);
+    ui.notifications?.info(
+      game.i18n?.format(I18N_KEYS.SUCCESS_COPY, { summary }) || `Copied: ${summary}`
+    );
+
+    // Close dialog and refresh UI
+    const dialog = html.closest('.dialog, .window-app');
+    if (dialog) {
+      const closeBtn = dialog.querySelector('.close, .header-button.close') as HTMLElement;
+      closeBtn?.click();
+    }
+    this.render();
+  }
+
   /**
    * Parse variations from form data
    * @param formData - Form data object
+   * @param existingVariations - Existing variations to preserve sceneData
    * @returns Array of variations
    */
-  static #parseVariationsFromFormData(formData: Record<string, string>): Variation[] {
+  static #parseVariationsFromFormData(
+    formData: Record<string, string>,
+    existingVariations?: Variation[]
+  ): Variation[] {
     const variations: Variation[] = [];
     let index = 0;
 
     while (formData[`variations.${index}.file`] !== undefined) {
-      variations.push({
+      const variation: Variation = {
         name: formData[`variations.${index}.name`] || '',
         file: formData[`variations.${index}.file`] || '',
-      });
+      };
+
+      // Preserve sceneData from existing variation
+      const existingVariation = existingVariations?.[index];
+      if (existingVariation?.sceneData) {
+        variation.sceneData = existingVariation.sceneData;
+      }
+
+      variations.push(variation);
       index++;
     }
 
@@ -267,6 +505,13 @@ export default class Scenery extends BaseClass {
     gmIndex: number,
     plIndex: number
   ): SceneryData | null {
+    log('=== BUILD SCENERY DATA ===', true);
+    log(`Variations count: ${variations.length}`, true);
+    variations.forEach((v, i) => {
+      log(`  [${i}] name="${v.name}", file="${v.file}"`, true);
+    });
+    log(`GM Index: ${gmIndex}, Player Index: ${plIndex}`, true);
+
     const bg = variations[0]?.file;
     if (!bg) {
       ui.notifications?.error('No default background specified');
@@ -276,6 +521,8 @@ export default class Scenery extends BaseClass {
     const gm = variations[gmIndex]?.file;
     const pl = variations[plIndex]?.file;
 
+    log(`Computed: bg="${bg}", gm="${gm}", pl="${pl}"`, true);
+
     if (!gm || !pl) {
       ui.notifications?.error(
         game.i18n?.localize(I18N_KEYS.ERROR_SELECTION) ?? 'Invalid selection'
@@ -284,6 +531,8 @@ export default class Scenery extends BaseClass {
     }
 
     const validVariations = variations.slice(1).filter((v) => v.file);
+    log(`Valid variations (slice(1)): ${validVariations.length}`, true);
+
     return { variations: validVariations, bg, gm, pl };
   }
 
@@ -299,11 +548,49 @@ export default class Scenery extends BaseClass {
 
       const fd = formData.object as Record<string, string>;
 
-      const variations = Scenery.#parseVariationsFromFormData(fd);
+      const variations = Scenery.#parseVariationsFromFormData(fd, this.variations);
       const { gmIndex, plIndex } = Scenery.#getSelectedRadioIndices(form);
       const data = Scenery.#validateAndBuildSceneryData(variations, gmIndex, plIndex);
 
       if (!data) return;
+
+      // Preserve defaultSceneData and bg from existing flag
+      const existingFlag = getSceneryData(this.document);
+      log('=== PRESERVE CHECK ===', true);
+      log(`Existing flag exists: ${!!existingFlag}`, true);
+      if (existingFlag) {
+        log(`Existing bg: ${existingFlag.bg}`, true);
+        log(`Existing defaultSceneData: ${!!existingFlag.defaultSceneData}`, true);
+        if (existingFlag.defaultSceneData) {
+          data.defaultSceneData = existingFlag.defaultSceneData;
+          log(`Preserved defaultSceneData`, true);
+        }
+        // Preserve bg if variations[0].file is empty (disabled field not submitted)
+        if (!variations[0]?.file && existingFlag.bg) {
+          log(`Preserving bg from existing: ${existingFlag.bg}`, true);
+          data.bg = existingFlag.bg;
+        }
+      }
+
+      // CRITICAL: Capture defaultSceneData on first save if we're currently on the default background
+      if (!data.defaultSceneData && canvas?.scene && canvas.scene.id === this.document?.id) {
+        const currentBg = canvas.scene.background.src ?? '';
+        if (currentBg === data.bg) {
+          log('=== FIRST SAVE: Capturing defaultSceneData ===', true);
+          const capturedData = captureSceneElements(canvas.scene);
+          if (capturedData) {
+            data.defaultSceneData = capturedData;
+            log(`Captured defaultSceneData: ${getSceneDataSummary(capturedData)}`, true);
+          }
+        }
+      }
+
+      log('=== FINAL DATA TO SAVE ===', true);
+      log(`bg: ${data.bg}`, true);
+      log(`gm: ${data.gm}`, true);
+      log(`pl: ${data.pl}`, true);
+      log(`variations: ${data.variations.length}`, true);
+      log(`defaultSceneData: ${!!data.defaultSceneData}`, true);
 
       await setSceneryData(this.document, data);
 
@@ -421,8 +708,21 @@ export default class Scenery extends BaseClass {
         sceneryScene._sceneryOriginalBackground = canvas.scene.background.src ?? '';
       }
 
+      const currentBackgroundSrc = canvas.scene.background.src ?? '';
+
       try {
-        log(`Loading new background texture: ${img}`);
+        log(`Loading new background texture: ${img}`, true);
+        log(`Current background: ${currentBackgroundSrc}`, true);
+
+        // Save current scene elements before switching (skip if already on target)
+        if (currentBackgroundSrc !== img) {
+          log(`Saving current background before switch`, true);
+          await Scenery.#saveCurrentSceneElements(currentBackgroundSrc);
+        } else {
+          log(`Already on target background src, skipping save`, true);
+        }
+
+        log(`Switching to new background: ${img}`, true);
 
         const texture = await foundry.canvas.loadTexture(img);
 
@@ -435,6 +735,9 @@ export default class Scenery extends BaseClass {
           if (!sceneryScene._sceneryPendingBackground) {
             ui.notifications?.info(game.i18n?.localize(I18N_KEYS.LOADING) ?? 'Loading...');
           }
+
+          // Restore scene elements for new variation (pass new background explicitly)
+          await Scenery.#restoreSceneElementsForCurrentVariation(img);
         }
       } catch (err) {
         console.error('Scenery | Error updating background:', err);
@@ -444,6 +747,114 @@ export default class Scenery extends BaseClass {
       }
     } else {
       Scenery._loadingImage = null;
+    }
+  }
+
+  static async #saveCurrentSceneElements(currentBackgroundSrc?: string): Promise<void> {
+    if (!canvas?.scene) return;
+
+    const data = getSceneryData(canvas.scene);
+    if (!data) return;
+
+    // Use provided background src or fall back to current
+    const currentImg = currentBackgroundSrc || canvas.scene.background.src;
+
+    log(`=== SAVE DEBUG ===`, true);
+    log(`Current background src: ${currentImg}`, true);
+    log(`Default background (bg): ${data.bg}`, true);
+    log(`Available variations:`, true);
+    data.variations.forEach((v, i) => {
+      log(`  [${i}] name="${v.name}", file="${v.file}"`, true);
+    });
+
+    // Check if this is the default background
+    if (currentImg === data.bg) {
+      // Save to defaultSceneData
+      const sceneData = captureSceneElements(canvas.scene ?? undefined);
+      if (sceneData) {
+        data.defaultSceneData = sceneData;
+        await setSceneryData(canvas.scene, data);
+        log(`Auto-saved scene elements for DEFAULT background`, true);
+      }
+      return;
+    }
+
+    // Otherwise find the variation
+    const currentVariation = data.variations.find((v) => v.file === currentImg);
+
+    if (currentVariation) {
+      // Auto-capture all scene elements
+      const sceneData = captureSceneElements(canvas.scene ?? undefined);
+      if (sceneData) {
+        currentVariation.sceneData = sceneData;
+        await setSceneryData(canvas.scene, data);
+        log(`Auto-saved scene elements for variation: ${currentVariation.name}`, true);
+      }
+    } else {
+      log(`!!! No variation found for background: ${currentImg}`, true);
+    }
+  }
+
+  static async #restoreSceneElementsForCurrentVariation(
+    targetBackgroundSrc?: string
+  ): Promise<void> {
+    if (!canvas?.scene) return;
+
+    const data = getSceneryData(canvas.scene);
+    if (!data) return;
+
+    // Use provided background src or fall back to current
+    const currentImg = targetBackgroundSrc || canvas.scene.background.src;
+    log(`Restore target background: ${currentImg}`, true);
+
+    // Check if this is the default background
+    if (currentImg === data.bg) {
+      // Restore from defaultSceneData
+      const sceneData = data.defaultSceneData || {
+        lights: [],
+        sounds: [],
+        tiles: [],
+        walls: [],
+        drawings: [],
+        templates: [],
+        regions: [],
+        notes: [],
+      };
+
+      log(`Restoring scene elements for DEFAULT background`, true);
+      log(
+        `SceneData counts: ${sceneData.lights.length} lights, ${sceneData.sounds.length} sounds, ${sceneData.tiles.length} tiles, ${sceneData.walls.length} walls`,
+        true
+      );
+      await restoreSceneElements(canvas.scene, sceneData);
+      return;
+    }
+
+    // Otherwise find the variation
+    const currentVariation = data.variations.find((v) => v.file === currentImg);
+
+    if (currentVariation) {
+      // If variation has sceneData, restore it
+      // If not, treat as empty state and clear all elements
+      const sceneData = currentVariation.sceneData || {
+        lights: [],
+        sounds: [],
+        tiles: [],
+        walls: [],
+        drawings: [],
+        templates: [],
+        regions: [],
+        notes: [],
+      };
+
+      log(`Restoring scene elements for variation: ${currentVariation.name}`, true);
+      log(
+        `SceneData counts: ${sceneData.lights.length} lights, ${sceneData.sounds.length} sounds, ${sceneData.tiles.length} tiles, ${sceneData.walls.length} walls`,
+        true
+      );
+      await restoreSceneElements(canvas.scene, sceneData);
+    } else {
+      log(`No variation found for background: ${currentImg}`, true);
     }
   }
 

@@ -3,7 +3,7 @@
  * Re-exports types from helpers for convenience
  */
 
-export type { Variation, SceneryData } from './helpers.js';
+export type { Variation, SceneryData, SceneElementData, SceneElementSelection } from './helpers.js';
 
 /**
  * Extended Scene flags with scenery data
@@ -28,7 +28,10 @@ export interface VariationFormData {
  * Context data for template rendering
  */
 export interface SceneryContext {
-  variations: import('./helpers.js').Variation[];
+  variations: (import('./helpers.js').Variation & {
+    hasSceneData?: boolean;
+    sceneDataSummary?: string;
+  })[];
   gm: string;
   pl: string;
   buttons: Array<{
