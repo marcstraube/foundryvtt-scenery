@@ -29,49 +29,25 @@ Hooks.once('init', () => {
   });
 });
 
-// For v13+ context menu system
-Hooks.once('ready', () => {
-  log('Applying v13 context menu patches');
-  log(`ui.nav exists: ${!!ui.nav}`);
-  log(`ui.scenes exists: ${!!ui.scenes}`);
-
-  // Patch Scene Directory context menu
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const originalGetEntryContextOptions = (ui.scenes as any)?._getEntryContextOptions;
-  if (originalGetEntryContextOptions && ui.scenes) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (ui.scenes as any)._getEntryContextOptions = function (this: SceneDirectory) {
-      const options = originalGetEntryContextOptions.call(this);
-      // Use the existing _onContextMenu handler to add our option
-      Scenery._onContextMenu(null, options);
-      return options;
-    };
-    log('Scene Directory context menu patched');
-  } else {
-    log('Scene Directory _getEntryContextOptions not found');
-  }
-
-  // Patch Scene Navigation context menu
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const originalGetNavigationContextOptions = (ui.nav as any)?._getContextMenuOptions;
-  log(`ui.nav._getContextMenuOptions exists: ${!!originalGetNavigationContextOptions}`);
-  if (originalGetNavigationContextOptions && ui.nav) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (ui.nav as any)._getContextMenuOptions = function () {
-      log('_getContextMenuOptions called');
-      const options = originalGetNavigationContextOptions.call(this);
-      log('Original options:');
-      log(options);
-      // Use the existing _onContextMenu handler to add our option
-      Scenery._onContextMenu(null, options);
-      log('Modified options:');
-      log(options);
-      return options;
-    };
-    log('Scene Navigation context menu patched');
-  } else {
-    log('Scene Navigation _getContextMenuOptions not found');
-  }
+// Register v13 context menu hook
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+Hooks.on('getSceneContextOptions', (_app: any, menuItems: any[]) => {
+  menuItems.push({
+    name: game.i18n?.localize(I18N_KEYS.APP_NAME) ?? 'Scenery',
+    icon: '<i class="fas fa-images"></i>',
+    condition: () => game.user?.isGM ?? false,
+    callback: (target: HTMLElement) => {
+      // v13 uses different attributes: data-scene-id (Scene Navigation) or data-entry-id (Scene Directory)
+      const sceneId = target?.dataset?.sceneId ?? target?.dataset?.entryId;
+      if (!sceneId) {
+        log('No scene ID found on context menu target', true);
+        return;
+      }
+      log(`Opening Scenery for scene: ${sceneId}`);
+      const sceneryApp = new Scenery({ sceneId });
+      sceneryApp.render({ force: true });
+    },
+  });
 });
 
 // Add a fallback button in case context menu fails
