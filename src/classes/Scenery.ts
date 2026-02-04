@@ -600,8 +600,11 @@ export default class Scenery extends BaseClass {
   }
 
   static _onRenderSceneDirectory(_sceneDir: SceneDirectory, html: JQuery | HTMLElement): void {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (!(game.settings as any)?.get(MODULE_ID, SETTINGS.SHOW_VARIATIONS_LABEL)) return;
+    // Check if setting is enabled (default to true if not yet initialized)
+
+    const showLabel =
+      (game.settings as any)?.get?.(MODULE_ID, SETTINGS.SHOW_VARIATIONS_LABEL) ?? true;
+    if (!showLabel) return;
 
     const htmlElement =
       html instanceof HTMLElement
@@ -625,7 +628,8 @@ export default class Scenery extends BaseClass {
         return data?.variations && data.variations.length > 0;
       })
       .forEach((scene) => {
-        const menuEntry = htmlElement.querySelector(`[data-document-id="${scene.id}"]`);
+        // v13 uses data-entry-id instead of data-document-id
+        const menuEntry = htmlElement.querySelector(`[data-entry-id="${scene.id}"]`);
         if (!menuEntry) return;
 
         const label = document.createElement('label');
@@ -659,7 +663,9 @@ export default class Scenery extends BaseClass {
             ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
               (li as any)[0]
             : (li as HTMLElement);
+        // v13 uses entryId, v10-v12 used documentId/sceneId
         const id =
+          (element as HTMLElement)?.dataset?.entryId ??
           (element as HTMLElement)?.dataset?.documentId ??
           (element as HTMLElement)?.dataset?.sceneId;
 

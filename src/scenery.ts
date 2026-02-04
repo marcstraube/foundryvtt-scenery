@@ -103,7 +103,7 @@ Hooks.on(
           const selectedItem =
             htmlElement.querySelector('.directory-item.context') ||
             htmlElement.querySelector('.directory-item.active');
-          const selectedSceneId = (selectedItem as HTMLElement | null)?.dataset.documentId;
+          const selectedSceneId = (selectedItem as HTMLElement | null)?.dataset.entryId;
 
           const sceneId = currentSceneId || selectedSceneId || game.scenes?.contents[0]?.id;
 
@@ -127,8 +127,7 @@ Hooks.on(
       }
     }
 
-    // Also add context menu handler to individual scenes
-    Scenery._onRenderSceneDirectory(app, html);
+    // Note: Scenery._onRenderSceneDirectory is registered separately in ready hook
   }
 );
 
