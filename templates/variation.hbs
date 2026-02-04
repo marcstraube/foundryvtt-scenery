@@ -1,17 +1,5 @@
 <tr id="scenery-row-{{ id }}" data-index="{{ id }}">
 
-  <td class="scenery-preview">
-    <button class="preview pm-dropdown" type="button" title="Preview" data-action="preview">
-      <i class="fa fa-eye"></i>
-    </button>
-  </td>
-
-  <td class="scenery-delete">
-    <button class="delete pm-dropdown" type="button" title="Delete" data-action="delete" {{#if (eq id 0) }}disabled{{/if}}>
-      <i class="fa fa-trash"></i>
-    </button>
-  </td>
-
   <td class="scenery-name">
     <input type="text" name="variations.{{ id }}.name" value="{{ name }}"
       placeholder="New Variation" data-dtype="String" {{#if (eq id 0) }}disabled{{/if}}>
@@ -35,6 +23,12 @@
     <input value="{{ id }}" {{#if (eq file @root.pl)}}checked{{/if}} type="radio" name="pl" data-dtype="boolean">
   </td>
 
+  <td class="scenery-preview">
+    <button class="preview pm-dropdown" type="button" title="Preview" data-action="preview">
+      <i class="fa fa-eye"></i>
+    </button>
+  </td>
+
   <td class="scenery-copy">
     <button class="copy" type="button" data-action="copy-open" data-variation-index="{{ id }}"
       {{#if (eq id 0)}}disabled{{/if}}>
@@ -45,6 +39,12 @@
       <i class="fa fa-info-circle"></i>
     </span>
     {{/if}}
+  </td>
+
+  <td class="scenery-delete">
+    <button class="delete pm-dropdown" type="button" title="Delete" data-action="delete" {{#if (eq id 0) }}disabled{{/if}}>
+      <i class="fa fa-trash"></i>
+    </button>
   </td>
 
 </tr>

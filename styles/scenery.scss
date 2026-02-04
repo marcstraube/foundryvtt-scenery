@@ -67,23 +67,41 @@ table.scenery-table {
     background-color: var(--color-control-bg-active);
     border-bottom: 1px solid var(--color-border-dark-primary);
 
-    // Radio button columns (GM/Player)
-    &:nth-child(1),
-    &:nth-child(2) {
-      width: $column-width-sm;
-      text-align: center;
-    }
-
     // Name column
-    &:nth-child(3) {
+    &:nth-child(1) {
       width: $column-width-name;
     }
 
-    // Action columns (Preview/Delete)
-    &:nth-child(5),
-    &:nth-child(6) {
-      width: $column-width-md;
+    // Radio button columns (GM/Player)
+    &:nth-child(3),
+    &:nth-child(4) {
+      width: $column-width-radio;
       text-align: center;
+    }
+
+    // Action columns (Preview/Copy/Delete)
+    &:nth-child(5),
+    &:nth-child(6),
+    &:nth-child(7) {
+      width: $column-width-action;
+      text-align: center;
+
+      i {
+        color: var(--color-text-light-secondary);
+      }
+    }
+
+    // Preview column: add space to left
+    &:nth-child(5) {
+      padding-left: $spacing-lg;
+      padding-right: 6px;
+    }
+
+    // Copy and Delete columns: normal padding
+    &:nth-child(6),
+    &:nth-child(7) {
+      padding-left: 6px;
+      padding-right: 6px;
     }
   }
 
@@ -134,7 +152,7 @@ td {
   &.scenery-gm,
   &.scenery-player {
     padding: $spacing-sm $spacing-xs;
-    width: $column-width-sm;
+    width: $column-width-radio;
   }
 
   &.scenery-name {
@@ -165,7 +183,9 @@ td {
 
   &.scenery-delete,
   &.scenery-preview {
-    padding-right: 0;
+    width: $column-width-action;
+    text-align: center;
+    vertical-align: middle;
 
     button {
       padding: $spacing-xs $spacing-sm;
@@ -178,6 +198,7 @@ td {
       border-radius: $border-radius;
       cursor: pointer;
       font-size: $font-size-xs;
+      display: inline-block;
 
       &:hover:not([disabled]) {
         background: var(--color-control-bg-hover);
@@ -189,6 +210,16 @@ td {
         opacity: $opacity-disabled;
       }
     }
+  }
+
+  // Preview column: add space to left (match header exactly: top right bottom left)
+  &.scenery-preview {
+    padding: $spacing-sm 6px $spacing-sm $spacing-lg !important;
+  }
+
+  // Delete column: normal padding (match header)
+  &.scenery-delete {
+    padding: $spacing-sm 6px !important;
   }
 }
 
@@ -264,5 +295,151 @@ td {
 
   i {
     color: var(--color-text-light-primary);
+  }
+}
+
+// Copy Dialog Styling
+.scenery-copy-dialog {
+  min-width: 400px;
+  padding: $spacing-md;
+
+  .form-group {
+    margin-bottom: $spacing-md;
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: $spacing-sm;
+      color: var(--color-text-light-primary);
+    }
+
+    select {
+      width: 100%;
+      height: var(--input-height);
+      line-height: var(--input-height);
+      padding: 0 0.5rem;
+      background: var(--input-background-color);
+      border: 1px solid var(--input-border-color);
+      border-radius: 4px;
+      box-shadow: none;
+      outline: 1px solid transparent;
+      font-family: inherit;
+      font-size: inherit;
+      color: var(--input-text-color);
+      user-select: none;
+      cursor: var(--cursor-pointer);
+      transition: outline-color 0.5s;
+
+      &:focus {
+        outline-color: var(--color-border-highlight);
+      }
+
+      option,
+      optgroup {
+        font-family: inherit;
+        background: var(--color-select-option-bg);
+      }
+    }
+  }
+
+  // Checkbox Grid Layout
+  .element-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      padding: $spacing-xs;
+      font-weight: normal;
+      margin: 0;
+      cursor: pointer;
+      border-radius: $border-radius;
+      transition: $transition-default;
+
+      &:hover {
+        background: var(--color-control-hover);
+      }
+
+      input[type='checkbox'] {
+        margin: 0;
+        cursor: pointer;
+        accent-color: var(--color-border-highlight);
+      }
+
+      i {
+        width: 16px;
+        text-align: center;
+      }
+    }
+  }
+
+  // Selection Helper Links
+  .selection-helpers {
+    text-align: center;
+    margin-top: $spacing-sm;
+    font-size: $font-size-sm;
+
+    a {
+      color: var(--color-text-hyperlink);
+      cursor: pointer;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-border-highlight);
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Copy button in table with info icon
+td.scenery-copy {
+  width: $column-width-action;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  vertical-align: middle;
+  padding: $spacing-sm 6px !important;
+
+  button {
+    padding: $spacing-xs $spacing-sm;
+    width: $button-width;
+    height: $button-height;
+    line-height: 20px;
+    text-align: center;
+    background: var(--color-control-bg);
+    border: 1px solid var(--color-border-dark-primary);
+    border-radius: $border-radius;
+    cursor: pointer;
+    font-size: $font-size-xs;
+
+    &:hover:not([disabled]) {
+      background: var(--color-control-bg-hover);
+      border-color: var(--color-border-highlight);
+      color: var(--color-text-highlight);
+    }
+
+    &[disabled] {
+      opacity: $opacity-disabled;
+      cursor: not-allowed;
+    }
+  }
+
+  .scene-data-summary {
+    color: var(--color-text-light-secondary);
+    font-size: $font-size-sm;
+
+    i {
+      cursor: help;
+
+      &:hover {
+        color: var(--color-text-light-highlight);
+      }
+    }
   }
 }

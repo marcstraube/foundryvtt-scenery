@@ -18,9 +18,9 @@ import {
   getSceneDataSummary,
   type Variation,
   type SceneryData,
-  type SceneElementSelection,
 } from '../helpers.js';
 import type { SceneryContext, SceneryOptions, SceneryScene, SceneUpdate } from '../types.js';
+import CopyDialog from './CopyDialog.js';
 
 const { HandlebarsApplicationMixin, DocumentSheetV2 } = foundry.applications.api;
 
@@ -284,7 +284,6 @@ export default class Scenery extends BaseClass {
     if (!targetVariation) return;
 
     // Build list of source variations (all except target and empty row)
-    // Include variations with name AND file (this includes Default variation)
     const sourceVariations = (this.variations || [])
       .map((v, index) => ({ ...v, index }))
       .filter((v, index) => {
@@ -296,154 +295,13 @@ export default class Scenery extends BaseClass {
         return true;
       });
 
-    // Prepare dialog context
-    const dialogContext = {
-      targetVariationName: targetVariation.name,
+    // Show CopyDialog (V2)
+    await CopyDialog.show({
+      targetVariationIndex,
+      targetVariation,
       sourceVariations,
-    };
-
-    // Render dialog template
-    const content = await foundry.applications.handlebars.renderTemplate(
-      TEMPLATES.COPY_DIALOG,
-      dialogContext
-    );
-
-    // Show as Foundry Dialog
-    new Dialog({
-      title: `${game.i18n?.localize(I18N_KEYS.BUTTON_COPY)}: ${targetVariation.name}`,
-      content,
-      buttons: {}, // Buttons in template
-      render: (html: JQuery | HTMLElement) => {
-        const htmlElement = html instanceof HTMLElement ? html : html[0];
-        if (!htmlElement) return;
-
-        // Attach event listeners
-        htmlElement.querySelector('[data-action="select-all"]')?.addEventListener('click', () => {
-          htmlElement.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
-            (cb as HTMLInputElement).checked = true;
-          });
-        });
-
-        htmlElement.querySelector('[data-action="select-none"]')?.addEventListener('click', () => {
-          htmlElement.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
-            (cb as HTMLInputElement).checked = false;
-          });
-        });
-
-        htmlElement.querySelector('[data-action="copy"]')?.addEventListener('click', async () => {
-          await this.#handleCopy(targetVariationIndex, htmlElement);
-        });
-
-        htmlElement.querySelector('[data-action="cancel"]')?.addEventListener('click', () => {
-          const dialog = htmlElement.closest('.dialog, .window-app');
-          if (dialog) {
-            const closeBtn = dialog.querySelector('.close, .header-button.close') as HTMLElement;
-            closeBtn?.click();
-          }
-        });
-      },
-    }).render(true);
-  }
-
-  async #handleCopy(targetVariationIndex: number, html: HTMLElement): Promise<void> {
-    // Get source variation index from dropdown
-    const sourceIndexStr = (
-      html.querySelector('select[name="sourceVariation"]') as HTMLSelectElement
-    )?.value;
-    if (!sourceIndexStr) {
-      ui.notifications?.warn(
-        game.i18n?.localize(I18N_KEYS.ERROR_NO_SOURCE) ?? 'Select a source variation'
-      );
-      return;
-    }
-
-    const sourceIndex = parseInt(sourceIndexStr);
-    const sourceVariation = this.variations?.[sourceIndex];
-    const targetVariation = this.variations?.[targetVariationIndex];
-
-    if (!sourceVariation || !targetVariation) return;
-
-    // Get scenery data to access defaultSceneData
-    const scene = canvas?.scene;
-    const sceneryData = scene ? getSceneryData(scene) : null;
-    if (!sceneryData) return;
-
-    // Check if source has sceneData - handle both regular variations and default
-    let sourceSceneData = sourceVariation.sceneData;
-
-    // If source variation file matches default background, use defaultSceneData
-    if (sourceVariation.file === sceneryData.bg && sceneryData.defaultSceneData) {
-      sourceSceneData = sceneryData.defaultSceneData;
-    }
-
-    if (!sourceSceneData) {
-      ui.notifications?.warn(`Source variation "${sourceVariation.name}" has no data to copy`);
-      return;
-    }
-
-    // Read checkbox selection
-    const selection: SceneElementSelection = {
-      lights: (html.querySelector('input[name="lights"]') as HTMLInputElement)?.checked || false,
-      sounds: (html.querySelector('input[name="sounds"]') as HTMLInputElement)?.checked || false,
-      tiles: (html.querySelector('input[name="tiles"]') as HTMLInputElement)?.checked || false,
-      walls: (html.querySelector('input[name="walls"]') as HTMLInputElement)?.checked || false,
-      drawings:
-        (html.querySelector('input[name="drawings"]') as HTMLInputElement)?.checked || false,
-      templates:
-        (html.querySelector('input[name="templates"]') as HTMLInputElement)?.checked || false,
-      regions: (html.querySelector('input[name="regions"]') as HTMLInputElement)?.checked || false,
-      notes: (html.querySelector('input[name="notes"]') as HTMLInputElement)?.checked || false,
-    };
-
-    // Check if at least one element is selected
-    if (!Object.values(selection).some((v) => v)) {
-      ui.notifications?.warn(
-        game.i18n?.localize(I18N_KEYS.ERROR_NO_SELECTION) ?? 'Select at least one element type'
-      );
-      return;
-    }
-
-    // Copy selected elements from source to target
-    if (!targetVariation.sceneData) {
-      targetVariation.sceneData = {
-        lights: [],
-        sounds: [],
-        tiles: [],
-        walls: [],
-        drawings: [],
-        templates: [],
-        regions: [],
-        notes: [],
-      };
-    }
-
-    if (selection.lights) targetVariation.sceneData.lights = [...sourceSceneData.lights];
-    if (selection.sounds) targetVariation.sceneData.sounds = [...sourceSceneData.sounds];
-    if (selection.tiles) targetVariation.sceneData.tiles = [...sourceSceneData.tiles];
-    if (selection.walls) targetVariation.sceneData.walls = [...sourceSceneData.walls];
-    if (selection.drawings) targetVariation.sceneData.drawings = [...sourceSceneData.drawings];
-    if (selection.templates) targetVariation.sceneData.templates = [...sourceSceneData.templates];
-    if (selection.regions) targetVariation.sceneData.regions = [...sourceSceneData.regions];
-    if (selection.notes) targetVariation.sceneData.notes = [...sourceSceneData.notes];
-
-    // Save to scene flag (reuse scene and sceneryData from above)
-    if (sceneryData && scene) {
-      await setSceneryData(scene, sceneryData);
-    }
-
-    // UI update
-    const summary = getSceneDataSummary(targetVariation.sceneData);
-    ui.notifications?.info(
-      game.i18n?.format(I18N_KEYS.SUCCESS_COPY, { summary }) || `Copied: ${summary}`
-    );
-
-    // Close dialog and refresh UI
-    const dialog = html.closest('.dialog, .window-app');
-    if (dialog) {
-      const closeBtn = dialog.querySelector('.close, .header-button.close') as HTMLElement;
-      closeBtn?.click();
-    }
-    this.render();
+      sceneryApp: this,
+    });
   }
 
   /**
