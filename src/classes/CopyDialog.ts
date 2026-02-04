@@ -111,9 +111,9 @@ export default class CopyDialog extends foundry.applications.api.DialogV2<any> {
 
     if (!sourceVariation || !targetVariation) return;
 
-    // Get scenery data to access defaultSceneData
-    const scene = canvas?.scene;
-    const sceneryData = scene ? getSceneryData(scene) : null;
+    // Get scenery data from the scene this dialog was opened for
+    const scene = this.config.sceneryApp.document;
+    const sceneryData = getSceneryData(scene);
     if (!sceneryData) return;
 
     // Check if source has sceneData - handle both regular variations and default

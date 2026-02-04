@@ -2,13 +2,11 @@
 
 // Main Scenery Window
 .scenery {
-  min-height: $min-height-content;
   display: flex;
   flex-direction: column;
 
   // ApplicationV2 window styling
   &.app.window-app {
-    min-height: $min-height-window;
     max-height: $max-height-window;
   }
 
@@ -16,7 +14,6 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: $min-height-content;
   }
 
   form {
@@ -79,10 +76,11 @@ table.scenery-table {
       text-align: center;
     }
 
-    // Action columns (Preview/Copy/Delete)
+    // Action columns (Preview/Copy/Reset/Delete)
     &:nth-child(5),
     &:nth-child(6),
-    &:nth-child(7) {
+    &:nth-child(7),
+    &:nth-child(8) {
       width: $column-width-action;
       text-align: center;
 
@@ -97,9 +95,10 @@ table.scenery-table {
       padding-right: 6px;
     }
 
-    // Copy and Delete columns: normal padding
+    // Copy, Reset and Delete columns: normal padding
     &:nth-child(6),
-    &:nth-child(7) {
+    &:nth-child(7),
+    &:nth-child(8) {
       padding-left: 6px;
       padding-right: 6px;
     }
@@ -182,7 +181,8 @@ td {
   }
 
   &.scenery-delete,
-  &.scenery-preview {
+  &.scenery-preview,
+  &.scenery-reset {
     width: $column-width-action;
     text-align: center;
     vertical-align: middle;
@@ -208,6 +208,7 @@ td {
 
       &[disabled] {
         opacity: $opacity-disabled;
+        cursor: not-allowed;
       }
     }
   }
@@ -215,6 +216,11 @@ td {
   // Preview column: add space to left (match header exactly: top right bottom left)
   &.scenery-preview {
     padding: $spacing-sm 6px $spacing-sm $spacing-lg !important;
+  }
+
+  // Reset column: normal padding (match header)
+  &.scenery-reset {
+    padding: $spacing-sm 6px !important;
   }
 
   // Delete column: normal padding (match header)

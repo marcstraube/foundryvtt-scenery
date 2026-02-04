@@ -6,6 +6,7 @@ import {
   TEMPLATES,
   I18N_KEYS,
   SETTINGS,
+  SELECTORS,
 } from '../constants.js';
 import {
   log,
@@ -50,11 +51,11 @@ export default class Scenery extends BaseClass {
       height: WINDOW.HEIGHT,
     },
     actions: {
-      delete: Scenery.#onDelete,
       preview: Scenery.#onPreview,
       scan: Scenery.#onScan,
       add: Scenery.#onAdd,
       'copy-open': Scenery.#onCopyOpen,
+      'reset-scene-data': Scenery.#onResetSceneData,
     },
     form: {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -125,7 +126,7 @@ export default class Scenery extends BaseClass {
 
     this.variations.push(VARIATIONS.EMPTY);
 
-    context.variations = this.variations.map((v) => {
+    context.variations = this.variations.map((v, index) => {
       // For default variation, check defaultSceneData instead of sceneData
       let sceneDataToCheck = v.sceneData;
       if (v.file === flag?.bg && flag?.defaultSceneData) {
@@ -134,6 +135,8 @@ export default class Scenery extends BaseClass {
 
       return {
         ...v,
+        isDefault: index === 0,
+        isEmpty: !v.name && !v.file,
         hasSceneData: sceneDataToCheck
           ? hasSceneData({ ...v, sceneData: sceneDataToCheck })
           : false,
@@ -166,14 +169,11 @@ export default class Scenery extends BaseClass {
     return this.document?.background.src ?? '';
   }
 
-  static async #onDelete(_event: Event, target: HTMLElement): Promise<void> {
-    const row = target.closest('tr');
-    if (row) row.remove();
-  }
-
   static async #onPreview(_event: Event, target: HTMLElement): Promise<void> {
     const row = target.closest('tr');
-    const url = (row?.querySelector('.image') as HTMLInputElement | null)?.value?.trim();
+    const url = (
+      row?.querySelector(SELECTORS.INPUT_IMAGE) as HTMLInputElement | null
+    )?.value?.trim();
     if (url) {
       // Use v13 ImagePopout API
       const ImagePopoutClass = foundry.applications.apps.ImagePopout;
@@ -223,7 +223,7 @@ export default class Scenery extends BaseClass {
     )?.value;
     if (!path) return;
 
-    const imagePaths = Array.from(app.element.querySelectorAll('input.image')).map(
+    const imagePaths = Array.from(app.element.querySelectorAll(SELECTORS.INPUT_IMAGE)).map(
       (input) => (input as HTMLInputElement).value
     );
     const fp = await foundry.applications.apps.FilePicker.implementation.browse('data', path);
@@ -268,13 +268,6 @@ export default class Scenery extends BaseClass {
       return;
     }
 
-    if (!canvas?.scene || canvas.scene.id !== app.document.id) {
-      ui.notifications?.warn(
-        game.i18n?.localize(I18N_KEYS.ERROR_WRONG_SCENE) ?? 'Must be viewing this scene'
-      );
-      return;
-    }
-
     // Show copy dialog
     await app.#showCopyDialog(variationIndex);
   }
@@ -302,6 +295,51 @@ export default class Scenery extends BaseClass {
       sourceVariations,
       sceneryApp: this,
     });
+  }
+
+  static async #onResetSceneData(this: Scenery, _event: Event, target: HTMLElement): Promise<void> {
+    const app = this;
+    const variationIndex = parseInt(target.dataset.variationIndex || '0');
+
+    // Validations
+    if (variationIndex === 0) {
+      ui.notifications?.warn('Cannot reset default variation');
+      return;
+    }
+
+    const variation = app.variations?.[variationIndex];
+    if (!variation || !variation.sceneData) {
+      return;
+    }
+
+    // Show confirmation dialog
+    const confirmed = await foundry.applications.api.DialogV2.confirm({
+      window: {
+        title: game.i18n?.localize('SCENERY.RESET_SCENE_DATA_TITLE') ?? 'Reset Scene Data',
+      },
+      content: `<p>${game.i18n?.localize('SCENERY.RESET_SCENE_DATA_CONTENT') ?? 'Remove all captured scene elements for this variation?'}</p>`,
+      rejectClose: false,
+      modal: true,
+    });
+
+    if (!confirmed) return;
+
+    // Delete sceneData
+    delete variation.sceneData;
+
+    // Save to scene
+    const scene = app.document;
+    const sceneryData = getSceneryData(scene);
+    if (sceneryData) {
+      await setSceneryData(scene, sceneryData);
+    }
+
+    ui.notifications?.info(
+      game.i18n?.localize('SCENERY.RESET_SCENE_DATA_SUCCESS') ?? 'Reset scene data'
+    );
+
+    // Refresh UI
+    app.render();
   }
 
   /**
@@ -342,8 +380,8 @@ export default class Scenery extends BaseClass {
    * @returns Object with gmIndex and plIndex
    */
   static #getSelectedRadioIndices(form: HTMLFormElement): { gmIndex: number; plIndex: number } {
-    const gmRadio = form.querySelector('input[name="gm"]:checked') as HTMLInputElement | null;
-    const plRadio = form.querySelector('input[name="pl"]:checked') as HTMLInputElement | null;
+    const gmRadio = form.querySelector(SELECTORS.RADIO_GM) as HTMLInputElement | null;
+    const plRadio = form.querySelector(SELECTORS.RADIO_PLAYER) as HTMLInputElement | null;
 
     return {
       gmIndex: parseInt(gmRadio?.value || '0'),
@@ -468,8 +506,52 @@ export default class Scenery extends BaseClass {
   _onRender(context: object, options: object): void {
     super._onRender(context, options);
 
-    this.element.querySelectorAll('button.file-picker').forEach((button: Element) => {
+    this.element.querySelectorAll(SELECTORS.BUTTON_FILE_PICKER).forEach((button: Element) => {
       button.addEventListener('click', this._onClickFilePicker.bind(this));
+    });
+
+    // Delete button handler
+    this.element.querySelectorAll(SELECTORS.BUTTON_DELETE).forEach((button: Element) => {
+      this.#attachDeleteHandler(button);
+    });
+  }
+
+  #attachDeleteHandler(button: Element): void {
+    button.addEventListener('click', async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const target = event.currentTarget as HTMLElement;
+      const row = target.closest('tr');
+      if (!row) return;
+
+      // Check if row has name, file, or scene data
+      const nameInput = row.querySelector(SELECTORS.INPUT_NAME) as HTMLInputElement | null;
+      const fileInput = row.querySelector(SELECTORS.INPUT_FILE) as HTMLInputElement | null;
+      const name = nameInput?.value?.trim();
+      const file = fileInput?.value?.trim();
+
+      // Check for scene data via variation index
+      const variationIndex = parseInt(row.dataset.index || '0');
+      const variation = this.variations?.[variationIndex];
+      const hasData =
+        variation?.sceneData && Object.values(variation.sceneData).some((arr) => arr?.length > 0);
+
+      // If name, file, or scene data is set, show confirmation dialog
+      if (name || file || hasData) {
+        const displayName = name || file || 'Unknown';
+        const confirmed = await foundry.applications.api.DialogV2.confirm({
+          window: {
+            title: game.i18n?.localize('SCENERY.DELETE_VARIATION_TITLE') ?? 'Delete Variation',
+          },
+          content: `<p>${game.i18n?.format('SCENERY.DELETE_VARIATION_CONTENT', { name: displayName }) ?? `Delete variation "${displayName}"?`}</p>`,
+          rejectClose: false,
+          modal: true,
+        });
+
+        if (!confirmed) return;
+      }
+
+      row.remove();
     });
   }
 
@@ -477,7 +559,7 @@ export default class Scenery extends BaseClass {
     event.preventDefault();
     const button = event.currentTarget as HTMLButtonElement;
     const input = button.parentElement?.querySelector(
-      'input[type="text"]'
+      SELECTORS.INPUT_TEXT
     ) as HTMLInputElement | null;
 
     if (!input) return;
@@ -497,8 +579,8 @@ export default class Scenery extends BaseClass {
   removeBlankVariations(): void {
     const rows = this.element.querySelectorAll('tr');
     rows.forEach((row: Element) => {
-      const fileInput = row.querySelector('.scenery-fp input') as HTMLInputElement | null;
-      const nameInput = row.querySelector('.scenery-name input') as HTMLInputElement | null;
+      const fileInput = row.querySelector(SELECTORS.CELL_FILE_INPUT) as HTMLInputElement | null;
+      const nameInput = row.querySelector(SELECTORS.CELL_NAME_INPUT) as HTMLInputElement | null;
       if (fileInput && nameInput && !fileInput.value && !nameInput.value) {
         row.remove();
       }
@@ -506,20 +588,26 @@ export default class Scenery extends BaseClass {
   }
 
   async addVariation(name = '', file = '', id: number | null = null): Promise<void> {
-    const tbody = this.element.querySelector('.scenery-table');
+    const tbody = this.element.querySelector(SELECTORS.TABLE_BODY);
     if (!tbody) return;
 
     if (id === null) {
-      const lastRow = tbody.querySelector('tr:last-child');
+      const lastRow = tbody.querySelector(SELECTORS.ROW_LAST);
       const lastIndex = lastRow ? parseInt(lastRow.getAttribute('data-index') || '-1') : -1;
       id = lastIndex + 1;
     }
 
-    const rowHtml = await foundry.applications.handlebars.renderTemplate(TEMPLATES.VARIATION, {
-      id,
+    const templateData = {
+      id: Number(id),
       name,
       file,
-    });
+      isEmpty: !name && !file,
+      isDefault: id === 0,
+    };
+    const rowHtml = await foundry.applications.handlebars.renderTemplate(
+      TEMPLATES.VARIATION,
+      templateData
+    );
     const template = document.createElement('template');
     template.innerHTML = rowHtml;
     const row = template.content.firstElementChild;
@@ -527,9 +615,15 @@ export default class Scenery extends BaseClass {
     if (row) {
       tbody.appendChild(row);
 
-      const filePickerButton = row.querySelector('button.file-picker');
+      const filePickerButton = row.querySelector(SELECTORS.BUTTON_FILE_PICKER);
       if (filePickerButton) {
         filePickerButton.addEventListener('click', this._onClickFilePicker.bind(this));
+      }
+
+      // Add delete button handler
+      const deleteButton = row.querySelector(SELECTORS.BUTTON_DELETE);
+      if (deleteButton) {
+        this.#attachDeleteHandler(deleteButton);
       }
     }
   }

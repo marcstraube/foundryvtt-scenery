@@ -2,14 +2,14 @@
 
   <td class="scenery-name">
     <input type="text" name="variations.{{ id }}.name" value="{{ name }}"
-      placeholder="New Variation" data-dtype="String" {{#if (eq id 0) }}disabled{{/if}}>
+      placeholder="{{localize 'SCENERY.PLACEHOLDER_NEW_VARIATION'}}" data-dtype="String" {{#if isDefault}}disabled{{/if}}>
   </td>
 
   <td class="scenery-fp">
     <div class="form-fields">
-      <input class="image" type="text" value="{{ file }}" name="variations.{{ id }}.file" data-target="variations.{{ id }}.file" data-dtype="String" {{#if (eq id 0) }}readonly{{/if}} />
-      <button type="button" title="Browse Files" class="file-picker"
-        data-type="imagevideo" data-target="variations.{{ id }}.file" {{#if (eq id 0) }}disabled{{/if}}>
+      <input class="image" type="text" value="{{ file }}" name="variations.{{ id }}.file" data-target="variations.{{ id }}.file" data-dtype="String" {{#if isDefault}}readonly{{/if}} />
+      <button type="button" title="{{localize 'SCENERY.LABEL_BROWSE_FILES'}}" class="file-picker"
+        data-type="imagevideo" data-target="variations.{{ id }}.file" {{#if isDefault}}disabled{{/if}}>
         <i class="fa fa-file-import fa-fw"></i>
       </button>
     </div>
@@ -24,14 +24,15 @@
   </td>
 
   <td class="scenery-preview">
-    <button class="preview pm-dropdown" type="button" title="Preview" data-action="preview">
+    <button class="preview pm-dropdown" type="button" title="{{localize 'SCENERY.LABEL_PREVIEW'}}" data-action="preview"
+      {{#if isEmpty}}disabled{{/if}}>
       <i class="fa fa-eye"></i>
     </button>
   </td>
 
   <td class="scenery-copy">
-    <button class="copy" type="button" data-action="copy-open" data-variation-index="{{ id }}"
-      {{#if (eq id 0)}}disabled{{/if}}>
+    <button class="copy" type="button" title="{{localize 'SCENERY.LABEL_COPY'}}" data-action="copy-open" data-variation-index="{{ id }}"
+      {{#if isDefault}}disabled{{else}}{{#if isEmpty}}disabled{{/if}}{{/if}}>
       <i class="fa fa-copy"></i>
     </button>
     {{#if sceneDataSummary}}
@@ -41,8 +42,16 @@
     {{/if}}
   </td>
 
+  <td class="scenery-reset">
+    <button class="reset" type="button" title="{{localize 'SCENERY.LABEL_RESET'}}" data-action="reset-scene-data" data-variation-index="{{ id }}"
+      {{#if isDefault}}disabled{{else}}{{#unless hasSceneData}}disabled{{/unless}}{{/if}}>
+      <i class="fa fa-undo"></i>
+    </button>
+  </td>
+
   <td class="scenery-delete">
-    <button class="delete pm-dropdown" type="button" title="Delete" data-action="delete" {{#if (eq id 0) }}disabled{{/if}}>
+    <button class="delete" type="button" title="{{localize 'SCENERY.LABEL_DELETE'}}"
+      {{#if isDefault}}disabled{{/if}}>
       <i class="fa fa-trash"></i>
     </button>
   </td>

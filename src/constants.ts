@@ -18,6 +18,7 @@ export const ICONS = {
   SCAN: 'fas fa-search',
   OK: 'fa fa-check',
   COPY: 'fa fa-copy',
+  RESET: 'fa fa-undo',
   HAS_DATA: 'fa fa-check-circle',
   INFO: 'fa fa-info-circle',
   LIGHTBULB: 'fa fa-lightbulb',
@@ -40,7 +41,7 @@ export const VARIATIONS = {
 
 /** Window/dialog configuration */
 export const WINDOW = {
-  WIDTH: 700,
+  WIDTH: 900,
   HEIGHT: 'auto',
   MIN_HEIGHT_CONTENT: 300,
   MIN_HEIGHT_WINDOW: 350,
@@ -53,6 +54,23 @@ export const WINDOW = {
 /** Settings keys */
 export const SETTINGS = {
   SHOW_VARIATIONS_LABEL: 'showVariationsLabel',
+} as const;
+
+/** CSS Selectors used in the UI */
+export const SELECTORS = {
+  TABLE_BODY: '.scenery-table tbody',
+  ROW: 'tr',
+  ROW_LAST: 'tr:last-child',
+  CELL_NAME_INPUT: '.scenery-name input',
+  CELL_FILE_INPUT: '.scenery-fp input',
+  BUTTON_FILE_PICKER: 'button.file-picker',
+  BUTTON_DELETE: 'button.delete',
+  INPUT_IMAGE: 'input.image',
+  INPUT_NAME: 'input[name*=".name"]',
+  INPUT_FILE: 'input[name*=".file"]',
+  INPUT_TEXT: 'input[type="text"]',
+  RADIO_GM: 'input[name="gm"]:checked',
+  RADIO_PLAYER: 'input[name="pl"]:checked',
 } as const;
 
 /** Template paths */
@@ -83,7 +101,6 @@ export const I18N_KEYS = {
   SELECT_NONE: 'SCENERY.SELECT_NONE',
   ERROR_SELECTION: 'SCENERY.ERROR_SELECTION',
   ERROR_COPY_DEFAULT: 'SCENERY.ERROR_COPY_DEFAULT',
-  ERROR_WRONG_SCENE: 'SCENERY.ERROR_WRONG_SCENE',
   ERROR_NO_SELECTION: 'SCENERY.ERROR_NO_SELECTION',
   ERROR_NO_SOURCE: 'SCENERY.ERROR_NO_SOURCE',
   SUCCESS_COPY: 'SCENERY.SUCCESS_COPY',
