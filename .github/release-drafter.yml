@@ -1,0 +1,117 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'feat'
+      - 'feature'
+      - 'enhancement'
+    collapse-after: 5
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+    collapse-after: 5
+  - title: '🔧 Refactoring'
+    labels:
+      - 'refactor'
+      - 'refactoring'
+    collapse-after: 5
+  - title: '📚 Documentation'
+    labels:
+      - 'docs'
+      - 'documentation'
+    collapse-after: 5
+  - title: '⚡ Performance'
+    labels:
+      - 'perf'
+      - 'performance'
+    collapse-after: 5
+  - title: '🔒 Security'
+    labels:
+      - 'security'
+    collapse-after: 5
+  - title: '🏗️ Build & CI'
+    labels:
+      - 'build'
+      - 'ci'
+      - 'chore'
+    collapse-after: 5
+  - title: '🧪 Tests'
+    labels:
+      - 'test'
+      - 'tests'
+    collapse-after: 5
+  - title: '💎 Code Style'
+    labels:
+      - 'style'
+    collapse-after: 5
+category-template: |
+  ### $TITLE
+
+  $CHANGES
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+      - 'breaking'
+  minor:
+    labels:
+      - 'minor'
+      - 'feat'
+      - 'feature'
+  patch:
+    labels:
+      - 'patch'
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+      - 'refactor'
+      - 'docs'
+      - 'perf'
+  default: patch
+autolabeler:
+  - label: 'feat'
+    title:
+      - '/^feat(\(.+\))?:/i'
+  - label: 'fix'
+    title:
+      - '/^fix(\(.+\))?:/i'
+  - label: 'refactor'
+    title:
+      - '/^refactor(\(.+\))?:/i'
+  - label: 'docs'
+    title:
+      - '/^docs(\(.+\))?:/i'
+  - label: 'perf'
+    title:
+      - '/^perf(\(.+\))?:/i'
+  - label: 'security'
+    title:
+      - '/^security(\(.+\))?:/i'
+  - label: 'build'
+    title:
+      - '/^build(\(.+\))?:/i'
+  - label: 'ci'
+    title:
+      - '/^ci(\(.+\))?:/i'
+  - label: 'chore'
+    title:
+      - '/^chore(\(.+\))?:/i'
+  - label: 'test'
+    title:
+      - '/^test(\(.+\))?:/i'
+  - label: 'style'
+    title:
+      - '/^style(\(.+\))?:/i'
+template: |
+  ## Changes
+
+  $CHANGES
+
+  ## Contributors
+
+  $CONTRIBUTORS

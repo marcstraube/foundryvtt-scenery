@@ -15,6 +15,26 @@ jobs:
         id: get_version
         uses: battila7/get-version-action@v2
 
+      # Set up Node.js for building TypeScript
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      # Install dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Build TypeScript
+      - name: Build TypeScript
+        run: pnpm run build
+
       # Substitute the Manifest and Download URLs in the module.json
       - name: Substitute Manifest and Download Links For Versioned Ones
         id: sub_manifest_link_version
@@ -31,7 +51,7 @@ jobs:
           readme: https://github.com/${{github.repository}}/blob/master/README.md
 
       # Create a zip file with all files required by the module to add to the release
-      - run: zip -r ./module.zip module.json LICENSE README.md docs/ images/ languages/ packs/ scripts/ styles/ templates/
+      - run: zip -r ./module.zip module.json LICENSE README.md docs/ images/ languages/ packs/ dist/ templates/
 
       # Create a release for this specific version
       - name: Update Release with Files
