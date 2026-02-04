@@ -10,9 +10,10 @@ log('Module loading...', true);
 Hooks.once('init', () => {
   log('Scenery | Init');
 
-  // Use the new namespaced helper if available (Foundry VTT v13+)
-  const loadTemplatesFn = foundry?.applications?.handlebars?.loadTemplates ?? loadTemplates;
-  loadTemplatesFn(['modules/scenery/templates/variation.hbs']);
+  // Use v13 template loading API
+  if (foundry?.applications?.handlebars?.loadTemplates) {
+    foundry.applications.handlebars.loadTemplates(['modules/scenery/templates/variation.hbs']);
+  }
 
   // Register settings during init
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -76,7 +77,7 @@ Hooks.once('ready', () => {
 // Add a fallback button in case context menu fails
 Hooks.on(
   'renderSceneDirectory',
-  (app: SceneDirectory, html: JQuery | HTMLElement, _data: unknown) => {
+  (_app: SceneDirectory, html: JQuery | HTMLElement, _data: unknown) => {
     log('Adding scenery button to Scene Directory');
 
     // Handle both jQuery objects and plain HTMLElements
@@ -110,8 +111,8 @@ Hooks.on(
           if (sceneId) {
             log(`Opening for scene: ${sceneId}`);
             const sceneryApp = new Scenery({ sceneId });
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (sceneryApp as any).render(true);
+            // v13 render API
+            sceneryApp.render({ force: true });
           } else {
             ui.notifications?.warn('No scene available');
           }

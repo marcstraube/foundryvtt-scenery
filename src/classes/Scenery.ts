@@ -34,7 +34,7 @@ export default class Scenery extends BaseClass {
 
   constructor(options: SceneryOptions = {}) {
     const sceneId = options.document?.id || options.sceneId;
-    const scene = options.document || game.scenes?.get(sceneId!);
+    const scene = options.document || (sceneId ? game.scenes?.get(sceneId) : undefined);
     super({ document: scene, ...options });
   }
 
@@ -97,7 +97,7 @@ export default class Scenery extends BaseClass {
         const nonDefaultVariations = flag.variations.filter(
           (v: Variation) => v.name?.toLowerCase() !== VARIATIONS.DEFAULT_NAME.toLowerCase()
         );
-        nonDefaultVariations.forEach((v: Variation) => this.variations!.push(v));
+        this.variations.push(...nonDefaultVariations);
       }
     }
 
@@ -139,7 +139,9 @@ export default class Scenery extends BaseClass {
     const row = target.closest('tr');
     const url = (row?.querySelector('.image') as HTMLInputElement | null)?.value?.trim();
     if (url) {
-      new ImagePopout(url).render(true);
+      // Use v13 ImagePopout API
+      const ImagePopoutClass = foundry.applications.apps.ImagePopout;
+      new ImagePopoutClass({ src: url }).render({ force: true });
     }
   }
 
@@ -149,7 +151,8 @@ export default class Scenery extends BaseClass {
    * @returns Base filename without extension
    */
   static #extractBaseNameFromPath(path: string): string {
-    return path.split('/').pop()!.split('.').slice(0, -1).join('.');
+    const fileName = path.split('/').pop() || '';
+    return fileName.split('.').slice(0, -1).join('.');
   }
 
   /**
@@ -388,8 +391,9 @@ export default class Scenery extends BaseClass {
 
   static async setImage(img: string, draw = true): Promise<void> {
     if (!canvas?.scene) return;
+    if (!game.user) return;
 
-    if (!game.user?.isGM && !canvas.scene.canUserModify(game.user!, 'update')) {
+    if (!game.user.isGM && !canvas.scene.canUserModify(game.user, 'update')) {
       log('User does not have permission to modify scene background');
       return;
     }
@@ -601,22 +605,26 @@ export default class Scenery extends BaseClass {
 
   static _onRenderSceneDirectory(_sceneDir: SceneDirectory, html: JQuery | HTMLElement): void {
     // Check if setting is enabled (default to true if not yet initialized)
-
-    const showLabel =
-      (game.settings as any)?.get?.(MODULE_ID, SETTINGS.SHOW_VARIATIONS_LABEL) ?? true;
+    const settings = game.settings as unknown as {
+      get?: (module: string, key: string) => boolean;
+    };
+    const showLabel = settings.get?.(MODULE_ID, SETTINGS.SHOW_VARIATIONS_LABEL) ?? true;
     if (!showLabel) return;
 
-    const htmlElement =
-      html instanceof HTMLElement
-        ? html
-        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (html as any)[0] instanceof HTMLElement
-          ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (html as any)[0]
-          : null;
+    let htmlElement: HTMLElement | null = null;
+    if (html instanceof HTMLElement) {
+      htmlElement = html;
+    } else {
+      // JQuery object - get first element
+      const jqElement = (html as { 0?: HTMLElement })[0];
+      if (jqElement instanceof HTMLElement) {
+        htmlElement = jqElement;
+      }
+    }
 
     if (!htmlElement) {
-      console.warn('Scenery | _onRenderSceneDirectory: Invalid html parameter', html);
+      log('_onRenderSceneDirectory: Invalid html parameter');
+      log(html);
       return;
     }
 
@@ -632,9 +640,11 @@ export default class Scenery extends BaseClass {
         const menuEntry = htmlElement.querySelector(`[data-entry-id="${scene.id}"]`);
         if (!menuEntry) return;
 
+        const data = getSceneryData(scene);
+        if (!data?.variations) return;
+
         const label = document.createElement('label');
         label.classList.add('scenery-variations');
-        const data = getSceneryData(scene)!;
         const variationsCount = data.variations.length + 1;
         label.innerHTML = `<i class="fa fa-images"></i> ${variationsCount}`;
         menuEntry.prepend(label);
@@ -658,16 +668,20 @@ export default class Scenery extends BaseClass {
       icon: 'fas fa-images',
       condition: () => game.user?.isGM ?? false,
       callback: (li: JQuery | HTMLElement) => {
-        const element =
-          (li as any)[0] instanceof HTMLElement
-            ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (li as any)[0]
-            : (li as HTMLElement);
+        // Handle both jQuery objects and HTMLElements
+        let element: HTMLElement;
+        if (li instanceof HTMLElement) {
+          element = li;
+        } else {
+          // JQuery object - get first element
+          const jqElement = (li as { 0?: HTMLElement })[0];
+          if (!jqElement) return;
+          element = jqElement;
+        }
+
         // v13 uses entryId, v10-v12 used documentId/sceneId
         const id =
-          (element as HTMLElement)?.dataset?.entryId ??
-          (element as HTMLElement)?.dataset?.documentId ??
-          (element as HTMLElement)?.dataset?.sceneId;
+          element.dataset?.entryId ?? element.dataset?.documentId ?? element.dataset?.sceneId;
 
         if (!id) {
           console.error('Scenery | No scene ID found on element', li);
@@ -676,8 +690,8 @@ export default class Scenery extends BaseClass {
 
         log(`Opening for scene: ${id}`);
         const sceneryApp = new Scenery({ sceneId: id });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (sceneryApp as any).render(true);
+        // v13 render API
+        sceneryApp.render({ force: true });
       },
     };
     entryOptions.push(viewOption);
