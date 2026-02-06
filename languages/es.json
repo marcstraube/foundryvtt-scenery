@@ -6,7 +6,7 @@
 		"BUTTON_SCAN": "Buscar variantes",
 		"BUTTON_COPY": "Copiar",
 		"BUTTON_CANCEL": "Cancelar",
-		"ERROR_SELECTION": "Tanto GMs como jugadores deben seleccionar un fichero, que será el que se les muestre",
+		"ERROR_SELECTION": "Selección de variación inválida",
 		"LABEL_FILE": "Fichero",
 		"LABEL_GM": "GM",
 		"LABEL_NAME": "Nombre",
