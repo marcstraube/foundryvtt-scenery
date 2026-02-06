@@ -2,17 +2,30 @@
   "name": "scenery",
   "version": "0.0.1",
   "description": "",
-  "main": "js/scenery.js",
+  "type": "module",
+  "main": "dist/scenery.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && vite build",
+    "dev": "vite build --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "pnpm exec eslint src/**/*.ts",
+    "lint:fix": "pnpm exec eslint src/**/*.ts --fix",
+    "format": "pnpm exec prettier --write \"**/*.{js,ts,json,md,scss}\"",
+    "format:check": "pnpm exec prettier --check \"**/*.{js,ts,json,md,scss}\"",
+    "knip": "pnpm exec knip",
+    "link:foundry": "ln -sf $PWD ~/.local/share/FoundryVTT/Data/modules/scenery && echo 'Symlink created! Start Foundry and enable the module.'",
+    "prepare": "husky || true"
   },
+  "packageManager": "pnpm@9.15.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marcstraube/foundryvtt-scenery.git"
   },
   "contributors": [
     "Marc Straube",
-    "Vance Cole"
+    "Vance Cole",
+    "angedelamort"
   ],
   "license": "MIT",
   "bugs": {
@@ -20,9 +33,23 @@
   },
   "homepage": "https://github.com/marcstraube/foundryvtt-scenery#readme",
   "devDependencies": {
-    "@babel/eslint-parser": "^7.19.1",
-    "eslint": "^8.29.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/js": "^9.17.0",
+    "@league-of-foundry-developers/foundry-vtt-types": "13.346.0-beta.20251209192131",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-security": "^3.0.1",
+    "husky": "^9.0.0",
+    "knip": "^5.45.3",
+    "lint-staged": "^16.0.1",
+    "prettier": "^3.4.2",
+    "sass": "^1.97.3",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
   }
 }

@@ -1,38 +1,82 @@
-<tr id="scenery-row-{{ id }}" index="{{ id }}">
-
-  <td class="scenery-preview">
-    <button class="preview pm-dropdown" type="button" title="Preview" index="{{ id }}">
-      <i class="fa fa-eye"></i>
-    </button>
-  </td>
-
-  <td class="scenery-delete">
-    <button class="delete pm-dropdown" type="button" title="Delete" index="{{ id }}" {{#if (eq id 0) }}disabled{{/if}}>
-      <i class="fa fa-trash"></i>
-    </button>
-  </td>
-
-  <td class="scenery-name">
-    <input type="text" name="variations.{{ id }}.name" value="{{ name }}"
-      placeholder="New Variation" data-dtype="String" {{#if (eq id 0) }}disabled{{/if}}>
-  </td>
-
-  <td class="scenery-fp">
-    <div class="form-fields">
-      <input class="image" type="text" value="{{ file }}" name="variations.{{ id }}.file" data-target="variations.{{ id }}.file" data-dtype="String" />
-      <button type="button" title="Browse Files" class="file-picker"
-        data-type="imagevideo" data-target="variations.{{ id }}.file">
-        <i class="fa fa-file-import fa-fw"></i>
+<div class="variation-card {{#if isDefault}}default{{/if}} {{#if isActive}}active{{/if}}" data-index="{{index}}">
+  <div class="variation-header">
+    <input type="radio" name="activeVariation" value="{{index}}" {{#if isActive}}checked{{/if}}>
+    <span class="variation-name">
+      {{#if isDefault}}
+        <strong>{{localize 'SCENERY.DEFAULT'}}</strong>
+      {{else}}
+        <input type="text" name="variations.{{index}}.name" value="{{name}}"
+          placeholder="{{localize 'SCENERY.PLACEHOLDER_NEW_VARIATION'}}" data-dtype="String">
+      {{/if}}
+    </span>
+    <div class="variation-actions">
+      {{#unless isDefault}}
+      <button class="delete" type="button" title="{{localize 'SCENERY.LABEL_DELETE'}}" data-action="delete"
+        data-variation-index="{{index}}">
+        <i class="fa fa-trash"></i>
       </button>
+      {{/unless}}
     </div>
-  </td>
+  </div>
 
-  <td class="scenery-gm">
-    <input value="{{ id }}" {{#if (eq file @root.gm)}}checked{{/if}} type="radio" name="gm" data-dtype="boolean">
-  </td>
+  <div class="variation-backgrounds">
+    <div class="background-row">
+      <label class="background-label">{{localize 'SCENERY.LABEL_GM'}}:</label>
+      <div class="form-fields">
+        {{!-- GM background: always editable (GM can show themselves something different) --}}
+        <input class="image" type="text" value="{{gmBackground}}" name="variations.{{index}}.gmBackground"
+          data-dtype="String" />
+        <button type="button" title="{{localize 'SCENERY.LABEL_BROWSE_FILES'}}" class="file-picker"
+          data-type="imagevideo">
+          <i class="fa fa-file-import fa-fw"></i>
+        </button>
+        <button class="preview" type="button" title="{{localize 'SCENERY.LABEL_PREVIEW'}}" data-action="preview"
+          data-background="gm">
+          <i class="fa fa-eye"></i>
+        </button>
+      </div>
+    </div>
+    <div class="background-row">
+      <label class="background-label">
+        {{localize 'SCENERY.LABEL_PLAYER'}}:
+        {{#if isDefault}}<i class="fa fa-lock" title="{{localize 'SCENERY.DEFAULT_PL_LOCKED'}}"></i>{{/if}}
+      </label>
+      <div class="form-fields">
+        {{!-- Player background: read-only for Default (comes from Scene), editable for other variations --}}
+        <input class="image" type="text" value="{{plBackground}}" name="variations.{{index}}.plBackground"
+          data-dtype="String" {{#if isDefault}}readonly title="{{localize 'SCENERY.DEFAULT_PL_LOCKED'}}"{{/if}} />
+        <button type="button" title="{{localize 'SCENERY.LABEL_BROWSE_FILES'}}" class="file-picker"
+          data-type="imagevideo" {{#if isDefault}}disabled{{/if}}>
+          <i class="fa fa-file-import fa-fw"></i>
+        </button>
+        <button class="preview" type="button" title="{{localize 'SCENERY.LABEL_PREVIEW'}}" data-action="preview"
+          data-background="pl">
+          <i class="fa fa-eye"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 
-  <td class="scenery-player">
-    <input value="{{ id }}" {{#if (eq file @root.pl)}}checked{{/if}} type="radio" name="pl" data-dtype="boolean">
-  </td>
-
-</tr>
+  <div class="variation-elements">
+    <span class="element-summary">
+      {{#if sceneDataSummary}}
+        {{#if isLiveCapture}}<i class="fa fa-circle live-indicator" title="{{localize 'SCENERY.LIVE_DATA'}}"></i>{{/if}}
+        {{sceneDataSummary}}
+      {{else}}
+        {{localize 'SCENERY.NO_ELEMENTS'}}
+      {{/if}}
+    </span>
+    <div class="element-actions">
+      {{#unless isDefault}}
+      <button class="copy" type="button" title="{{localize 'SCENERY.LABEL_COPY'}}" data-action="copy-open"
+        data-variation-index="{{index}}" {{#if isEmpty}}disabled{{/if}}>
+        <i class="fa fa-copy"></i>
+      </button>
+      <button class="reset" type="button" title="{{localize 'SCENERY.LABEL_RESET'}}" data-action="reset-scene-data"
+        data-variation-index="{{index}}" {{#unless hasSceneData}}disabled{{/unless}}>
+        <i class="fa fa-undo"></i>
+      </button>
+      {{/unless}}
+    </div>
+  </div>
+</div>

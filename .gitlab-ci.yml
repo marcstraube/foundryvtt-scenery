@@ -1,0 +1,78 @@
+image: node:20
+
+stages:
+  - validate
+  - release
+
+cache:
+  key:
+    files:
+      - pnpm-lock.yaml
+  paths:
+    - node_modules/
+    - .pnpm-store/
+
+before_script:
+  - corepack enable
+  - corepack prepare pnpm@9 --activate
+  - pnpm config set store-dir .pnpm-store
+  - pnpm install --frozen-lockfile
+
+validate:
+  stage: validate
+  script:
+    - pnpm run typecheck
+    - pnpm run lint
+    - pnpm run format:check
+    - pnpm run build
+    - |
+      apt-get update -qq && apt-get install -y -qq jq > /dev/null
+      jq empty module.json
+      for field in id title compatibility; do
+        if [ "$(jq -r ".$field // empty" module.json)" = "" ]; then
+          echo "module.json missing required field: $field"
+          exit 1
+        fi
+      done
+      echo "module.json valid"
+  rules:
+    - if: $CI_MERGE_REQUEST_IID
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+release:
+  stage: release
+  script:
+    - pnpm run build
+    - apt-get update -qq && apt-get install -y -qq jq zip > /dev/null
+    - |
+      GITHUB_REPO="${GITHUB_REPOSITORY:-marcstraube/foundryvtt-scenery}"
+      VERSION="${CI_COMMIT_TAG#v}"
+      jq \
+        --arg v "$VERSION" \
+        --arg url "https://github.com/${GITHUB_REPO}" \
+        --arg manifest "https://github.com/${GITHUB_REPO}/releases/latest/download/module.json" \
+        --arg download "https://github.com/${GITHUB_REPO}/releases/download/${CI_COMMIT_TAG}/module.zip" \
+        --arg bugs "https://github.com/${GITHUB_REPO}/issues" \
+        --arg changelog "https://github.com/${GITHUB_REPO}/releases" \
+        --arg readme "https://github.com/${GITHUB_REPO}/blob/${CI_COMMIT_TAG}/README.md" \
+        '.version=$v | .url=$url | .manifest=$manifest | .download=$download | .bugs=$bugs | .changelog=$changelog | .readme=$readme' \
+        module.json > module.tmp.json && mv module.tmp.json module.json
+    - zip -r ./module.zip module.json LICENSE README.md docs/ languages/ dist/ templates/
+  artifacts:
+    paths:
+      - module.json
+      - module.zip
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/
+  release:
+    tag_name: $CI_COMMIT_TAG
+    name: $CI_COMMIT_TAG
+    description: "Release $CI_COMMIT_TAG"
+    assets:
+      links:
+        - name: module.json
+          url: "${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/module.json"
+          filepath: /module.json
+        - name: module.zip
+          url: "${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/module.zip"
+          filepath: /module.zip
