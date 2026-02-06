@@ -10,9 +10,40 @@ declare global {
 }
 
 /**
+ * Minimal typed interface for Foundry's ClientSettings.
+ * Avoids `any` casts when accessing game.settings.
+ */
+interface FoundrySettingsClient {
+  get(module: string, key: string): unknown;
+  register(module: string, key: string, data: Record<string, unknown>): void;
+}
+
+/** Minimal type for Foundry embedded document collections */
+interface EmbeddedCollection extends Iterable<{ id: string; toObject(): object }> {
+  size: number;
+}
+
+/** Scene methods for embedded document CRUD */
+interface SceneDocumentMethods {
+  deleteEmbeddedDocuments(type: string, ids: string[]): Promise<unknown>;
+  createEmbeddedDocuments(type: string, data: object[]): Promise<unknown>;
+}
+
+/**
  * Variation data structure
+ * Each variation can have separate GM and Player backgrounds
  */
 export interface Variation {
+  name: string;
+  gmBackground: string; // What GM sees
+  plBackground: string; // What Player sees (can be === gmBackground)
+  sceneData?: SceneElementData;
+}
+
+/**
+ * Legacy variation format (pre-migration)
+ */
+export interface LegacyVariation {
   name: string;
   file: string;
   sceneData?: SceneElementData;
@@ -50,11 +81,49 @@ export interface SceneElementSelection {
  * Scenery flag data stored in scene
  */
 export interface SceneryData {
+  activeVariationIndex: number; // 0 = Default, 1+ = Variations
+  variations: Variation[]; // Index 0 is always the Default variation
+}
+
+/**
+ * Legacy scenery data format (pre-migration)
+ */
+export interface LegacySceneryData {
   bg: string;
   gm: string;
   pl: string;
-  variations: Variation[];
-  defaultSceneData?: SceneElementData; // Scene elements for the default background
+  variations: LegacyVariation[];
+  defaultSceneData?: SceneElementData;
+}
+
+/**
+ * Get a module setting value
+ * @param key - Setting key from SETTINGS constant
+ * @returns The setting value, or undefined if not available
+ */
+export function getSetting(key: string): unknown {
+  try {
+    return (game.settings as FoundrySettingsClient)?.get(MODULE_ID, key);
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Get which element types are managed by variations (not global).
+ * Returns a SceneElementSelection where true = variation-managed.
+ */
+export function getVariationManagedSelection(): SceneElementSelection {
+  return {
+    lights: !getSetting(SETTINGS.GLOBAL_LIGHTS),
+    sounds: !getSetting(SETTINGS.GLOBAL_SOUNDS),
+    tiles: !getSetting(SETTINGS.GLOBAL_TILES),
+    walls: !getSetting(SETTINGS.GLOBAL_WALLS),
+    drawings: !getSetting(SETTINGS.GLOBAL_DRAWINGS),
+    templates: !getSetting(SETTINGS.GLOBAL_TEMPLATES),
+    regions: !getSetting(SETTINGS.GLOBAL_REGIONS),
+    notes: !getSetting(SETTINGS.GLOBAL_NOTES),
+  };
 }
 
 /**
@@ -64,8 +133,10 @@ export interface SceneryData {
 export function isDebugEnabled(): boolean {
   // Check setting first (if game is ready)
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const settingEnabled = (game.settings as any)?.get(MODULE_ID, SETTINGS.DEBUG_LOGGING);
+    const settingEnabled = (game.settings as FoundrySettingsClient)?.get(
+      MODULE_ID,
+      SETTINGS.DEBUG_LOGGING
+    );
     if (settingEnabled) return true;
   } catch {
     // Settings not available yet, ignore
@@ -103,14 +174,26 @@ export function log(data: string | unknown, force = false): void {
 
 /**
  * Get scenery data from a scene's flags
+ * Automatically migrates legacy data format if detected
  * @param scene - The scene to get data from
  * @returns Scenery data or undefined if not set
  */
 export function getSceneryData(scene: Scene | undefined): SceneryData | undefined {
   if (!scene) return undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sceneFlags = (scene.flags as any)?.[MODULE_ID] as { [FLAG_KEY]?: SceneryData } | undefined;
-  return sceneFlags?.[FLAG_KEY];
+  const sceneFlags = (scene.flags as Record<string, Record<string, unknown> | undefined>)?.[
+    MODULE_ID
+  ] as { [FLAG_KEY]?: SceneryData | LegacySceneryData } | undefined;
+  const data = sceneFlags?.[FLAG_KEY];
+
+  if (!data) return undefined;
+
+  // Auto-migrate legacy data
+  if (isLegacyData(data)) {
+    log('[MIGRATION] Detected legacy scenery data, migrating...');
+    return migrateSceneryData(data);
+  }
+
+  return data as SceneryData;
 }
 
 /**
@@ -120,17 +203,40 @@ export function getSceneryData(scene: Scene | undefined): SceneryData | undefine
  */
 export async function setSceneryData(scene: Scene | undefined, data: SceneryData): Promise<void> {
   if (!scene) return;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  await (scene as any).setFlag(MODULE_ID, FLAG_KEY, data);
+  // Clean save: include new format fields and explicitly null out legacy fields
+  // This ensures old 'bg', 'gm', 'pl' don't interfere with isLegacyData check
+  const cleanData = {
+    activeVariationIndex: data.activeVariationIndex,
+    variations: data.variations,
+    // Explicitly remove legacy fields by setting to null (Foundry will delete them)
+    bg: null,
+    gm: null,
+    pl: null,
+    defaultSceneData: null,
+  };
+  await (
+    scene as unknown as { setFlag(scope: string, key: string, value: unknown): Promise<void> }
+  ).setFlag(MODULE_ID, FLAG_KEY, cleanData);
+}
+
+/**
+ * Get the active variation from scenery data
+ * @param data - Scenery data
+ * @returns The active Variation or undefined if not found
+ */
+export function getActiveVariation(data: SceneryData): Variation | undefined {
+  return data.variations[data.activeVariationIndex];
 }
 
 /**
  * Get the appropriate image for the current user (GM or Player)
- * @param data - Scenery data containing GM and Player images
+ * @param data - Scenery data containing variations
  * @returns The image path for the current user's role
  */
 export function getUserImage(data: SceneryData): string {
-  return game.user?.isGM ? data.gm : data.pl;
+  const variation = getActiveVariation(data);
+  if (!variation) return '';
+  return game.user?.isGM ? variation.gmBackground : variation.plBackground;
 }
 
 /**
@@ -177,25 +283,36 @@ export function captureSceneElements(
  * Restore scene elements to the scene
  * @param scene - The scene to restore to
  * @param sceneData - The scene element data to restore
+ * @param selection - Optional selection of which element types to restore.
+ *   If a type is false (= global), restoreDocumentType is skipped for that type.
  * @returns True if successful, false otherwise
  */
 export async function restoreSceneElements(
   scene: Scene,
-  sceneData: SceneElementData
+  sceneData: SceneElementData,
+  selection?: SceneElementSelection
 ): Promise<boolean> {
   if (!scene) return false;
 
   try {
     log('Restoring scene elements...');
-    // Restore each document type
-    await restoreDocumentType(scene, 'AmbientLight', sceneData.lights);
-    await restoreDocumentType(scene, 'AmbientSound', sceneData.sounds);
-    await restoreDocumentType(scene, 'Tile', sceneData.tiles);
-    await restoreDocumentType(scene, 'Wall', sceneData.walls);
-    await restoreDocumentType(scene, 'Drawing', sceneData.drawings);
-    await restoreDocumentType(scene, 'MeasuredTemplate', sceneData.templates);
-    await restoreDocumentType(scene, 'Region', sceneData.regions);
-    await restoreDocumentType(scene, 'Note', sceneData.notes);
+    // Restore each document type (skip global types when selection provided)
+    if (!selection || selection.lights !== false)
+      await restoreDocumentType(scene, 'AmbientLight', sceneData.lights);
+    if (!selection || selection.sounds !== false)
+      await restoreDocumentType(scene, 'AmbientSound', sceneData.sounds);
+    if (!selection || selection.tiles !== false)
+      await restoreDocumentType(scene, 'Tile', sceneData.tiles);
+    if (!selection || selection.walls !== false)
+      await restoreDocumentType(scene, 'Wall', sceneData.walls);
+    if (!selection || selection.drawings !== false)
+      await restoreDocumentType(scene, 'Drawing', sceneData.drawings);
+    if (!selection || selection.templates !== false)
+      await restoreDocumentType(scene, 'MeasuredTemplate', sceneData.templates);
+    if (!selection || selection.regions !== false)
+      await restoreDocumentType(scene, 'Region', sceneData.regions);
+    if (!selection || selection.notes !== false)
+      await restoreDocumentType(scene, 'Note', sceneData.notes);
 
     log('Scene elements restored successfully');
     return true;
@@ -236,61 +353,45 @@ async function restoreDocumentType(
                     ? 'notes'
                     : 'walls';
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const collection = (scene as any)[collectionName];
+  const sceneRecord = scene as unknown as Record<string, EmbeddedCollection | undefined>;
+  const collection = sceneRecord[collectionName];
   if (!collection) {
     log(`WARNING: Collection "${collectionName}" not found for ${documentType}!`);
     return;
   }
 
   log(
-    `Restoring ${documentType} (collection: ${collectionName}, current: ${collection.size}, target: ${targetDocs.length})`,
-    true
+    `Restoring ${documentType} (collection: ${collectionName}, current: ${collection.size}, target: ${targetDocs.length})`
   );
 
-  // Build ID maps
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const currentMap = new Map(Array.from(collection).map((doc: any) => [doc.id, doc]));
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const targetMap = new Map(targetDocs.map((doc: any) => [doc._id, doc]));
+  // Get current document IDs
+  const currentIds = Array.from(collection).map((doc) => doc.id);
 
-  // Determine operations
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const toCreate = targetDocs.filter((doc: any) => !doc._id || !currentMap.has(doc._id));
-  const toDelete = Array.from(currentMap.keys()).filter((id) => !targetMap.has(id));
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const toUpdate = targetDocs.filter((doc: any) => {
-    if (!doc._id || !currentMap.has(doc._id)) return false;
-    // Check if document has changed (simple check - compare JSON strings)
-    const current = currentMap.get(doc._id);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return JSON.stringify((current as any).toObject()) !== JSON.stringify(doc);
-  });
-
-  // Apply operations
-  if (toCreate.length > 0) {
-    log(`Creating ${toCreate.length} ${documentType} documents`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (scene as any).createEmbeddedDocuments(documentType, toCreate);
+  // Simple approach: if counts match and both are 0, nothing to do
+  if (currentIds.length === 0 && targetDocs.length === 0) {
+    log(`${documentType}: nothing to do (both empty)`);
+    return;
   }
 
-  if (toUpdate.length > 0) {
-    log(`Updating ${toUpdate.length} ${documentType} documents`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (scene as any).updateEmbeddedDocuments(documentType, toUpdate);
+  const sceneDoc = scene as unknown as SceneDocumentMethods;
+
+  // Delete all current documents first (if any)
+  if (currentIds.length > 0) {
+    log(`Deleting ${currentIds.length} ${documentType} documents`);
+    await sceneDoc.deleteEmbeddedDocuments(documentType, currentIds);
   }
 
-  if (toDelete.length > 0) {
-    log(`Deleting ${toDelete.length} ${documentType} documents`);
-    log(`Delete IDs: ${toDelete.join(', ')}`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (scene as any).deleteEmbeddedDocuments(documentType, toDelete);
+  // Create all target documents (if any), stripping _id to let Foundry assign new ones
+  if (targetDocs.length > 0) {
+    log(`Creating ${targetDocs.length} ${documentType} documents`);
+    const docsWithoutIds = targetDocs.map((doc) => {
+      const { _id, ...rest } = doc as Record<string, unknown>;
+      return rest;
+    });
+    await sceneDoc.createEmbeddedDocuments(documentType, docsWithoutIds);
   }
 
-  log(
-    `${documentType}: ${toCreate.length} created, ${toUpdate.length} updated, ${toDelete.length} deleted`,
-    true
-  );
+  log(`${documentType}: ${currentIds.length} deleted, ${targetDocs.length} created`);
 }
 
 /**
@@ -361,5 +462,190 @@ export function getCurrentSceneCounts(scene?: Scene): Record<string, number> {
     templates: targetScene.templates.size,
     regions: targetScene.regions.size,
     notes: targetScene.notes.size,
+  };
+}
+
+/**
+ * Parse a comma-separated identifier string into an array of lowercase tokens.
+ * Empty input returns an empty array (disables detection).
+ * @param value - Comma-separated string of identifiers
+ * @returns Deduplicated array of lowercase tokens
+ */
+export function parseIdentifiers(value: string): string[] {
+  if (!value || !value.trim()) return [];
+  const seen = new Set<string>();
+  return value
+    .split(',')
+    .map((s) => s.trim().toLowerCase())
+    .filter((s) => {
+      if (!s || seen.has(s)) return false;
+      seen.add(s);
+      return true;
+    });
+}
+
+/**
+ * Classify a map file as GM, Player, or Neutral based on token matching.
+ * Splits the filename by separators and checks each token against identifier lists.
+ * GM identifiers take priority over Player if both match.
+ * @param fileName - Base filename without extension
+ * @param gmIds - Lowercase GM identifier tokens
+ * @param plIds - Lowercase Player identifier tokens
+ * @returns Classification result with matched token
+ */
+export function classifyMapFile(
+  fileName: string,
+  gmIds: string[],
+  plIds: string[]
+): { category: 'gm' | 'player' | 'neutral'; matchedToken?: string } {
+  const tokens = fileName.split(/[-_ .]+/);
+  for (const token of tokens) {
+    const lower = token.toLowerCase();
+    if (gmIds.includes(lower)) {
+      return { category: 'gm', matchedToken: token };
+    }
+  }
+  for (const token of tokens) {
+    const lower = token.toLowerCase();
+    if (plIds.includes(lower)) {
+      return { category: 'player', matchedToken: token };
+    }
+  }
+  return { category: 'neutral' };
+}
+
+/**
+ * Remove a matched token and its adjacent separator from a filename.
+ * Preserves the rest of the filename structure.
+ * @param fileName - Base filename without extension
+ * @param token - The token to remove (case-insensitive)
+ * @returns Filename with the token and one adjacent separator removed
+ */
+export function removeTokenFromFileName(fileName: string, token: string): string {
+  // Split by separators, keeping separators as separate elements
+  const parts = fileName.split(/([-_ .])/);
+  const tokenLower = token.toLowerCase();
+
+  // Find the index of the matched token
+  let tokenIndex = -1;
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i];
+    if (part && part.toLowerCase() === tokenLower) {
+      tokenIndex = i;
+      break;
+    }
+  }
+
+  if (tokenIndex === -1) return fileName;
+
+  // Remove the token
+  const result = [...parts];
+  result.splice(tokenIndex, 1);
+
+  // Remove one adjacent separator (prefer preceding, fallback to following)
+  const preceding = tokenIndex > 0 ? result[tokenIndex - 1] : undefined;
+  const following = tokenIndex < result.length ? result[tokenIndex] : undefined;
+  if (preceding && /^[-_ .]$/.test(preceding)) {
+    result.splice(tokenIndex - 1, 1);
+  } else if (following && /^[-_ .]$/.test(following)) {
+    result.splice(tokenIndex, 1);
+  }
+
+  return result.join('');
+}
+
+/**
+ * Normalize a filename for pairing by splitting into lowercase tokens and joining with underscore.
+ * @param fileName - Base filename without extension
+ * @returns Normalized key string
+ */
+export function normalizeForPairing(fileName: string): string {
+  return fileName
+    .split(/[-_ .]+/)
+    .map((s) => s.toLowerCase())
+    .filter((s) => s.length > 0)
+    .join('_');
+}
+
+/**
+ * Compute a clean grouping key by normalizing and removing the matched token.
+ * Used for grouping GM/Player files that should be paired together.
+ * @param fileName - Base filename without extension
+ * @param token - The token to remove (will be lowercased)
+ * @returns Clean key string for grouping
+ */
+export function computeCleanKey(fileName: string, token: string): string {
+  const tokenLower = token.toLowerCase();
+  return fileName
+    .split(/[-_ .]+/)
+    .map((s) => s.toLowerCase())
+    .filter((s) => s.length > 0 && s !== tokenLower)
+    .join('_');
+}
+
+/**
+ * Check if scenery data is in legacy format
+ * @param data - Data to check
+ * @returns True if data is in legacy format
+ */
+export function isLegacyData(data: unknown): data is LegacySceneryData {
+  if (!data || typeof data !== 'object') return false;
+  // New format has 'activeVariationIndex' - if present, it's NOT legacy
+  // (Foundry's setFlag merges data, so old properties might still exist)
+  if ('activeVariationIndex' in data) return false;
+  // Legacy format has 'bg', 'gm', 'pl' properties without activeVariationIndex
+  return 'bg' in data && 'gm' in data && 'pl' in data;
+}
+
+/**
+ * Migrate legacy scenery data to new format
+ * @param oldData - Legacy scenery data
+ * @returns Migrated SceneryData
+ */
+export function migrateSceneryData(oldData: LegacySceneryData): SceneryData {
+  const gmPath = cleanPath(oldData.gm);
+  const bgPath = cleanPath(oldData.bg);
+
+  // Default variation (index 0)
+  const variations: Variation[] = [
+    {
+      name: 'Default',
+      gmBackground: bgPath,
+      plBackground: bgPath,
+      sceneData: oldData.defaultSceneData,
+    },
+  ];
+
+  // Find active variation based on old gm/pl values
+  let activeIndex = 0;
+
+  // Convert other variations
+  if (oldData.variations && Array.isArray(oldData.variations)) {
+    oldData.variations.forEach((v, i) => {
+      const filePath = cleanPath(v.file);
+      variations.push({
+        name: v.name || `Variation ${i + 1}`,
+        gmBackground: filePath,
+        plBackground: filePath,
+        sceneData: v.sceneData,
+      });
+
+      // Check if this variation was the active one for GM
+      if (filePath === gmPath) {
+        activeIndex = i + 1; // +1 because Default is at index 0
+      }
+    });
+  }
+
+  // If GM was using default background, activeIndex stays 0
+  // If GM was using a variation not in the list, default to 0 as well
+
+  log(
+    `[MIGRATION] Migrated ${oldData.variations?.length || 0} variations, activeIndex=${activeIndex}`
+  );
+
+  return {
+    activeVariationIndex: activeIndex,
+    variations,
   };
 }

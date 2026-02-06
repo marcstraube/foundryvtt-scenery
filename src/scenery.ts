@@ -1,5 +1,6 @@
 import Scenery from './classes/Scenery.js';
 import { log } from './helpers.js';
+import type { SceneUpdate } from './types.js';
 import { MODULE_ID, SETTINGS, I18N_KEYS, ICONS } from './constants.js';
 
 log('Module loading...', true);
@@ -16,8 +17,9 @@ Hooks.once('init', () => {
   }
 
   // Register settings during init
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const settings = game.settings as any;
+  const settings = game.settings as unknown as {
+    register(module: string, key: string, data: Record<string, unknown>): void;
+  };
 
   settings?.register(MODULE_ID, SETTINGS.DEBUG_LOGGING, {
     name: game.i18n?.localize(I18N_KEYS.SETTING_DEBUG_LOGGING) ?? 'Debug Logging',
@@ -51,11 +53,122 @@ Hooks.once('init', () => {
     default: true,
     requiresReload: true,
   });
+
+  settings?.register(MODULE_ID, SETTINGS.GM_MAP_IDENTIFIERS, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_GM_MAP_IDENTIFIERS) ?? 'GM Map Identifiers',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_GM_MAP_IDENTIFIERS_HINT) ??
+      'Comma-separated tokens that identify GM-specific maps in filenames (e.g. gm, dm).',
+    scope: 'world',
+    config: true,
+    type: String,
+    default: 'gm, dm',
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.PLAYER_MAP_IDENTIFIERS, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_PLAYER_MAP_IDENTIFIERS) ?? 'Player Map Identifiers',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_PLAYER_MAP_IDENTIFIERS_HINT) ??
+      'Comma-separated tokens that identify Player-specific maps in filenames (e.g. player, pl).',
+    scope: 'world',
+    config: true,
+    type: String,
+    default: 'player, pl',
+  });
+
+  // Global element type settings
+  // When enabled, these element types are NOT managed by variations (they stay on the scene)
+  settings?.register(MODULE_ID, SETTINGS.GLOBAL_LIGHTS, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_LIGHTS) ?? 'Global Lights',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_LIGHTS_HINT) ??
+      'Lights stay on the scene when switching variations.',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.GLOBAL_SOUNDS, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_SOUNDS) ?? 'Global Sounds',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_SOUNDS_HINT) ??
+      'Sounds stay on the scene when switching variations.',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.GLOBAL_TILES, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_TILES) ?? 'Global Tiles',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_TILES_HINT) ??
+      'Tiles stay on the scene when switching variations.',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.GLOBAL_WALLS, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_WALLS) ?? 'Global Walls',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_WALLS_HINT) ??
+      'Walls stay on the scene when switching variations.',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.GLOBAL_DRAWINGS, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_DRAWINGS) ?? 'Global Drawings',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_DRAWINGS_HINT) ??
+      'Drawings stay on the scene when switching variations.',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.GLOBAL_TEMPLATES, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_TEMPLATES) ?? 'Global Templates',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_TEMPLATES_HINT) ??
+      'Templates stay on the scene when switching variations.',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.GLOBAL_REGIONS, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_REGIONS) ?? 'Global Regions',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_REGIONS_HINT) ??
+      'Regions stay on the scene when switching variations.',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
+  settings?.register(MODULE_ID, SETTINGS.GLOBAL_NOTES, {
+    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_NOTES) ?? 'Global Notes',
+    hint:
+      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_NOTES_HINT) ??
+      'Notes stay on the scene when switching variations.',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
 });
 
 // Register v13 context menu hook
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-Hooks.on('getSceneContextOptions', (_app: any, menuItems: any[]) => {
+Hooks.on('getSceneContextOptions', (_app, menuItems) => {
   menuItems.push({
     name: game.i18n?.localize(I18N_KEYS.APP_NAME) ?? 'Scenery',
     icon: '<i class="fas fa-images"></i>',
@@ -84,8 +197,10 @@ Hooks.on(
 
     // Check if header button is enabled
 
-    const showHeaderButton =
-      (game.settings as any)?.get(MODULE_ID, SETTINGS.SHOW_HEADER_BUTTON) ?? true;
+    const settings = game.settings as unknown as {
+      get?: (module: string, key: string) => boolean;
+    };
+    const showHeaderButton = settings.get?.(MODULE_ID, SETTINGS.SHOW_HEADER_BUTTON) ?? true;
 
     // Add a button to the directory header if we're a GM and setting is enabled
     if (game.user?.isGM && showHeaderButton) {
@@ -136,6 +251,67 @@ Hooks.on(
   }
 );
 
+// Add "Reset to Defaults" button after global element settings
+Hooks.on('renderSettingsConfig', (_app: unknown, html: JQuery | HTMLElement) => {
+  const htmlElement = html instanceof HTMLElement ? html : html[0];
+  if (!htmlElement) return;
+
+  // Find the last global setting checkbox (globalNotes)
+  const lastSetting = htmlElement.querySelector(`[name="scenery.${SETTINGS.GLOBAL_NOTES}"]`);
+  if (!lastSetting) return;
+
+  const formGroup = lastSetting.closest('.form-group');
+  if (!formGroup) return;
+
+  // Default values for global element settings
+  const GLOBAL_DEFAULTS: Record<string, boolean> = {
+    [SETTINGS.DEBUG_LOGGING]: false,
+    [SETTINGS.SHOW_HEADER_BUTTON]: true,
+    [SETTINGS.SHOW_VARIATIONS_LABEL]: true,
+    [SETTINGS.GLOBAL_LIGHTS]: false,
+    [SETTINGS.GLOBAL_SOUNDS]: false,
+    [SETTINGS.GLOBAL_TILES]: false,
+    [SETTINGS.GLOBAL_WALLS]: false,
+    [SETTINGS.GLOBAL_DRAWINGS]: true,
+    [SETTINGS.GLOBAL_TEMPLATES]: true,
+    [SETTINGS.GLOBAL_REGIONS]: false,
+    [SETTINGS.GLOBAL_NOTES]: true,
+  };
+
+  // Default values for identifier text settings
+  const IDENTIFIER_DEFAULTS: Record<string, string> = {
+    [SETTINGS.GM_MAP_IDENTIFIERS]: 'gm, dm',
+    [SETTINGS.PLAYER_MAP_IDENTIFIERS]: 'player, pl',
+  };
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'form-group';
+  wrapper.style.textAlign = 'right';
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.innerHTML = `<i class="${ICONS.RESET}"></i> ${game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_RESET) ?? 'Reset to Defaults'}`;
+
+  button.addEventListener('click', (event: MouseEvent) => {
+    event.preventDefault();
+    for (const [key, defaultValue] of Object.entries(GLOBAL_DEFAULTS)) {
+      const input = htmlElement.querySelector(`[name="scenery.${key}"]`) as HTMLInputElement | null;
+      if (input) input.checked = defaultValue;
+    }
+    for (const [key, defaultValue] of Object.entries(IDENTIFIER_DEFAULTS)) {
+      const input = htmlElement.querySelector(`[name="scenery.${key}"]`) as HTMLInputElement | null;
+      if (input) input.value = defaultValue;
+    }
+    ui.notifications?.info(
+      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_RESET_DONE) ??
+        'Global element settings reset to defaults.'
+    );
+  });
+
+  wrapper.appendChild(button);
+  formGroup.after(wrapper);
+});
+
 // Register canvas hooks early in init to catch initial canvas load
 Hooks.once('init', () => {
   log('Init - Registering canvas hooks early');
@@ -150,9 +326,8 @@ Hooks.once('ready', () => {
   log('Ready - Registering remaining hooks');
 
   // Wrap updateScene hook with proper signature
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Hooks.on('updateScene', (scene: Scene, data: any) => {
-    Scenery._onUpdateScene(scene, data);
+  Hooks.on('updateScene', (scene: Scene, data: unknown) => {
+    Scenery._onUpdateScene(scene, data as SceneUpdate);
   });
 
   Hooks.on('renderSceneDirectory', Scenery._onRenderSceneDirectory);

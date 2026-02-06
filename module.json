@@ -1,14 +1,16 @@
 {
   "id": "scenery",
   "title": "Scenery - Background Image Variation Manager",
-  "description": "Allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.",
+  "description": "Manage background image variations per scene with separate GM/Player views, automatic scene element capture, smart map scanning, and instant switching.",
   "license": "MIT",
   "authors": [
     {
       "name": "Marc Straube",
       "email": "email@marcstraube.de",
-      "discord": "durag-c-walker#8327",
-      "url": "https://github.com/marcstraube"
+      "discord": "nerdy_by_nature",
+      "url": "https://github.com/marcstraube",
+      "ko-fi": "https://ko-fi.com/J3J1FVK91",
+      "patreon": "https://www.patreon.com/NerdyByNatureDev"
     },
     {
       "name": "Vance Cole"
@@ -25,12 +27,8 @@
     "verified": "13",
     "maximum": "13"
   },
-  "esmodules": [
-    "./dist/scenery.js"
-  ],
-  "styles": [
-    "./dist/scenery.css"
-  ],
+  "esmodules": ["./dist/scenery.js"],
+  "styles": ["./dist/scenery.css"],
   "languages": [
     {
       "lang": "de",

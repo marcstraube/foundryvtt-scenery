@@ -23,7 +23,8 @@
     min-height: 0;
   }
 
-  .form-group {
+  // Variations container
+  .variations-container {
     flex: 0 1 auto;
     overflow-y: auto;
     overflow-x: hidden;
@@ -46,215 +47,210 @@
   }
 }
 
-// Scenery Table
-table.scenery-table {
+// Variation Card Styling
+.variation-card {
   border: 1px solid var(--color-border-dark-primary);
-  margin: 0 0 6px 0;
-  border-collapse: separate;
-  border-spacing: 0;
   border-radius: $border-radius-lg;
-  width: 100%;
-  table-layout: fixed;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  background: var(--color-control-bg);
 
-  // Table header
-  thead th {
-    padding: 6px $spacing-sm;
-    font-weight: bold;
-    text-align: left;
-    background-color: var(--color-control-bg-active);
-    border-bottom: 1px solid var(--color-border-dark-primary);
-
-    // Name column
-    &:nth-child(1) {
-      width: $column-width-name;
-    }
-
-    // Radio button columns (GM/Player)
-    &:nth-child(3),
-    &:nth-child(4) {
-      width: $column-width-radio;
-      text-align: center;
-    }
-
-    // Action columns (Preview/Copy/Reset/Delete)
-    &:nth-child(5),
-    &:nth-child(6),
-    &:nth-child(7),
-    &:nth-child(8) {
-      width: $column-width-action;
-      text-align: center;
-
-      i {
-        color: var(--color-text-light-secondary);
-      }
-    }
-
-    // Preview column: add space to left
-    &:nth-child(5) {
-      padding-left: $spacing-lg;
-      padding-right: 6px;
-    }
-
-    // Copy, Reset and Delete columns: normal padding
-    &:nth-child(6),
-    &:nth-child(7),
-    &:nth-child(8) {
-      padding-left: 6px;
-      padding-right: 6px;
-    }
+  &.active {
+    border-color: var(--color-border-highlight);
+    background: rgba(var(--color-primary-rgb, 0, 100, 200), 0.1);
   }
 
-  // Table body
-  tbody {
-    // Alternating row colors
-    tr:nth-child(even) {
-      background-color: rgba(0, 0, 0, $opacity-even-row);
-    }
-
-    tr:hover {
-      background-color: rgba(0, 0, 0, $opacity-hover);
-    }
+  &.default {
+    border-style: dashed;
   }
 
-  td {
-    line-height: 1.5em;
-    vertical-align: middle;
-    padding: $spacing-sm $spacing-md;
-  }
-
-  // Ensure interactive elements are clickable
-  button,
-  input {
-    position: relative;
-    z-index: 1;
-  }
-
-  // Input field styling
-  input[type='text'] {
-    width: 100%;
-    background: var(--color-control-bg);
-    border: 1px solid var(--color-border-dark-tertiary);
-    padding: $spacing-xs $spacing-sm;
-    font-size: var(--font-size-12);
-
-    &:focus {
-      border-color: var(--color-border-highlight);
-      box-shadow: 0 0 3px var(--color-shadow-primary);
-    }
-  }
-}
-
-// Table cell specific styling
-td {
-  &.scenery-preview,
-  &.scenery-delete,
-  &.scenery-gm,
-  &.scenery-player {
-    padding: $spacing-sm $spacing-xs;
-    width: $column-width-radio;
-  }
-
-  &.scenery-name {
-    max-width: $column-width-name;
-    width: $column-width-name;
-
-    input[type='text'] {
-      width: 100%;
-      min-width: 100px;
-    }
-  }
-
-  &.scenery-gm,
-  &.scenery-player {
-    text-align: center;
+  // Header row
+  .variation-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
 
     input[type='radio'] {
       width: $radio-size;
       height: $radio-size;
-      accent-color: var(--color-primary);
+      accent-color: var(--color-border-highlight);
       cursor: pointer;
+      flex-shrink: 0;
 
       &:hover {
         transform: scale(1.1);
       }
     }
-  }
 
-  &.scenery-delete,
-  &.scenery-preview,
-  &.scenery-reset {
-    width: $column-width-action;
-    text-align: center;
-    vertical-align: middle;
+    .variation-name {
+      flex: 1;
 
-    button {
-      padding: $spacing-xs $spacing-sm;
-      width: $button-width;
-      height: $button-height;
-      line-height: 20px;
-      text-align: center;
-      background: var(--color-control-bg);
-      border: 1px solid var(--color-border-dark-primary);
-      border-radius: $border-radius;
-      cursor: pointer;
-      font-size: $font-size-xs;
-      display: inline-block;
-
-      &:hover:not([disabled]) {
-        background: var(--color-control-bg-hover);
-        border-color: var(--color-border-highlight);
-        color: var(--color-text-highlight);
+      strong {
+        font-weight: bold;
+        color: var(--color-text-light-primary);
       }
 
-      &[disabled] {
-        opacity: $opacity-disabled;
-        cursor: not-allowed;
+      input[type='text'] {
+        width: 100%;
+        background: var(--color-control-bg);
+        border: 1px solid var(--color-border-dark-tertiary);
+        padding: $spacing-xs $spacing-sm;
+        font-size: var(--font-size-12);
+
+        &:focus {
+          border-color: var(--color-border-highlight);
+          box-shadow: 0 0 3px var(--color-shadow-primary);
+        }
+      }
+    }
+
+    .variation-actions {
+      display: flex;
+      gap: $spacing-sm;
+      flex-shrink: 0;
+    }
+  }
+
+  // Background rows
+  .variation-backgrounds {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+
+    .background-row {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .background-label {
+        width: 55px;
+        flex-shrink: 0;
+        font-weight: bold;
+        color: var(--color-text-light-secondary);
+        font-size: $font-size-sm;
+
+        .fa-lock {
+          font-size: 10px;
+          margin-left: $spacing-xs;
+          opacity: 0.7;
+        }
+      }
+
+      .form-fields {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+
+        input.image {
+          flex: 1;
+          background: var(--color-control-bg);
+          border: 1px solid var(--color-border-dark-tertiary);
+          padding: $spacing-xs $spacing-sm;
+          font-size: var(--font-size-12);
+
+          &:focus {
+            border-color: var(--color-border-highlight);
+            box-shadow: 0 0 3px var(--color-shadow-primary);
+          }
+
+          &[readonly] {
+            background: var(--color-control-bg-disabled);
+            cursor: not-allowed;
+          }
+        }
+
+        .file-picker {
+          width: $button-width;
+          height: $button-height;
+          line-height: 22px;
+          padding: 0;
+          text-align: center;
+          background: var(--color-control-bg);
+          border: 1px solid var(--color-border-dark-primary);
+          border-radius: $border-radius;
+          cursor: pointer;
+          font-size: $font-size-xs;
+          flex-shrink: 0;
+
+          &:hover:not([disabled]) {
+            background: var(--color-control-bg-hover);
+            border-color: var(--color-border-highlight);
+            color: var(--color-text-highlight);
+          }
+
+          &[disabled] {
+            opacity: $opacity-disabled;
+            cursor: not-allowed;
+          }
+        }
       }
     }
   }
 
-  // Preview column: add space to left (match header exactly: top right bottom left)
-  &.scenery-preview {
-    padding: $spacing-sm 6px $spacing-sm $spacing-lg !important;
-  }
-
-  // Reset column: normal padding (match header)
-  &.scenery-reset {
-    padding: $spacing-sm 6px !important;
-  }
-
-  // Delete column: normal padding (match header)
-  &.scenery-delete {
-    padding: $spacing-sm 6px !important;
-  }
-}
-
-// File picker styling
-.scenery-fp {
-  .form-fields {
+  // Elements row
+  .variation-elements {
     display: flex;
     align-items: center;
-    gap: $spacing-sm;
+    gap: $spacing-md;
+    padding-top: $spacing-sm;
+    border-top: 1px solid var(--color-border-dark-tertiary);
+
+    .element-summary {
+      flex: 1;
+      font-size: $font-size-sm;
+      color: var(--color-text-light-secondary);
+
+      .live-indicator {
+        color: var(--color-level-warning);
+        font-size: 8px;
+        margin-right: $spacing-xs;
+        animation: pulse 2s infinite;
+      }
+    }
+
+    .element-actions {
+      display: flex;
+      gap: $spacing-sm;
+      flex-shrink: 0;
+    }
   }
 
-  .file-picker {
+  // Button styling within cards
+  button {
+    padding: $spacing-xs $spacing-sm;
     width: $button-width;
     height: $button-height;
-    line-height: 22px;
-    padding: 0;
+    line-height: 20px;
     text-align: center;
     background: var(--color-control-bg);
     border: 1px solid var(--color-border-dark-primary);
     border-radius: $border-radius;
     cursor: pointer;
-    margin-left: $spacing-sm;
     font-size: $font-size-xs;
 
-    &:hover {
+    &:hover:not([disabled]) {
       background: var(--color-control-bg-hover);
       border-color: var(--color-border-highlight);
       color: var(--color-text-highlight);
     }
+
+    &[disabled] {
+      opacity: $opacity-disabled;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
   }
 }
 
@@ -308,13 +304,14 @@ td {
 
 // Copy Dialog Styling
 .scenery-copy-dialog {
-  min-width: 400px;
   padding: $spacing-md;
 
   .form-group {
+    display: flex;
+    flex-direction: column;
     margin-bottom: $spacing-md;
 
-    label {
+    > label {
       display: block;
       font-weight: bold;
       margin-bottom: $spacing-sm;
@@ -354,14 +351,15 @@ td {
   .element-checkboxes {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: $spacing-sm;
+    gap: $spacing-md;
+    width: 100%;
     margin-bottom: $spacing-sm;
 
     label {
       display: flex;
       align-items: center;
-      gap: $spacing-xs;
-      padding: $spacing-xs;
+      gap: $spacing-sm;
+      padding: $spacing-xs $spacing-sm;
       font-weight: normal;
       margin: 0;
       cursor: pointer;
@@ -430,54 +428,6 @@ td {
       margin: 0;
       padding-left: calc(16px + #{$spacing-sm});
       font-style: italic;
-    }
-  }
-}
-
-// Copy button in table with info icon
-td.scenery-copy {
-  width: $column-width-action;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: $spacing-sm;
-  vertical-align: middle;
-  padding: $spacing-sm 6px !important;
-
-  button {
-    padding: $spacing-xs $spacing-sm;
-    width: $button-width;
-    height: $button-height;
-    line-height: 20px;
-    text-align: center;
-    background: var(--color-control-bg);
-    border: 1px solid var(--color-border-dark-primary);
-    border-radius: $border-radius;
-    cursor: pointer;
-    font-size: $font-size-xs;
-
-    &:hover:not([disabled]) {
-      background: var(--color-control-bg-hover);
-      border-color: var(--color-border-highlight);
-      color: var(--color-text-highlight);
-    }
-
-    &[disabled] {
-      opacity: $opacity-disabled;
-      cursor: not-allowed;
-    }
-  }
-
-  .scene-data-summary {
-    color: var(--color-text-light-secondary);
-    font-size: $font-size-sm;
-
-    i {
-      cursor: help;
-
-      &:hover {
-        color: var(--color-text-light-highlight);
-      }
     }
   }
 }

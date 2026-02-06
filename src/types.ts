@@ -19,9 +19,9 @@ export interface SceneFlags {
  */
 export interface VariationFormData {
   [key: `variations.${number}.name`]: string;
-  [key: `variations.${number}.file`]: string;
-  gm: string;
-  pl: string;
+  [key: `variations.${number}.gmBackground`]: string;
+  [key: `variations.${number}.plBackground`]: string;
+  activeVariation: string;
 }
 
 /**
@@ -29,11 +29,15 @@ export interface VariationFormData {
  */
 export interface SceneryContext {
   variations: (import('./helpers.js').Variation & {
+    index: number;
+    isDefault: boolean;
+    isActive: boolean;
+    isEmpty: boolean;
     hasSceneData?: boolean;
     sceneDataSummary?: string;
+    isLiveCapture?: boolean;
   })[];
-  gm: string;
-  pl: string;
+  activeVariationIndex: number;
   buttons: Array<{
     type: string;
     action?: string;
@@ -57,6 +61,7 @@ export interface SceneryScene extends Scene {
   _sceneryCustomBackground?: string;
   _sceneryOriginalBackground?: string;
   _sceneryPendingBackground?: string;
+  _sceneryInitialized?: boolean;
 }
 
 /**
