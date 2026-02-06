@@ -6,7 +6,7 @@
 		"BUTTON_SCAN": "バリエーションをスキャン",
 		"BUTTON_COPY": "コピー",
 		"BUTTON_CANCEL": "キャンセル",
-		"ERROR_SELECTION": "GMとプレイヤーはそれぞれ選択を表示するためにファイルが必要です",
+		"ERROR_SELECTION": "無効なバリエーションが選択されました",
 		"LABEL_FILE": "ファイル",
 		"LABEL_GM": "GM",
 		"LABEL_NAME": "名前",
