@@ -6,7 +6,7 @@
 		"BUTTON_SCAN": "Nach Varianten scannen",
 		"BUTTON_COPY": "Kopieren",
 		"BUTTON_CANCEL": "Abbrechen",
-		"ERROR_SELECTION": "GM & Spieler müssen beide eine Datei zur Anzeige ausgewählt haben",
+		"ERROR_SELECTION": "Ungültige Variante ausgewählt",
 		"LABEL_FILE": "Datei",
 		"LABEL_GM": "GM",
 		"LABEL_NAME": "Name",
