@@ -35,8 +35,8 @@ each variation.
   variation to another with granular selection
 - **Global element settings** — mark element types as global so they persist
   across all variations instead of being switched
-- **Variation labels** — scene directory shows a badge with the number of
-  variations per scene (can be disabled in settings)
+- **Variation labels** — scene directory shows a badge for scenes with multiple
+  variations (can be disabled in settings)
 
 ## Opening Scenery
 
@@ -108,8 +108,9 @@ A **Reset to Defaults** button in the settings restores these values.
 
 ![Module Settings](docs/scenery-settings.jpg 'Module Settings')
 
-Scenes with variations show a badge in the Scene Directory with the variation
-count. This can be toggled via the **Show Variations Label** setting.
+Scenes with multiple variations (2+) show a badge in the Scene Directory with
+the variation count. This can be toggled via the **Show Variations Label**
+setting.
 
 ![Variation Labels](docs/scenery-scenes-badge.png 'Variation count badges in the Scene Directory')
 

@@ -1522,7 +1522,8 @@ export default class Scenery extends BaseClass {
     scenes
       .filter((scene) => {
         const data = getSceneryData(scene);
-        return data?.variations && data.variations.length > 0;
+        // Only show badge when there are 2+ variations (default alone doesn't count)
+        return data?.variations && data.variations.length > 1;
       })
       .forEach((scene) => {
         // v13 uses data-entry-id instead of data-document-id
