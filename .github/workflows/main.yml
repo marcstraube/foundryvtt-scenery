@@ -60,12 +60,14 @@ jobs:
           body: ${{ github.event.release.body }}
 
       - name: Publish to Foundry VTT
-        if: ${{ secrets.FOUNDRY_PACKAGE_TOKEN }}
+        env:
+          FOUNDRY_PACKAGE_TOKEN: ${{ secrets.FOUNDRY_PACKAGE_TOKEN }}
+        if: ${{ env.FOUNDRY_PACKAGE_TOKEN != '' }}
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           curl -sf -X POST "https://foundryvtt.com/_api/packages/release_version/" \
             -H "Content-Type: application/json" \
-            -H "Authorization: ${{ secrets.FOUNDRY_PACKAGE_TOKEN }}" \
+            -H "Authorization: $FOUNDRY_PACKAGE_TOKEN" \
             -d "{
               \"id\": \"scenery\",
               \"release\": {
