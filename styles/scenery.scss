@@ -1,0 +1,433 @@
+@use 'variables' as *;
+
+// Main Scenery Window
+.scenery {
+  display: flex;
+  flex-direction: column;
+
+  // ApplicationV2 window styling
+  &.app.window-app {
+    max-height: $max-height-window;
+  }
+
+  .window-content {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  // Variations container
+  .variations-container {
+    flex: 0 1 auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 0;
+    padding-right: $spacing-sm;
+    max-height: $max-height-table;
+  }
+
+  // Footer styling
+  footer.sheet-footer {
+    flex: 0 0 auto;
+    margin-top: auto;
+    padding-top: $spacing-md;
+
+    .sheet-footer-buttons {
+      display: flex;
+      gap: $spacing-md;
+      justify-content: center;
+    }
+  }
+}
+
+// Variation Card Styling
+.variation-card {
+  border: 1px solid var(--color-border-dark-primary);
+  border-radius: $border-radius-lg;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  background: var(--color-control-bg);
+
+  &.active {
+    border-color: var(--color-border-highlight);
+    background: rgba(var(--color-primary-rgb, 0, 100, 200), 0.1);
+  }
+
+  &.default {
+    border-style: dashed;
+  }
+
+  // Header row
+  .variation-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+
+    input[type='radio'] {
+      width: $radio-size;
+      height: $radio-size;
+      accent-color: var(--color-border-highlight);
+      cursor: pointer;
+      flex-shrink: 0;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    .variation-name {
+      flex: 1;
+
+      strong {
+        font-weight: bold;
+        color: var(--color-text-light-primary);
+      }
+
+      input[type='text'] {
+        width: 100%;
+        background: var(--color-control-bg);
+        border: 1px solid var(--color-border-dark-tertiary);
+        padding: $spacing-xs $spacing-sm;
+        font-size: var(--font-size-12);
+
+        &:focus {
+          border-color: var(--color-border-highlight);
+          box-shadow: 0 0 3px var(--color-shadow-primary);
+        }
+      }
+    }
+
+    .variation-actions {
+      display: flex;
+      gap: $spacing-sm;
+      flex-shrink: 0;
+    }
+  }
+
+  // Background rows
+  .variation-backgrounds {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+
+    .background-row {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .background-label {
+        width: 55px;
+        flex-shrink: 0;
+        font-weight: bold;
+        color: var(--color-text-light-secondary);
+        font-size: $font-size-sm;
+
+        .fa-lock {
+          font-size: 10px;
+          margin-left: $spacing-xs;
+          opacity: 0.7;
+        }
+      }
+
+      .form-fields {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+
+        input.image {
+          flex: 1;
+          background: var(--color-control-bg);
+          border: 1px solid var(--color-border-dark-tertiary);
+          padding: $spacing-xs $spacing-sm;
+          font-size: var(--font-size-12);
+
+          &:focus {
+            border-color: var(--color-border-highlight);
+            box-shadow: 0 0 3px var(--color-shadow-primary);
+          }
+
+          &[readonly] {
+            background: var(--color-control-bg-disabled);
+            cursor: not-allowed;
+          }
+        }
+
+        .file-picker {
+          width: $button-width;
+          height: $button-height;
+          line-height: 22px;
+          padding: 0;
+          text-align: center;
+          background: var(--color-control-bg);
+          border: 1px solid var(--color-border-dark-primary);
+          border-radius: $border-radius;
+          cursor: pointer;
+          font-size: $font-size-xs;
+          flex-shrink: 0;
+
+          &:hover:not([disabled]) {
+            background: var(--color-control-bg-hover);
+            border-color: var(--color-border-highlight);
+            color: var(--color-text-highlight);
+          }
+
+          &[disabled] {
+            opacity: $opacity-disabled;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
+
+  // Elements row
+  .variation-elements {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding-top: $spacing-sm;
+    border-top: 1px solid var(--color-border-dark-tertiary);
+
+    .element-summary {
+      flex: 1;
+      font-size: $font-size-sm;
+      color: var(--color-text-light-secondary);
+
+      .live-indicator {
+        color: var(--color-level-warning);
+        font-size: 8px;
+        margin-right: $spacing-xs;
+        animation: pulse 2s infinite;
+      }
+    }
+
+    .element-actions {
+      display: flex;
+      gap: $spacing-sm;
+      flex-shrink: 0;
+    }
+  }
+
+  // Button styling within cards
+  button {
+    padding: $spacing-xs $spacing-sm;
+    width: $button-width;
+    height: $button-height;
+    line-height: 20px;
+    text-align: center;
+    background: var(--color-control-bg);
+    border: 1px solid var(--color-border-dark-primary);
+    border-radius: $border-radius;
+    cursor: pointer;
+    font-size: $font-size-xs;
+
+    &:hover:not([disabled]) {
+      background: var(--color-control-bg-hover);
+      border-color: var(--color-border-highlight);
+      color: var(--color-text-highlight);
+    }
+
+    &[disabled] {
+      opacity: $opacity-disabled;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Scene Directory Integration
+.scenes-sidebar .directory-item {
+  .scenery-variations {
+    flex: none;
+    position: absolute;
+    top: 0;
+    height: 20px;
+    font-size: 1em;
+    line-height: 1em;
+    text-align: center;
+    padding: $spacing-sm $spacing-md;
+    background: var(--color-shadow-dark);
+    color: var(--color-text-light-highlight);
+    border-radius: $border-radius;
+
+    label {
+      font-size: $font-size-sm;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius;
+      background-color: rgba(0, 0, 0, $opacity-dark);
+      margin-right: $spacing-sm;
+    }
+  }
+}
+
+// Directory Header Button (Fallback)
+.directory-header .scenery-button {
+  flex: 0 0 auto;
+  margin-right: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--button-background-color);
+  border: 1px solid var(--button-border-color);
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: $transition-default;
+  color: var(--button-text-color);
+
+  &:hover {
+    background: var(--button-hover-background-color);
+    border-color: var(--button-hover-border-color);
+    color: var(--button-hover-text-color);
+  }
+
+  i {
+    color: inherit;
+  }
+}
+
+// Copy Dialog Styling
+.scenery-copy-dialog {
+  padding: $spacing-md;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: $spacing-md;
+
+    > label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: $spacing-sm;
+      color: var(--color-text-light-primary);
+    }
+
+    select {
+      width: 100%;
+      height: var(--input-height);
+      line-height: var(--input-height);
+      padding: 0 0.5rem;
+      background: var(--input-background-color);
+      border: 1px solid var(--input-border-color);
+      border-radius: 4px;
+      box-shadow: none;
+      outline: 1px solid transparent;
+      font-family: inherit;
+      font-size: inherit;
+      color: var(--input-text-color);
+      user-select: none;
+      cursor: var(--cursor-pointer);
+      transition: outline-color 0.5s;
+
+      &:focus {
+        outline-color: var(--color-border-highlight);
+      }
+
+      option,
+      optgroup {
+        font-family: inherit;
+        background: var(--color-select-option-bg);
+      }
+    }
+  }
+
+  // Checkbox Grid Layout
+  .element-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+    width: 100%;
+    margin-bottom: $spacing-sm;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      padding: $spacing-xs $spacing-sm;
+      font-weight: normal;
+      margin: 0;
+      cursor: pointer;
+      border-radius: $border-radius;
+      transition: $transition-default;
+
+      &:hover {
+        background: var(--color-control-hover);
+      }
+
+      input[type='checkbox'] {
+        margin: 0;
+        cursor: pointer;
+        accent-color: var(--color-border-highlight);
+      }
+
+      i {
+        width: 16px;
+        text-align: center;
+      }
+    }
+  }
+
+  // Selection Helper Links
+  .selection-helpers {
+    text-align: center;
+    margin-top: $spacing-sm;
+    font-size: $font-size-sm;
+
+    a {
+      color: var(--color-text-hyperlink);
+      cursor: pointer;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--color-border-highlight);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // Reset Option Section
+  .reset-option {
+    margin-top: $spacing-md;
+    padding-top: $spacing-md;
+    border-top: 1px solid var(--color-border-dark-tertiary);
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      font-weight: normal;
+      cursor: pointer;
+      margin-bottom: $spacing-xs;
+
+      input[type='checkbox'] {
+        margin: 0;
+        cursor: pointer;
+        accent-color: var(--color-border-highlight);
+      }
+    }
+
+    .hint {
+      font-size: $font-size-sm;
+      color: var(--color-text-light-secondary);
+      margin: 0;
+      padding-left: calc(16px + #{$spacing-sm});
+      font-style: italic;
+    }
+  }
+}

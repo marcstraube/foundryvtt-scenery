@@ -1,32 +1,34 @@
 {
   "id": "scenery",
   "title": "Scenery - Background Image Variation Manager",
-  "description": "Allows easy import and background image changes for variations such as GM/Player, Night, Seasonal, etc.",
+  "description": "Manage background image variations per scene with separate GM/Player views, automatic scene element capture, smart map scanning, and instant switching.",
   "license": "MIT",
   "authors": [
     {
       "name": "Marc Straube",
       "email": "email@marcstraube.de",
-      "discord": "durag-c-walker#8327",
-      "url": "https://github.com/marcstraube"
+      "discord": "nerdy_by_nature",
+      "url": "https://github.com/marcstraube",
+      "ko-fi": "https://ko-fi.com/J3J1FVK91",
+      "patreon": "https://www.patreon.com/NerdyByNatureDev"
     },
     {
       "name": "Vance Cole"
+    },
+    {
+      "name": "angedelamort (v13 Migration)",
+      "url": "https://github.com/angedelamort"
     }
   ],
   "version": "This is auto replaced",
   "library": "false",
   "compatibility": {
-    "minimum": "10",
-    "verified": "12",
-    "maximum": "12"
+    "minimum": "13",
+    "verified": "13",
+    "maximum": "13"
   },
-  "esmodules": [
-    "./scripts/scenery.js"
-  ],
-  "styles": [
-    "./styles/scenery.css"
-  ],
+  "esmodules": ["./dist/scenery.js"],
+  "styles": ["./dist/scenery.css"],
   "languages": [
     {
       "lang": "de",
@@ -65,8 +67,5 @@
   "download": "This is auto replaced",
   "bugs": "This is auto replaced",
   "changelog": "This is auto replaced",
-  "readme": "This is auto replaced",
-  "flags": {
-    "allowBugReporter": true
-  }
+  "readme": "This is auto replaced"
 }
