@@ -33,6 +33,7 @@ jobs:
         run: pnpm run lint
 
       - name: Format check
+        if: github.event_name == 'push'
         run: pnpm run format:check
 
       - name: Build
