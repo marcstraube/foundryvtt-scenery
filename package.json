@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "pnpm exec eslint src/**/*.ts",
     "lint:fix": "pnpm exec eslint src/**/*.ts --fix",
-    "format": "pnpm exec prettier --write \"**/*.{js,ts,json,md,scss,hbs}\"",
-    "format:check": "pnpm exec prettier --check \"**/*.{js,ts,json,md,scss,hbs}\"",
+    "format": "pnpm exec prettier --write \"**/*.{js,ts,json,md,scss}\"",
+    "format:check": "pnpm exec prettier --check \"**/*.{js,ts,json,md,scss}\"",
     "knip": "pnpm exec knip",
     "link:foundry": "ln -sf $PWD ~/.local/share/FoundryVTT/Data/modules/scenery && echo 'Symlink created! Start Foundry and enable the module.'",
     "prepare": "husky || true"
