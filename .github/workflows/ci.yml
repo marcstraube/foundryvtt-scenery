@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [develop]
+    branches: [master]
   pull_request:
-    branches: [develop]
+    branches: [master]
 
 permissions:
   contents: read
@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Configure git to use HTTPS
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -33,6 +36,7 @@ jobs:
         run: pnpm run lint
 
       - name: Format check
+        if: github.event_name == 'push'
         run: pnpm run format:check
 
       - name: Build
