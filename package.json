@@ -43,7 +43,6 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-security": "^3.0.1",
     "husky": "^9.0.0",
     "knip": "^5.45.3",
     "lint-staged": "^16.0.1",

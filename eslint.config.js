@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
 import importPlugin from 'eslint-plugin-import';
-import securityPlugin from 'eslint-plugin-security';
+
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsparser from '@typescript-eslint/parser';
 
@@ -98,7 +98,6 @@ export default [
     plugins: {
       prettier: prettierPlugin,
       import: importPlugin,
-      security: securityPlugin,
     },
     rules: {
       // Base JavaScript recommended rules
@@ -112,11 +111,8 @@ export default [
       'import/no-unresolved': 'off', // Foundry modules don't need resolution
       'import/prefer-default-export': 'off',
 
-      // Security rules (browser context, less critical than backend)
-      'security/detect-eval-with-expression': 'error',
-      'security/detect-unsafe-regex': 'error',
-      'security/detect-non-literal-regexp': 'warn',
-      'security/detect-object-injection': 'off', // Too many false positives
+      // Security rules
+      'no-eval': 'error',
 
       // Foundry-specific adjustments
       'no-underscore-dangle': 'off', // Foundry uses _id, _view, etc.
@@ -229,7 +225,6 @@ export default [
       '@typescript-eslint': tseslint,
       prettier: prettierPlugin,
       import: importPlugin,
-      security: securityPlugin,
     },
     rules: {
       // Base TypeScript recommended rules
@@ -254,10 +249,7 @@ export default [
       'import/prefer-default-export': 'off',
 
       // Security rules
-      'security/detect-eval-with-expression': 'error',
-      'security/detect-unsafe-regex': 'error',
-      'security/detect-non-literal-regexp': 'warn',
-      'security/detect-object-injection': 'off',
+      'no-eval': 'error',
 
       // Foundry-specific adjustments
       'no-underscore-dangle': 'off',

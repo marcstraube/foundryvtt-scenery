@@ -19,7 +19,7 @@ importers:
         version: 10.0.1(eslint@10.0.0(jiti@2.6.1))
       '@league-of-foundry-developers/foundry-vtt-types':
         specifier: 13.346.0-beta.20251209192131
-        version: 13.346.0-beta.20251209192131(5pzc3r2xo2yhr3usuvgt5alj4q)
+        version: 13.346.0-beta.20251209192131(ypgxa4zkppaqtjscxlw6wdhtxq)
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.19.1
         version: 8.55.0(@typescript-eslint/parser@8.55.0(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3))(eslint@10.0.0(jiti@2.6.1))(typescript@5.9.3)
@@ -38,9 +38,6 @@ importers:
       eslint-plugin-prettier:
         specifier: ^5.2.1
         version: 5.5.5(eslint-config-prettier@10.1.8(eslint@10.0.0(jiti@2.6.1)))(eslint@10.0.0(jiti@2.6.1))(prettier@3.8.1)
-      eslint-plugin-security:
-        specifier: ^3.0.1
-        version: 3.0.1
       husky:
         specifier: ^9.0.0
         version: 9.1.7
@@ -662,8 +659,8 @@ packages:
     peerDependencies:
       '@pixi/core': 7.4.3
 
-  '@pixi/basis@git+https://git@github.com:foundry-vtt-types/pixi-basis.git#d0956799d7c23f59e12b7b2ec4dc21c041180b0e':
-    resolution: {commit: d0956799d7c23f59e12b7b2ec4dc21c041180b0e, repo: git@github.com:foundry-vtt-types/pixi-basis.git, type: git}
+  '@pixi/basis@https://codeload.github.com/foundry-vtt-types/pixi-basis/tar.gz/d0956799d7c23f59e12b7b2ec4dc21c041180b0e':
+    resolution: {tarball: https://codeload.github.com/foundry-vtt-types/pixi-basis/tar.gz/d0956799d7c23f59e12b7b2ec4dc21c041180b0e}
     version: 7.4.3
     peerDependencies:
       '@pixi/assets': github:foundry-vtt-types/pixi-assets#main
@@ -686,8 +683,8 @@ packages:
   '@pixi/constants@7.4.3':
     resolution: {integrity: sha512-QGmwJUNQy/vVEHzL6VGQvnwawLZ1wceZMI8HwJAT4/I2uAzbBeFDdmCS8WsTpSWLZjF/DszDc1D8BFp4pVJ5UQ==}
 
-  '@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e':
-    resolution: {commit: b2554df0b43183980830a08d92a960ede78ad25e, repo: git@github.com:foundry-vtt-types/pixi-core.git, type: git}
+  '@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e':
+    resolution: {tarball: https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e}
     version: 7.4.3
 
   '@pixi/display@7.4.3':
@@ -810,8 +807,8 @@ packages:
       '@pixi/display': 7.4.3
       '@pixi/sprite': 7.4.3
 
-  '@pixi/particle-emitter@git+https://git@github.com:foundry-vtt-types/pixi-particle-emitter.git#9bd3cb53826b2c7d4c407db183f4dd93edd50aae':
-    resolution: {commit: 9bd3cb53826b2c7d4c407db183f4dd93edd50aae, repo: git@github.com:foundry-vtt-types/pixi-particle-emitter.git, type: git}
+  '@pixi/particle-emitter@https://codeload.github.com/foundry-vtt-types/pixi-particle-emitter/tar.gz/9bd3cb53826b2c7d4c407db183f4dd93edd50aae':
+    resolution: {tarball: https://codeload.github.com/foundry-vtt-types/pixi-particle-emitter/tar.gz/9bd3cb53826b2c7d4c407db183f4dd93edd50aae}
     version: 5.0.8
     peerDependencies:
       '@pixi/constants': '>=6.0.4 <8.0.0'
@@ -892,15 +889,15 @@ packages:
   '@pixi/ticker@7.4.3':
     resolution: {integrity: sha512-tHsAD0iOUb6QSGGw+c8cyRBvxsq/NlfzIFBZLEHhWZ+Bx4a0MmXup6I/yJDGmyPCYE+ctCcAfY13wKAzdiVFgQ==}
 
-  '@pixi/ticker@git+https://git@github.com:foundry-vtt-types/pixi-ticker.git#6a2756560f67a81fafbb1914b56d8974b6f34085':
-    resolution: {commit: 6a2756560f67a81fafbb1914b56d8974b6f34085, repo: git@github.com:foundry-vtt-types/pixi-ticker.git, type: git}
+  '@pixi/ticker@https://codeload.github.com/foundry-vtt-types/pixi-ticker/tar.gz/6a2756560f67a81fafbb1914b56d8974b6f34085':
+    resolution: {tarball: https://codeload.github.com/foundry-vtt-types/pixi-ticker/tar.gz/6a2756560f67a81fafbb1914b56d8974b6f34085}
     version: 7.4.3
 
   '@pixi/utils@7.4.3':
     resolution: {integrity: sha512-NO3Y9HAn2UKS1YdxffqsPp+kDpVm8XWvkZcS/E+rBzY9VTLnNOI7cawSRm+dacdET3a8Jad3aDKEDZ0HmAqAFA==}
 
-  '@pixi/utils@git+https://git@github.com:foundry-vtt-types/pixi-utils.git#8274a744f353ec7a7d9313748ceab22455df8837':
-    resolution: {commit: 8274a744f353ec7a7d9313748ceab22455df8837, repo: git@github.com:foundry-vtt-types/pixi-utils.git, type: git}
+  '@pixi/utils@https://codeload.github.com/foundry-vtt-types/pixi-utils/tar.gz/8274a744f353ec7a7d9313748ceab22455df8837':
+    resolution: {tarball: https://codeload.github.com/foundry-vtt-types/pixi-utils/tar.gz/8274a744f353ec7a7d9313748ceab22455df8837}
     version: 7.4.3
 
   '@pkgr/core@0.2.9':
@@ -1571,10 +1568,6 @@ packages:
         optional: true
       eslint-config-prettier:
         optional: true
-
-  eslint-plugin-security@3.0.1:
-    resolution: {integrity: sha512-XjVGBhtDZJfyuhIxnQ/WMm385RbX3DBu7H1J7HNNhmB2tnGxMeqVSnYv79oAj992ayvIBZghsymwkYFS6cGH4Q==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   eslint-scope@9.1.0:
     resolution: {integrity: sha512-CkWE42hOJsNj9FJRaoMX9waUFYhqY4jmyLFdAdzZr6VaCg3ynLYx4WnOdkaIifGfH4gsUcBTn4OZbHXkpLD0FQ==}
@@ -2251,8 +2244,8 @@ packages:
     peerDependencies:
       pixi.js: ^7.x.x
 
-  pixi.js@git+https://git@github.com:foundry-vtt-types/pixi.js.git#a8414afd3a1141c3ef94e62079e7861723029c2c:
-    resolution: {commit: a8414afd3a1141c3ef94e62079e7861723029c2c, repo: git@github.com:foundry-vtt-types/pixi.js.git, type: git}
+  pixi.js@https://codeload.github.com/foundry-vtt-types/pixi.js/tar.gz/a8414afd3a1141c3ef94e62079e7861723029c2c:
+    resolution: {tarball: https://codeload.github.com/foundry-vtt-types/pixi.js/tar.gz/a8414afd3a1141c3ef94e62079e7861723029c2c}
     version: 7.4.3
 
   possible-typed-array-names@1.1.0:
@@ -2344,10 +2337,6 @@ packages:
     resolution: {integrity: sha512-00o4I+DVrefhv+nX0ulyi3biSHCPDe+yLv5o/p6d/UVlirijB8E16FtfwSAi4g3tcqrQ4lRAqQSoFEZJehYEcw==}
     engines: {node: '>= 0.4'}
 
-  regexp-tree@0.1.27:
-    resolution: {integrity: sha512-iETxpjK6YoRWJG5o6hXLwvjYAoW+FEZn9os0PD/b6AP6xQwsa/Y7lCVgIixBbUPMfhu+i2LtdeAqVTgGlQarfA==}
-    hasBin: true
-
   regexp.prototype.flags@1.5.4:
     resolution: {integrity: sha512-dYqgNSZbDwkaJ2ceRd9ojCGjBq+mOm9LmtXnAnEGyHhN/5R7iDW2TRw3h+o/jCFxus3P2LfWIIiwowAjANm7IA==}
     engines: {node: '>= 0.4'}
@@ -2409,9 +2398,6 @@ packages:
   safe-regex-test@1.1.0:
     resolution: {integrity: sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw==}
     engines: {node: '>= 0.4'}
-
-  safe-regex@2.1.1:
-    resolution: {integrity: sha512-rx+x8AMzKb5Q5lQ95Zoi6ZbJqwCLkqi3XuJXp5P3rT8OEc6sZCJG5AE5dU3lsgRr/F4Bs31jSlVN+j5KrsGu9A==}
 
   sanitize-html@2.17.0:
     resolution: {integrity: sha512-dLAADUSS8rBwhaevT12yCezvioCA+bmUTPH/u57xKPT8d++voeYE6HeluA/bPbQ15TwDBG2ii+QZIEmYx8VdxA==}
@@ -3143,15 +3129,15 @@ snapshots:
 
   '@isaacs/cliui@9.0.0': {}
 
-  '@league-of-foundry-developers/foundry-vtt-types@13.346.0-beta.20251209192131(5pzc3r2xo2yhr3usuvgt5alj4q)':
+  '@league-of-foundry-developers/foundry-vtt-types@13.346.0-beta.20251209192131(ypgxa4zkppaqtjscxlw6wdhtxq)':
     dependencies:
       '@codemirror/lang-html': 6.4.11
       '@codemirror/lang-javascript': 6.2.4
       '@codemirror/lang-json': 6.0.2
       '@codemirror/lang-markdown': 6.5.0
-      '@pixi/basis': git+https://git@github.com:foundry-vtt-types/pixi-basis.git#d0956799d7c23f59e12b7b2ec4dc21c041180b0e(@pixi/assets@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/graphics-smooth': 1.1.1(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/graphics@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))))
-      '@pixi/particle-emitter': git+https://git@github.com:foundry-vtt-types/pixi-particle-emitter.git#9bd3cb53826b2c7d4c407db183f4dd93edd50aae(@pixi/constants@7.4.3)(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/math@7.4.3)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))(@pixi/ticker@7.4.3)
+      '@pixi/basis': https://codeload.github.com/foundry-vtt-types/pixi-basis/tar.gz/d0956799d7c23f59e12b7b2ec4dc21c041180b0e(@pixi/assets@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/graphics-smooth': 1.1.1(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/graphics@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))))
+      '@pixi/particle-emitter': https://codeload.github.com/foundry-vtt-types/pixi-particle-emitter/tar.gz/9bd3cb53826b2c7d4c407db183f4dd93edd50aae(@pixi/constants@7.4.3)(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/math@7.4.3)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))(@pixi/ticker@7.4.3)
       '@types/jquery': 3.5.33
       '@types/showdown': 2.0.6
       '@types/simple-peer': 9.11.9
@@ -3162,8 +3148,8 @@ snapshots:
       jquery: 3.7.1
       mime-types: 3.0.2
       peggy: 4.2.0
-      pixi-basis-ktx2: 0.0.22(pixi.js@git+https://git@github.com:foundry-vtt-types/pixi.js.git#a8414afd3a1141c3ef94e62079e7861723029c2c)
-      pixi.js: git+https://git@github.com:foundry-vtt-types/pixi.js.git#a8414afd3a1141c3ef94e62079e7861723029c2c
+      pixi-basis-ktx2: 0.0.22(pixi.js@https://codeload.github.com/foundry-vtt-types/pixi.js/tar.gz/a8414afd3a1141c3ef94e62079e7861723029c2c)
+      pixi.js: https://codeload.github.com/foundry-vtt-types/pixi.js/tar.gz/a8414afd3a1141c3ef94e62079e7861723029c2c
       prosemirror-collab: 1.3.1
       prosemirror-commands: 1.7.1
       prosemirror-dropcursor: 1.8.2
@@ -3387,26 +3373,26 @@ snapshots:
     dependencies:
       semver: 7.6.3
 
-  '@pixi/accessibility@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/events@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))':
+  '@pixi/accessibility@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/events@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/events': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/events': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
 
-  '@pixi/app@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))':
+  '@pixi/app@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
 
-  '@pixi/assets@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/assets@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
       '@types/css-font-loading-module': 0.0.12
 
-  '@pixi/basis@git+https://git@github.com:foundry-vtt-types/pixi-basis.git#d0956799d7c23f59e12b7b2ec4dc21c041180b0e(@pixi/assets@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/basis@https://codeload.github.com/foundry-vtt-types/pixi-basis/tar.gz/d0956799d7c23f59e12b7b2ec4dc21c041180b0e(@pixi/assets@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/assets': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/assets': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
   '@pixi/color@7.4.3':
     dependencies:
@@ -3414,14 +3400,14 @@ snapshots:
 
   '@pixi/colord@2.9.6': {}
 
-  '@pixi/compressed-textures@7.4.3(@pixi/assets@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/compressed-textures@7.4.3(@pixi/assets@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/assets': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/assets': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
   '@pixi/constants@7.4.3': {}
 
-  '@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e':
+  '@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e':
     dependencies:
       '@pixi/color': 7.4.3
       '@pixi/constants': 7.4.3
@@ -3429,108 +3415,108 @@ snapshots:
       '@pixi/math': 7.4.3
       '@pixi/runner': 7.4.3
       '@pixi/settings': 7.4.3
-      '@pixi/ticker': git+https://git@github.com:foundry-vtt-types/pixi-ticker.git#6a2756560f67a81fafbb1914b56d8974b6f34085
-      '@pixi/utils': git+https://git@github.com:foundry-vtt-types/pixi-utils.git#8274a744f353ec7a7d9313748ceab22455df8837
+      '@pixi/ticker': https://codeload.github.com/foundry-vtt-types/pixi-ticker/tar.gz/6a2756560f67a81fafbb1914b56d8974b6f34085
+      '@pixi/utils': https://codeload.github.com/foundry-vtt-types/pixi-utils/tar.gz/8274a744f353ec7a7d9313748ceab22455df8837
 
-  '@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
-  '@pixi/events@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))':
+  '@pixi/events@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
 
   '@pixi/extensions@7.4.3': {}
 
-  '@pixi/extract@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/extract@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
-  '@pixi/filter-alpha@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/filter-alpha@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
-  '@pixi/filter-blur@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/filter-blur@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
-  '@pixi/filter-color-matrix@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/filter-color-matrix@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
-  '@pixi/filter-displacement@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/filter-displacement@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
-  '@pixi/filter-fxaa@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/filter-fxaa@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
-  '@pixi/filter-noise@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/filter-noise@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
-  '@pixi/graphics-smooth@1.1.1(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/graphics@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))))':
+  '@pixi/graphics-smooth@1.1.1(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/graphics@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/graphics': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/graphics': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
 
-  '@pixi/graphics@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))':
+  '@pixi/graphics@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/sprite': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/sprite': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
 
   '@pixi/math@7.4.3': {}
 
-  '@pixi/mesh-extras@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/mesh@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))':
+  '@pixi/mesh-extras@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/mesh@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/mesh': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/mesh': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
 
-  '@pixi/mesh@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))':
+  '@pixi/mesh@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
 
-  '@pixi/mixin-cache-as-bitmap@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))':
+  '@pixi/mixin-cache-as-bitmap@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/sprite': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/sprite': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
 
-  '@pixi/mixin-get-child-by-name@7.4.3(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))':
+  '@pixi/mixin-get-child-by-name@7.4.3(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))':
     dependencies:
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
 
-  '@pixi/mixin-get-global-position@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))':
+  '@pixi/mixin-get-global-position@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
 
-  '@pixi/particle-container@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))':
+  '@pixi/particle-container@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/sprite': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/sprite': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
 
-  '@pixi/particle-emitter@git+https://git@github.com:foundry-vtt-types/pixi-particle-emitter.git#9bd3cb53826b2c7d4c407db183f4dd93edd50aae(@pixi/constants@7.4.3)(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/math@7.4.3)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))(@pixi/ticker@7.4.3)':
+  '@pixi/particle-emitter@https://codeload.github.com/foundry-vtt-types/pixi-particle-emitter/tar.gz/9bd3cb53826b2c7d4c407db183f4dd93edd50aae(@pixi/constants@7.4.3)(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/math@7.4.3)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))(@pixi/ticker@7.4.3)':
     dependencies:
       '@pixi/constants': 7.4.3
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
       '@pixi/math': 7.4.3
-      '@pixi/sprite': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/sprite': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
       '@pixi/ticker': 7.4.3
 
-  '@pixi/prepare@7.4.3(n2cd5pyiiaool3j5f6ksc66zqy)':
+  '@pixi/prepare@7.4.3(vmipdwmcdebwzzpd44aphwwaca)':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/graphics': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
-      '@pixi/text': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/graphics': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/text': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
 
   '@pixi/runner@7.4.3': {}
 
@@ -3540,46 +3526,46 @@ snapshots:
       '@types/css-font-loading-module': 0.0.12
       ismobilejs: 1.1.1
 
-  '@pixi/sprite-animated@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))':
+  '@pixi/sprite-animated@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/sprite': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/sprite': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
 
-  '@pixi/sprite-tiling@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))':
+  '@pixi/sprite-tiling@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/sprite': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/sprite': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
 
-  '@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))':
+  '@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
 
-  '@pixi/spritesheet@7.4.3(@pixi/assets@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)':
+  '@pixi/spritesheet@7.4.3(@pixi/assets@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)':
     dependencies:
-      '@pixi/assets': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/assets': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
 
-  '@pixi/text-bitmap@7.4.3(ugi6znpvpdfxmdft4ottzobigq)':
+  '@pixi/text-bitmap@7.4.3(x2zpoejmj6jyxd462lrr4xz5l4)':
     dependencies:
-      '@pixi/assets': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/mesh': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
-      '@pixi/text': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/assets': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/mesh': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/text': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
 
-  '@pixi/text-html@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))(@pixi/text@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))))':
+  '@pixi/text-html@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))(@pixi/text@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/sprite': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
-      '@pixi/text': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/sprite': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/text': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
 
-  '@pixi/text@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))':
+  '@pixi/text@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))':
     dependencies:
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/sprite': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/sprite': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
 
   '@pixi/ticker@7.4.3':
     dependencies:
@@ -3587,11 +3573,11 @@ snapshots:
       '@pixi/settings': 7.4.3
       '@pixi/utils': 7.4.3
 
-  '@pixi/ticker@git+https://git@github.com:foundry-vtt-types/pixi-ticker.git#6a2756560f67a81fafbb1914b56d8974b6f34085':
+  '@pixi/ticker@https://codeload.github.com/foundry-vtt-types/pixi-ticker/tar.gz/6a2756560f67a81fafbb1914b56d8974b6f34085':
     dependencies:
       '@pixi/extensions': 7.4.3
       '@pixi/settings': 7.4.3
-      '@pixi/utils': git+https://git@github.com:foundry-vtt-types/pixi-utils.git#8274a744f353ec7a7d9313748ceab22455df8837
+      '@pixi/utils': https://codeload.github.com/foundry-vtt-types/pixi-utils/tar.gz/8274a744f353ec7a7d9313748ceab22455df8837
 
   '@pixi/utils@7.4.3':
     dependencies:
@@ -3603,7 +3589,7 @@ snapshots:
       eventemitter3: 4.0.7
       url: 0.11.4
 
-  '@pixi/utils@git+https://git@github.com:foundry-vtt-types/pixi-utils.git#8274a744f353ec7a7d9313748ceab22455df8837':
+  '@pixi/utils@https://codeload.github.com/foundry-vtt-types/pixi-utils/tar.gz/8274a744f353ec7a7d9313748ceab22455df8837':
     dependencies:
       '@pixi/color': 7.4.3
       '@pixi/constants': 7.4.3
@@ -4373,10 +4359,6 @@ snapshots:
     optionalDependencies:
       eslint-config-prettier: 10.1.8(eslint@10.0.0(jiti@2.6.1))
 
-  eslint-plugin-security@3.0.1:
-    dependencies:
-      safe-regex: 2.1.1
-
   eslint-scope@9.1.0:
     dependencies:
       '@types/esrecurse': 4.3.1
@@ -5066,42 +5048,42 @@ snapshots:
 
   pidtree@0.6.0: {}
 
-  pixi-basis-ktx2@0.0.22(pixi.js@git+https://git@github.com:foundry-vtt-types/pixi.js.git#a8414afd3a1141c3ef94e62079e7861723029c2c):
+  pixi-basis-ktx2@0.0.22(pixi.js@https://codeload.github.com/foundry-vtt-types/pixi.js/tar.gz/a8414afd3a1141c3ef94e62079e7861723029c2c):
     dependencies:
-      pixi.js: git+https://git@github.com:foundry-vtt-types/pixi.js.git#a8414afd3a1141c3ef94e62079e7861723029c2c
+      pixi.js: https://codeload.github.com/foundry-vtt-types/pixi.js/tar.gz/a8414afd3a1141c3ef94e62079e7861723029c2c
 
-  pixi.js@git+https://git@github.com:foundry-vtt-types/pixi.js.git#a8414afd3a1141c3ef94e62079e7861723029c2c:
+  pixi.js@https://codeload.github.com/foundry-vtt-types/pixi.js/tar.gz/a8414afd3a1141c3ef94e62079e7861723029c2c:
     dependencies:
-      '@pixi/accessibility': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/events@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
-      '@pixi/app': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
-      '@pixi/assets': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/compressed-textures': 7.4.3(@pixi/assets@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/core': git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e
-      '@pixi/display': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/events': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/accessibility': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/events@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/app': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/assets': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/compressed-textures': 7.4.3(@pixi/assets@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/core': https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e
+      '@pixi/display': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/events': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
       '@pixi/extensions': 7.4.3
-      '@pixi/extract': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/filter-alpha': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/filter-blur': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/filter-color-matrix': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/filter-displacement': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/filter-fxaa': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/filter-noise': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/graphics': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
-      '@pixi/mesh': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
-      '@pixi/mesh-extras': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/mesh@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
-      '@pixi/mixin-cache-as-bitmap': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
-      '@pixi/mixin-get-child-by-name': 7.4.3(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
-      '@pixi/mixin-get-global-position': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
-      '@pixi/particle-container': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
-      '@pixi/prepare': 7.4.3(n2cd5pyiiaool3j5f6ksc66zqy)
-      '@pixi/sprite': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))
-      '@pixi/sprite-animated': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
-      '@pixi/sprite-tiling': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
-      '@pixi/spritesheet': 7.4.3(@pixi/assets@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)
-      '@pixi/text': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))
-      '@pixi/text-bitmap': 7.4.3(ugi6znpvpdfxmdft4ottzobigq)
-      '@pixi/text-html': 7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)))(@pixi/text@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@git+https://git@github.com:foundry-vtt-types/pixi-core.git#b2554df0b43183980830a08d92a960ede78ad25e))))
+      '@pixi/extract': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/filter-alpha': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/filter-blur': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/filter-color-matrix': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/filter-displacement': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/filter-fxaa': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/filter-noise': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/graphics': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/mesh': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/mesh-extras': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/mesh@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/mixin-cache-as-bitmap': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/mixin-get-child-by-name': 7.4.3(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/mixin-get-global-position': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/particle-container': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/prepare': 7.4.3(vmipdwmcdebwzzpd44aphwwaca)
+      '@pixi/sprite': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))
+      '@pixi/sprite-animated': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/sprite-tiling': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/spritesheet': 7.4.3(@pixi/assets@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)
+      '@pixi/text': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))
+      '@pixi/text-bitmap': 7.4.3(x2zpoejmj6jyxd462lrr4xz5l4)
+      '@pixi/text-html': 7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)))(@pixi/text@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/sprite@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e)(@pixi/display@7.4.3(@pixi/core@https://codeload.github.com/foundry-vtt-types/pixi-core/tar.gz/b2554df0b43183980830a08d92a960ede78ad25e))))
 
   possible-typed-array-names@1.1.0: {}
 
@@ -5226,8 +5208,6 @@ snapshots:
       get-proto: 1.0.1
       which-builtin-type: 1.2.1
 
-  regexp-tree@0.1.27: {}
-
   regexp.prototype.flags@1.5.4:
     dependencies:
       call-bind: 1.0.8
@@ -5317,10 +5297,6 @@ snapshots:
       call-bound: 1.0.4
       es-errors: 1.3.0
       is-regex: 1.2.1
-
-  safe-regex@2.1.1:
-    dependencies:
-      regexp-tree: 0.1.27
 
   sanitize-html@2.17.0:
     dependencies:
