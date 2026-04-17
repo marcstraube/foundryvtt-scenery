@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Configure git to use HTTPS
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -74,9 +77,6 @@ jobs:
                 \"version\": \"${VERSION}\",
                 \"manifest\": \"https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json\",
                 \"notes\": \"https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}\",
-                \"compatibility\": {
-                  \"minimum\": \"13\",
-                  \"verified\": \"13\"
-                }
+                \"compatibility\": $(jq '.compatibility' module.json)
               }
             }"
