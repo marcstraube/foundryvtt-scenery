@@ -134,17 +134,6 @@ Hooks.once('init', () => {
     default: true,
   });
 
-  settings?.register(MODULE_ID, SETTINGS.GLOBAL_TEMPLATES, {
-    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_TEMPLATES) ?? 'Global Templates',
-    hint:
-      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_TEMPLATES_HINT) ??
-      'Templates stay on the scene when switching variations.',
-    scope: 'world',
-    config: true,
-    type: Boolean,
-    default: true,
-  });
-
   settings?.register(MODULE_ID, SETTINGS.GLOBAL_REGIONS, {
     name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_REGIONS) ?? 'Global Regions',
     hint:
@@ -274,7 +263,6 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: JQuery | HTMLElement) => 
     [SETTINGS.GLOBAL_TILES]: false,
     [SETTINGS.GLOBAL_WALLS]: false,
     [SETTINGS.GLOBAL_DRAWINGS]: true,
-    [SETTINGS.GLOBAL_TEMPLATES]: true,
     [SETTINGS.GLOBAL_REGIONS]: false,
     [SETTINGS.GLOBAL_NOTES]: true,
   };

@@ -159,7 +159,6 @@ export default class CopyDialog extends foundry.applications.api.DialogV2<object
       tiles: (formData.get('tiles') as string) === 'on',
       walls: (formData.get('walls') as string) === 'on',
       drawings: (formData.get('drawings') as string) === 'on',
-      templates: (formData.get('templates') as string) === 'on',
       regions: (formData.get('regions') as string) === 'on',
       notes: (formData.get('notes') as string) === 'on',
     };
@@ -206,7 +205,6 @@ export default class CopyDialog extends foundry.applications.api.DialogV2<object
         tiles: [],
         walls: [],
         drawings: [],
-        templates: [],
         regions: [],
         notes: [],
       };
@@ -219,7 +217,6 @@ export default class CopyDialog extends foundry.applications.api.DialogV2<object
       if (!selection.tiles) targetVariationInData.sceneData.tiles = [];
       if (!selection.walls) targetVariationInData.sceneData.walls = [];
       if (!selection.drawings) targetVariationInData.sceneData.drawings = [];
-      if (!selection.templates) targetVariationInData.sceneData.templates = [];
       if (!selection.regions) targetVariationInData.sceneData.regions = [];
       if (!selection.notes) targetVariationInData.sceneData.notes = [];
     }
@@ -236,10 +233,6 @@ export default class CopyDialog extends foundry.applications.api.DialogV2<object
     if (selection.drawings)
       targetVariationInData.sceneData.drawings = JSON.parse(
         JSON.stringify(sourceSceneData.drawings)
-      );
-    if (selection.templates)
-      targetVariationInData.sceneData.templates = JSON.parse(
-        JSON.stringify(sourceSceneData.templates)
       );
     if (selection.regions)
       targetVariationInData.sceneData.regions = JSON.parse(JSON.stringify(sourceSceneData.regions));

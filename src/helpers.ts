@@ -58,7 +58,6 @@ export interface SceneElementData {
   tiles: object[];
   walls: object[];
   drawings: object[];
-  templates: object[];
   regions: object[];
   notes: object[];
 }
@@ -72,7 +71,6 @@ export interface SceneElementSelection {
   tiles?: boolean;
   walls?: boolean;
   drawings?: boolean;
-  templates?: boolean;
   regions?: boolean;
   notes?: boolean;
 }
@@ -120,7 +118,6 @@ export function getVariationManagedSelection(): SceneElementSelection {
     tiles: !getSetting(SETTINGS.GLOBAL_TILES),
     walls: !getSetting(SETTINGS.GLOBAL_WALLS),
     drawings: !getSetting(SETTINGS.GLOBAL_DRAWINGS),
-    templates: !getSetting(SETTINGS.GLOBAL_TEMPLATES),
     regions: !getSetting(SETTINGS.GLOBAL_REGIONS),
     notes: !getSetting(SETTINGS.GLOBAL_NOTES),
   };
@@ -253,7 +250,6 @@ export function captureSceneElements(
     tiles: true,
     walls: true,
     drawings: true,
-    templates: true,
     regions: true,
     notes: true,
   }
@@ -268,9 +264,6 @@ export function captureSceneElements(
     walls: selection.walls ? Array.from(targetScene.walls).map((wall) => wall.toObject()) : [],
     drawings: selection.drawings
       ? Array.from(targetScene.drawings).map((drawing) => drawing.toObject())
-      : [],
-    templates: selection.templates
-      ? Array.from(targetScene.templates).map((template) => template.toObject())
       : [],
     regions: selection.regions
       ? Array.from(targetScene.regions).map((region) => region.toObject())
@@ -307,8 +300,6 @@ export async function restoreSceneElements(
       await restoreDocumentType(scene, 'Wall', sceneData.walls);
     if (!selection || selection.drawings !== false)
       await restoreDocumentType(scene, 'Drawing', sceneData.drawings);
-    if (!selection || selection.templates !== false)
-      await restoreDocumentType(scene, 'MeasuredTemplate', sceneData.templates);
     if (!selection || selection.regions !== false)
       await restoreDocumentType(scene, 'Region', sceneData.regions);
     if (!selection || selection.notes !== false)
@@ -345,13 +336,11 @@ async function restoreDocumentType(
             ? 'walls'
             : documentType === 'Drawing'
               ? 'drawings'
-              : documentType === 'MeasuredTemplate'
-                ? 'templates'
-                : documentType === 'Region'
-                  ? 'regions'
-                  : documentType === 'Note'
-                    ? 'notes'
-                    : 'walls';
+              : documentType === 'Region'
+                ? 'regions'
+                : documentType === 'Note'
+                  ? 'notes'
+                  : 'walls';
 
   const sceneRecord = scene as unknown as Record<string, EmbeddedCollection | undefined>;
   const collection = sceneRecord[collectionName];
@@ -407,7 +396,6 @@ export function hasSceneData(variation: Variation): boolean {
       variation.sceneData.tiles.length > 0 ||
       variation.sceneData.walls.length > 0 ||
       variation.sceneData.drawings.length > 0 ||
-      variation.sceneData.templates.length > 0 ||
       variation.sceneData.regions.length > 0 ||
       variation.sceneData.notes.length > 0)
   );
@@ -427,7 +415,6 @@ export function getSceneDataSummary(sceneData?: SceneElementData): string {
   if (sceneData.tiles.length > 0) parts.push(`${sceneData.tiles.length} tiles`);
   if (sceneData.walls.length > 0) parts.push(`${sceneData.walls.length} walls`);
   if (sceneData.drawings.length > 0) parts.push(`${sceneData.drawings.length} drawings`);
-  if (sceneData.templates.length > 0) parts.push(`${sceneData.templates.length} templates`);
   if (sceneData.regions.length > 0) parts.push(`${sceneData.regions.length} regions`);
   if (sceneData.notes.length > 0) parts.push(`${sceneData.notes.length} notes`);
 
@@ -448,7 +435,6 @@ export function getCurrentSceneCounts(scene?: Scene): Record<string, number> {
       tiles: 0,
       walls: 0,
       drawings: 0,
-      templates: 0,
       regions: 0,
       notes: 0,
     };
@@ -459,7 +445,6 @@ export function getCurrentSceneCounts(scene?: Scene): Record<string, number> {
     tiles: targetScene.tiles.size,
     walls: targetScene.walls.size,
     drawings: targetScene.drawings.size,
-    templates: targetScene.templates.size,
     regions: targetScene.regions.size,
     notes: targetScene.notes.size,
   };
