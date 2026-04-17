@@ -69,7 +69,6 @@ export default [
         AmbientLight: 'readonly',
         AmbientSound: 'readonly',
         Note: 'readonly',
-        MeasuredTemplate: 'readonly',
 
         // FoundryVTT Classes - Canvas Layers
         TextureLoader: 'readonly',
@@ -195,7 +194,6 @@ export default [
         AmbientLight: 'readonly',
         AmbientSound: 'readonly',
         Note: 'readonly',
-        MeasuredTemplate: 'readonly',
 
         // FoundryVTT Classes - Canvas Layers
         TextureLoader: 'readonly',

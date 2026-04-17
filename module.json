@@ -9,8 +9,8 @@
       "email": "email@marcstraube.de",
       "discord": "nerdy_by_nature",
       "url": "https://github.com/marcstraube",
-      "ko-fi": "https://ko-fi.com/J3J1FVK91",
-      "patreon": "https://www.patreon.com/NerdyByNatureDev"
+      "ko-fi": "https://ko-fi.com/marcstraube",
+      "patreon": "https://www.patreon.com/NerdyByNature"
     },
     {
       "name": "Vance Cole"
@@ -23,9 +23,9 @@
   "version": "This is auto replaced",
   "library": "false",
   "compatibility": {
-    "minimum": "13",
-    "verified": "13",
-    "maximum": "13"
+    "minimum": "14",
+    "verified": "14.360",
+    "maximum": "14"
   },
   "esmodules": ["./dist/scenery.js"],
   "styles": ["./dist/scenery.css"],

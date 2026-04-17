@@ -2,6 +2,7 @@ import '../styles/scenery.scss';
 import Scenery from './classes/Scenery.js';
 import { log } from './helpers.js';
 import type { SceneUpdate } from './types.js';
+import type { ContextMenuEntry } from './foundry-v14.js';
 import { MODULE_ID, SETTINGS, I18N_KEYS, ICONS } from './constants.js';
 
 log('Module loading...', true);
@@ -134,17 +135,6 @@ Hooks.once('init', () => {
     default: true,
   });
 
-  settings?.register(MODULE_ID, SETTINGS.GLOBAL_TEMPLATES, {
-    name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_TEMPLATES) ?? 'Global Templates',
-    hint:
-      game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_TEMPLATES_HINT) ??
-      'Templates stay on the scene when switching variations.',
-    scope: 'world',
-    config: true,
-    type: Boolean,
-    default: true,
-  });
-
   settings?.register(MODULE_ID, SETTINGS.GLOBAL_REGIONS, {
     name: game.i18n?.localize(I18N_KEYS.SETTING_GLOBAL_REGIONS) ?? 'Global Regions',
     hint:
@@ -168,93 +158,73 @@ Hooks.once('init', () => {
   });
 });
 
-// Register v13 context menu hook
-Hooks.on('getSceneContextOptions', (_app, menuItems) => {
-  menuItems.push({
-    name: game.i18n?.localize(I18N_KEYS.APP_NAME) ?? 'Scenery',
-    icon: '<i class="fas fa-images"></i>',
-    condition: () => game.user?.isGM ?? false,
-    callback: (target: HTMLElement) => {
-      // v13 uses different attributes: data-scene-id (Scene Navigation) or data-entry-id (Scene Directory)
-      const sceneId = target?.dataset?.sceneId ?? target?.dataset?.entryId;
-      if (!sceneId) {
-        log('No scene ID found on context menu target', true);
-        return;
-      }
-      log(`Opening Scenery for scene: ${sceneId}`);
-      const sceneryApp = new Scenery({ sceneId });
-      sceneryApp.render({ force: true });
-    },
-  });
-});
-
-// Add a fallback button in case context menu fails
-Hooks.on(
-  'renderSceneDirectory',
-  (_app: SceneDirectory, html: JQuery | HTMLElement, _data: unknown) => {
-    // Handle both jQuery objects and plain HTMLElements
-    const htmlElement = html instanceof HTMLElement ? html : html[0];
-    if (!htmlElement) return;
-
-    // Check if header button is enabled
-
-    const settings = game.settings as unknown as {
-      get?: (module: string, key: string) => boolean;
-    };
-    const showHeaderButton = settings.get?.(MODULE_ID, SETTINGS.SHOW_HEADER_BUTTON) ?? true;
-
-    // Add a button to the directory header if we're a GM and setting is enabled
-    if (game.user?.isGM && showHeaderButton) {
-      log('Adding scenery button to Scene Directory');
-      const headerActions = htmlElement.querySelector('.directory-header .header-actions');
-      if (headerActions && !headerActions.querySelector('.scenery-button')) {
-        const sceneryButton = document.createElement('button');
-        sceneryButton.className = 'scenery-button';
-        sceneryButton.title = game.i18n.localize(I18N_KEYS.APP_NAME);
-        sceneryButton.innerHTML = `<i class="${ICONS.APP}"></i>`;
-
-        sceneryButton.addEventListener('click', (event: MouseEvent) => {
-          event.preventDefault();
-          event.stopPropagation();
-
-          // Try to get the currently viewed scene first
-          const currentSceneId = canvas?.scene?.id;
-
-          // If no scene is currently viewed, get the selected one
-          const selectedItem =
-            htmlElement.querySelector('.directory-item.context') ||
-            htmlElement.querySelector('.directory-item.active');
-          const selectedSceneId = (selectedItem as HTMLElement | null)?.dataset.entryId;
-
-          const sceneId = currentSceneId || selectedSceneId || game.scenes?.contents[0]?.id;
-
-          if (sceneId) {
-            log(`Opening for scene: ${sceneId}`);
-            const sceneryApp = new Scenery({ sceneId });
-            // v13 render API
-            sceneryApp.render({ force: true });
-          } else {
-            ui.notifications?.warn('No scene available');
-          }
-        });
-
-        // Insert the button after the create scene button
-        const createButton = headerActions.querySelector('[data-action="create"]');
-        if (createButton) {
-          createButton.after(sceneryButton);
-        } else {
-          headerActions.prepend(sceneryButton);
+// Register context menu hook (v14 API: label, visible, onClick)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(Hooks.on as (hook: string, fn: (...args: any[]) => void) => number)(
+  'getSceneContextOptions',
+  (_app: unknown, menuItems: ContextMenuEntry[]) => {
+    menuItems.push({
+      label: game.i18n?.localize(I18N_KEYS.APP_NAME) ?? 'Scenery',
+      icon: 'fas fa-images',
+      visible: () => game.user?.isGM ?? false,
+      onClick: (_event: Event, target: HTMLElement) => {
+        const sceneId =
+          target?.closest<HTMLElement>('[data-entry-id]')?.dataset?.entryId ??
+          target?.dataset?.sceneId;
+        if (!sceneId) {
+          log('No scene ID found on context menu target', true);
+          return;
         }
-      }
-    }
-
-    // Note: Scenery._onRenderSceneDirectory is registered separately in ready hook
+        log(`Opening Scenery for scene: ${sceneId}`);
+        const sceneryApp = new Scenery({ sceneId });
+        sceneryApp.render({ force: true });
+      },
+    });
   }
 );
 
+// Add Scenery button to Scene Directory header
+Hooks.on('renderSceneDirectory', (_app: SceneDirectory, html: HTMLElement) => {
+  const settings = game.settings as unknown as {
+    get?: (module: string, key: string) => boolean;
+  };
+  const showHeaderButton = settings.get?.(MODULE_ID, SETTINGS.SHOW_HEADER_BUTTON) ?? true;
+  if (!game.user?.isGM || !showHeaderButton) return;
+
+  const headerActions = html.querySelector('.directory-header .header-actions');
+  if (!headerActions || headerActions.querySelector('.scenery-button')) return;
+
+  log('Adding scenery button to Scene Directory');
+  const sceneryButton = document.createElement('button');
+  sceneryButton.type = 'button';
+  sceneryButton.className = 'scenery-button';
+  sceneryButton.title = game.i18n.localize(I18N_KEYS.APP_NAME);
+  sceneryButton.innerHTML = `<i class="${ICONS.APP}"></i>`;
+
+  sceneryButton.addEventListener('click', (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const sceneId = canvas?.scene?.id ?? game.scenes?.contents[0]?.id;
+    if (sceneId) {
+      log(`Opening for scene: ${sceneId}`);
+      const sceneryApp = new Scenery({ sceneId });
+      sceneryApp.render({ force: true });
+    } else {
+      ui.notifications?.warn('No scene available');
+    }
+  });
+
+  const createButton = headerActions.querySelector('[data-action="createEntry"]');
+  if (createButton) {
+    createButton.after(sceneryButton);
+  } else {
+    headerActions.prepend(sceneryButton);
+  }
+});
+
 // Add "Reset to Defaults" button after global element settings
-Hooks.on('renderSettingsConfig', (_app: unknown, html: JQuery | HTMLElement) => {
-  const htmlElement = html instanceof HTMLElement ? html : html[0];
+Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
+  const htmlElement = html;
   if (!htmlElement) return;
 
   // Find the last global setting checkbox (globalNotes)
@@ -274,7 +244,6 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: JQuery | HTMLElement) => 
     [SETTINGS.GLOBAL_TILES]: false,
     [SETTINGS.GLOBAL_WALLS]: false,
     [SETTINGS.GLOBAL_DRAWINGS]: true,
-    [SETTINGS.GLOBAL_TEMPLATES]: true,
     [SETTINGS.GLOBAL_REGIONS]: false,
     [SETTINGS.GLOBAL_NOTES]: true,
   };
