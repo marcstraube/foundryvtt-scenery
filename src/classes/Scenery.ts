@@ -1200,7 +1200,6 @@ export default class Scenery extends BaseClass {
       tiles: [],
       walls: [],
       drawings: [],
-      templates: [],
       regions: [],
       notes: [],
     };
@@ -1231,7 +1230,7 @@ export default class Scenery extends BaseClass {
       );
       log(`[RESTORE] sceneData summary: ${getSceneDataSummary(sceneData)}`);
       log(
-        `[RESTORE] Elements: ${sceneData.lights.length}L, ${sceneData.sounds.length}S, ${sceneData.tiles.length}T, ${sceneData.walls.length}W, ${sceneData.templates.length}Tmpl`
+        `[RESTORE] Elements: ${sceneData.lights.length}L, ${sceneData.sounds.length}S, ${sceneData.tiles.length}T, ${sceneData.walls.length}W, ${sceneData.regions.length}R`
       );
       const selection = getVariationManagedSelection();
       await restoreSceneElements(canvas.scene, sceneData, selection);
@@ -1265,7 +1264,6 @@ export default class Scenery extends BaseClass {
       tiles: [],
       walls: [],
       drawings: [],
-      templates: [],
       regions: [],
       notes: [],
     };
