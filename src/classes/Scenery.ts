@@ -1512,7 +1512,7 @@ export default class Scenery extends BaseClass {
     }
   }
 
-  static _onRenderSceneDirectory(_sceneDir: SceneDirectory, html: JQuery | HTMLElement): void {
+  static _onRenderSceneDirectory(_sceneDir: SceneDirectory, html: HTMLElement): void {
     // Check if setting is enabled (default to true if not yet initialized)
     const settings = game.settings as unknown as {
       get?: (module: string, key: string) => boolean;
@@ -1520,17 +1520,7 @@ export default class Scenery extends BaseClass {
     const showLabel = settings.get?.(MODULE_ID, SETTINGS.SHOW_VARIATIONS_LABEL) ?? true;
     if (!showLabel) return;
 
-    let htmlElement: HTMLElement | null = null;
-    if (html instanceof HTMLElement) {
-      htmlElement = html;
-    } else {
-      // JQuery object - get first element
-      const jqElement = (html as { 0?: HTMLElement })[0];
-      if (jqElement instanceof HTMLElement) {
-        htmlElement = jqElement;
-      }
-    }
-
+    const htmlElement = html;
     if (!htmlElement) {
       log('[RENDER] SceneDirectory: Invalid html parameter');
       return;

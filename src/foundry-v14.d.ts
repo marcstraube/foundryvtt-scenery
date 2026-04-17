@@ -27,3 +27,25 @@ export interface SceneLevel {
 export interface SceneWithLevels {
   firstLevel: SceneLevel;
 }
+
+/**
+ * v14 context menu entry format.
+ * Changed from v13: name→label, condition→visible, callback→onClick
+ */
+export interface ContextMenuEntry {
+  label: string;
+  icon: string;
+  visible?: boolean | (() => boolean);
+  onClick: (event: Event, target: HTMLElement) => void;
+}
+
+/**
+ * v14 header control entry for ApplicationV2.
+ */
+export interface HeaderControlEntry {
+  icon: string;
+  label: string;
+  action: string;
+  visible?: boolean | (() => boolean);
+  onClick: () => void;
+}
