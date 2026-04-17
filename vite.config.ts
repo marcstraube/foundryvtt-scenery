@@ -14,19 +14,9 @@ export default defineConfig({
     minify: false,
     target: 'es2022',
     rollupOptions: {
-      input: {
-        scenery: resolve(__dirname, 'src/scenery.ts'),
-        styles: resolve(__dirname, 'styles/scenery.scss'),
-      },
       output: {
         entryFileNames: '[name].js',
-        assetFileNames: (assetInfo) => {
-          // Preserve original filename for CSS
-          if (assetInfo.name?.endsWith('.css')) {
-            return '[name][extname]';
-          }
-          return '[name].[hash][extname]';
-        },
+        assetFileNames: '[name][extname]',
       },
     },
   },
