@@ -29,9 +29,19 @@ import {
   type SceneryData,
 } from '../helpers.js';
 import type { SceneryContext, SceneryOptions, SceneryScene, SceneUpdate } from '../types.js';
+import type { SceneWithLevels } from '../foundry-v14.js';
 import CopyDialog from './CopyDialog.js';
 
 const { HandlebarsApplicationMixin, DocumentSheetV2 } = foundry.applications.api;
+
+/**
+ * Cast a Scene to access the v14 Level API (firstLevel).
+ * Returns undefined if the scene is nullish.
+ */
+function v14(scene: Scene | null | undefined): (Scene & SceneWithLevels) | undefined {
+  if (!scene) return undefined;
+  return scene as Scene & SceneWithLevels;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const BaseClass = HandlebarsApplicationMixin(DocumentSheetV2) as any;
@@ -105,7 +115,7 @@ export default class Scenery extends BaseClass {
 
     log('[CONTEXT] Preparing context');
     log(`[CONTEXT] Document: ${this.document?.id} "${this.document?.name}"`);
-    log(`[CONTEXT] Background.src: ${this.document?.background?.src}`);
+    log(`[CONTEXT] Background.src: ${v14(this.document)?.firstLevel?.background?.src}`);
     log(`[CONTEXT] Flag exists: ${!!flag}`);
 
     const currentBackground = this.getCurrentBackground();
@@ -206,7 +216,7 @@ export default class Scenery extends BaseClass {
     const freshDocument = game.scenes?.get(docId);
     if (!freshDocument) return '';
 
-    log(`[CONTEXT] Fresh document background: ${freshDocument.background?.src}`);
+    log(`[CONTEXT] Fresh document background: ${v14(freshDocument)?.firstLevel?.background?.src}`);
 
     // Check for scenery flag data first
     const flag = getSceneryData(freshDocument);
@@ -216,12 +226,14 @@ export default class Scenery extends BaseClass {
     }
 
     // If this is the active canvas scene, try canvas data
-    if (canvas?.scene?.id === docId && canvas.scene.background?.src) {
-      return canvas.scene.background.src;
+    const canvasBg =
+      canvas?.scene?.id === docId ? v14(canvas.scene)?.firstLevel?.background?.src : undefined;
+    if (canvasBg) {
+      return canvasBg;
     }
 
     // Fall back to the fresh document's background
-    return freshDocument.background?.src ?? '';
+    return v14(freshDocument)?.firstLevel?.background?.src ?? '';
   }
 
   static async #onPreview(_event: Event, target: HTMLElement): Promise<void> {
@@ -585,7 +597,7 @@ export default class Scenery extends BaseClass {
     };
 
     // Enforce: Default variation's plBackground always matches scene background
-    const sceneBackground = cleanPath(this.document?.background?.src ?? '');
+    const sceneBackground = cleanPath(v14(this.document)?.firstLevel?.background?.src ?? '');
     if (data.variations[0] && sceneBackground) {
       data.variations[0].plBackground = sceneBackground;
     }
@@ -912,7 +924,7 @@ export default class Scenery extends BaseClass {
       if (!data) return;
 
       // Enforce: Default variation's plBackground always matches scene background
-      const sceneBackground = cleanPath(this.document?.background?.src ?? '');
+      const sceneBackground = cleanPath(v14(this.document)?.firstLevel?.background?.src ?? '');
       if (data.variations[0] && sceneBackground) {
         data.variations[0].plBackground = sceneBackground;
       }
@@ -924,7 +936,7 @@ export default class Scenery extends BaseClass {
 
       // Element save/restore is handled by setImage (triggered via updateScene hook)
       // setImage uses _sceneryCustomBackground which is always correct,
-      // unlike canvas.scene.background.src which Foundry resets on updates.
+      // unlike canvas.scene.firstLevel.background.src which Foundry resets on updates.
       await setSceneryData(this.document, data);
 
       if (this.document?.id === canvas?.scene?.id) {
@@ -1049,13 +1061,15 @@ export default class Scenery extends BaseClass {
     const sceneryScene = canvas.scene as SceneryScene;
 
     // Read current background BEFORE setting the new one!
-    // Use Scenery's tracked background, NOT canvas.scene.background.src (which is always the DB value)
+    // Use Scenery's tracked background, NOT canvas.scene.firstLevel.background.src (which is always the DB value)
     const currentBackgroundSrc =
-      sceneryScene._sceneryCustomBackground || (canvas.scene.background.src ?? '');
+      sceneryScene._sceneryCustomBackground ||
+      (v14(canvas.scene)?.firstLevel?.background?.src ?? '');
 
     if (!draw) {
       if (!sceneryScene._sceneryOriginalBackground) {
-        sceneryScene._sceneryOriginalBackground = canvas.scene.background.src ?? '';
+        sceneryScene._sceneryOriginalBackground =
+          v14(canvas.scene)?.firstLevel?.background?.src ?? '';
       }
       sceneryScene._sceneryPendingBackground = img;
       sceneryScene._sceneryCustomBackground = img; // Set after reading current
@@ -1066,12 +1080,13 @@ export default class Scenery extends BaseClass {
 
     if (canvas.ready && canvas.primary?.background) {
       if (!sceneryScene._sceneryOriginalBackground) {
-        sceneryScene._sceneryOriginalBackground = canvas.scene.background.src ?? '';
+        sceneryScene._sceneryOriginalBackground =
+          v14(canvas.scene)?.firstLevel?.background?.src ?? '';
       }
 
       try {
         log(
-          `[IMAGE] Loading texture: ${img} (current: ${currentBackgroundSrc}, db: ${canvas.scene.background.src})`
+          `[IMAGE] Loading texture: ${img} (current: ${currentBackgroundSrc}, db: ${v14(canvas.scene)?.firstLevel?.background?.src})`
         );
 
         // Check if we're actually switching backgrounds or just reloading
@@ -1101,7 +1116,8 @@ export default class Scenery extends BaseClass {
 
         if (texture && 'baseTexture' in texture && canvas.primary?.background) {
           canvas.primary.background.texture = texture as PIXI.Texture;
-          canvas.scene.background.src = img;
+          const sceneV14 = v14(canvas.scene);
+          if (sceneV14) sceneV14.firstLevel.background.src = img;
           canvas.primary.renderDirty = true;
           canvas.app?.renderer.render(canvas.app.stage);
 
@@ -1146,7 +1162,9 @@ export default class Scenery extends BaseClass {
     if (!data || !data.variations || data.variations.length === 0) return;
 
     // Clean the current image path for consistent comparison
-    const currentImg = cleanPath(currentBackgroundSrc || canvas.scene.background.src);
+    const currentImg = cleanPath(
+      currentBackgroundSrc || v14(canvas.scene)?.firstLevel?.background?.src
+    );
 
     log(`[SAVE] Background: "${currentImg}"`);
     log(
@@ -1191,7 +1209,9 @@ export default class Scenery extends BaseClass {
     if (!data || !data.variations || data.variations.length === 0) return;
 
     // Clean paths for consistent comparison
-    const currentImg = cleanPath(targetBackgroundSrc || canvas.scene.background.src);
+    const currentImg = cleanPath(
+      targetBackgroundSrc || v14(canvas.scene)?.firstLevel?.background?.src
+    );
     log(`[RESTORE] Target background: "${currentImg}"`);
 
     const emptySceneData = {
@@ -1297,7 +1317,7 @@ export default class Scenery extends BaseClass {
 
     const originalSrc = sceneryScene._sceneryOriginalBackground;
 
-    if (canvas.scene.background.src === originalSrc) {
+    if (v14(canvas.scene)?.firstLevel?.background?.src === originalSrc) {
       log('[RESET] Background already at original');
       return;
     }
@@ -1310,7 +1330,8 @@ export default class Scenery extends BaseClass {
 
         if (texture && 'baseTexture' in texture) {
           canvas.primary.background.texture = texture as PIXI.Texture;
-          canvas.scene.background.src = originalSrc;
+          const sceneV14 = v14(canvas.scene);
+          if (sceneV14) sceneV14.firstLevel.background.src = originalSrc;
           canvas.primary.renderDirty = true;
           canvas.app?.renderer.render(canvas.app.stage);
         }
@@ -1329,7 +1350,7 @@ export default class Scenery extends BaseClass {
     const data = getSceneryData(canvas.scene);
     if (!data || !data.variations || data.variations.length === 0) return;
 
-    const currentBackground = cleanPath(canvas.scene.background.src);
+    const currentBackground = cleanPath(v14(canvas.scene)?.firstLevel?.background?.src);
     // Expected background is the default variation's GM background (index 0)
     const expectedBackground = cleanPath(data.variations[0]?.gmBackground || '');
 
@@ -1376,7 +1397,7 @@ export default class Scenery extends BaseClass {
       log(`[READY] Scenery data: ${!!data}`);
 
       if (data) {
-        const currentBackground = cleanPath(canvas.scene.background.src);
+        const currentBackground = cleanPath(v14(canvas.scene)?.firstLevel?.background?.src);
         const userImage = cleanPath(getUserImage(data));
         const isGM = game.user?.isGM;
 
@@ -1480,7 +1501,7 @@ export default class Scenery extends BaseClass {
       const sceneryData = getSceneryData(scene);
       const img = sceneryData ? getUserImage(sceneryData) : undefined;
       log(
-        `[UPDATE] Scenery flag changed, isGM=${game.user?.isGM}, newImg="${img}", current="${canvas?.scene?.background.src}"`
+        `[UPDATE] Scenery flag changed, isGM=${game.user?.isGM}, newImg="${img}", current="${v14(canvas?.scene)?.firstLevel?.background?.src}"`
       );
 
       if (img) {
