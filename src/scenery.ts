@@ -1,3 +1,4 @@
+import '../styles/scenery.scss';
 import Scenery from './classes/Scenery.js';
 import { log } from './helpers.js';
 import type { SceneUpdate } from './types.js';
