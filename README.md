@@ -1,8 +1,8 @@
 # Scenery - Background Image Variation Manager
 
 [![CI](https://img.shields.io/github/actions/workflow/status/marcstraube/foundryvtt-scenery/ci.yml?label=CI&style=for-the-badge)](https://github.com/marcstraube/foundryvtt-scenery/actions/workflows/ci.yml)
-![Downloads (all)](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/module.zip?color=2b82fc&label=Downloads%20%28all%29&style=for-the-badge)
-![Downloads (latest release)](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/latest/module.zip?label=Downloads%20%28latest%20release%29&style=for-the-badge)
+![Downloads (all)](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/total?color=2b82fc&label=Downloads%20%28all%29&style=for-the-badge)
+![Downloads (latest release)](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/latest/total?label=Downloads%20%28latest%20release%29&style=for-the-badge)
 ![Latest Release](https://img.shields.io/github/v/release/marcstraube/foundryvtt-scenery?label=Release&prefix=v&query=$.version&colorB=red&style=for-the-badge)
 ![Foundry Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmarcstraube%2Ffoundryvtt-scenery%2Fmaster%2Fmodule.json&label=Foundry&query=$.compatibility.minimum&colorB=orange&style=for-the-badge)
 [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fscenery&colorB=006400&style=for-the-badge)](https://forge-vtt.com/bazaar#package=scenery)
