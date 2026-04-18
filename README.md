@@ -1,15 +1,13 @@
 # Scenery - Background Image Variation Manager
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/marcstraube/foundryvtt-scenery?label=Latest%20Release&prefix=v&query=$.version&colorB=red&style=for-the-badge)
-![Foundry Core Minimal Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmarcstraube%2Ffoundryvtt-scenery%2Fmaster%2Fmodule.json&label=Foundry%20Minimal%20Version&query=$.compatibility.minimum&colorB=orange&style=for-the-badge)
-![Foundry Core Maximal Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmarcstraube%2Ffoundryvtt-scenery%2Fmaster%2Fmodule.json&label=Foundry%20Maximal%20Version&query=$.compatibility.maximum&colorB=orange&style=for-the-badge)
-![All Releases Download Count](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/module.zip?color=2b82fc&label=%20Downloads%20%28all%29&style=for-the-badge)
-![Latest Release Download Count](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/latest/module.zip?label=Downloads%20%28latest%20release%29&style=for-the-badge)
-[![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fscenery&colorB=006400&style=for-the-badge)](https://forge-vtt.com/bazaar#package=scenery)
-[![ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/J3J1FVK91)
-[![Patreon](https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white)](https://www.patreon.com/NerdyByNatureDev)
-
-[![Weblate Translation Status](https://weblate.foundryvtt-hub.com/widgets/scenery/-/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/scenery/)
+[![CI](https://img.shields.io/github/actions/workflow/status/marcstraube/foundryvtt-scenery/ci.yml?label=CI&style=for-the-badge)](https://github.com/marcstraube/foundryvtt-scenery/actions/workflows/ci.yml)
+![Downloads (all)](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/module.zip?color=2b82fc&label=Downloads%20%28all%29&style=for-the-badge)
+![Downloads (latest release)](https://img.shields.io/github/downloads/marcstraube/foundryvtt-scenery/latest/module.zip?label=Downloads%20%28latest%20release%29&style=for-the-badge)
+![Latest Release](https://img.shields.io/github/v/release/marcstraube/foundryvtt-scenery?label=Release&prefix=v&query=$.version&colorB=red&style=for-the-badge)
+![Foundry Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmarcstraube%2Ffoundryvtt-scenery%2Fmaster%2Fmodule.json&label=Foundry&query=$.compatibility.minimum&colorB=orange&style=for-the-badge)
+[![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fscenery&colorB=006400&style=for-the-badge)](https://forge-vtt.com/bazaar#package=scenery)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/marcstraube)
+[![Patreon](https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white)](https://patreon.com/marcstraube)
 
 A FoundryVTT module for managing background image variations per scene — switch
 between Day/Night, Seasonal, or GM/Player maps with a single click. Scene
@@ -233,3 +231,15 @@ variation with identical GM and Player backgrounds.
 - Paste the following link into the "Manifest URL" field at the bottom:
   https://github.com/marcstraube/foundryvtt-scenery/releases/latest/download/module.json
 - Click **Install**.
+
+## Contributing
+
+Translations are managed via
+[Weblate](https://weblate.foundryvtt-hub.com/engage/scenery/). Feel free to
+contribute translations for your language.
+
+## Support
+
+If you enjoy this module, consider supporting its development on
+[Ko-fi](https://ko-fi.com/marcstraube) or
+[Patreon](https://patreon.com/marcstraube).
