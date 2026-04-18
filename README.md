@@ -16,8 +16,8 @@ each variation.
 
 ## Requirements
 
-- **Foundry VTT:** Version 13 or higher
-- **Node.js:** Version 20 or higher (if running via Node.js)
+- **Foundry VTT:** Version 14 or higher
+- **Node.js:** Version 22 or higher (if running via Node.js)
 
 ## Features
 
