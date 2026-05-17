@@ -18,6 +18,9 @@
     "prepare": "husky || true"
   },
   "packageManager": "pnpm@9.15.1",
+  "engines": {
+    "node": ">=22.22.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marcstraube/foundryvtt-scenery.git"
